@@ -4,6 +4,8 @@
 #include <QSurfaceFormat>
 #include <QDebug>
 
+#include <Eigen/Dense>
+
 void debugFormatVersion()
 {
     QSurfaceFormat form = QSurfaceFormat::defaultFormat();
@@ -36,6 +38,9 @@ int main(int argc, char *argv[])
 
     QSurfaceFormat::setDefaultFormat(format);
     debugFormatVersion();
+
+    //Eigen::Matrix<float, 2, 3> m1;
+
 
     MainWindow w;
     w.show();
