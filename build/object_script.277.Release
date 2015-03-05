@@ -7,6 +7,8 @@ INPUT(
 ./release\utils.o
 ./release\samplequad.o
 ./release\samplewire.o
+./release\bubble.o
+./release\fluid_sim.o
 ./release\qrc_glsl.o
 ./release\moc_mainwindow.o
 ./release\moc_glwidget277.o

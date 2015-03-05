@@ -6,6 +6,9 @@
 
 #include <Eigen/Dense>
 
+#include "bubble.h"
+#include "fluid_sim.h"
+
 void debugFormatVersion()
 {
     QSurfaceFormat form = QSurfaceFormat::defaultFormat();
@@ -23,6 +26,8 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
+    FluidSim fs(60);
+
     QApplication a(argc, argv);
 
     // Set OpenGL 3.2 and, optionally, 4-sample multisampling
