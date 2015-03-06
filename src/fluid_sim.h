@@ -5,8 +5,6 @@
 #include <cmath>
 #include <algorithm>
 
-#include <Eigen/Sparse>
-#include <Eigen/IterativeLinearSolvers>
 #include <3dGrid/util.h>
 #include <3dGrid/array3.h>
 #include <3dGrid/array3_utils.h>
@@ -16,10 +14,6 @@
 using std::list;
 using std::vector;
 
-using Eigen::SparseMatrix;
-using Eigen::ConjugateGradient;
-using Eigen::VectorXf;
-
 class FluidSim
 {
   public:
@@ -27,10 +21,10 @@ class FluidSim
     ~FluidSim();
 
     // i goes from -1 to ni - 'ghost pressure' on solid walls. same for j and k
-    float get_pressure(int i, int j, int k) const {return pressure_[(i + 1)*(nj_ + 2)*(nk_ + 2) + (j + 1)*(nk_ + 2) + k + 1];}
-    float get_u(int i, int j, int k) const {return velocity_u_(i, j, k);} //u(i - 0.5, j,       k)
-    float get_v(int i, int j, int k) const {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
-    float get_w(int i, int j, int k) const {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
+    double get_pressure(int i, int j, int k) const {return pressure_[(i + 1)*(nj_ + 2)*(nk_ + 2) + (j + 1)*(nk_ + 2) + k + 1];}
+    double get_u(int i, int j, int k) const {return velocity_u_(i, j, k);} //u(i - 0.5, j,       k)
+    double get_v(int i, int j, int k) const {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
+    double get_w(int i, int j, int k) const {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
 
     void test();
 
@@ -39,42 +33,42 @@ class FluidSim
     FluidSim();//{}
 
     int ni_, nj_, nk_;
-    float dx_;
+    double dx_;
 
     //Fluid velocity
-    Array3f velocity_u_;
-    Array3f velocity_v_;
-    Array3f velocity_w_;
+    Array3d velocity_u_;
+    Array3d velocity_v_;
+    Array3d velocity_w_;
 
-    Array3f velocity_tmp_u_;
-    Array3f velocity_tmp_v_;
-    Array3f velocity_tmp_w_;
+    Array3d velocity_tmp_u_;
+    Array3d velocity_tmp_v_;
+    Array3d velocity_tmp_w_;
 
     list<Bubble> bubbles_;
 
     //Solver data
-    ConjugateGradient<SparseMatrix<float>> solver_;
-    SparseMatrix<float> matrix_;
-    VectorXf rhs_; //right-hand-side
-    VectorXf pressure_; //actually, this is pressure times dx/dt
+    PCGSolver<double> solver_;
+    SparseMatrix<double> matrix_;
+    vector<double> rhs_; //right-hand-side
+    vector<double> pressure_; //actually, this is pressure times dx/dt
 
-    float cfl();
+    double cfl();
 
-    void advance(float dt);
-    void advect(float dt);
-    void add_force(float dt);
+    void advance(double dt);
+    void advect(double dt);
+    void add_force(double dt);
     void project();
 
-    float& u(int i, int j, int k) {return velocity_u_(i, j, k);} //u(i - 0.5, j,       k)
-    float& v(int i, int j, int k) {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
-    float& w(int i, int j, int k) {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
+    double& u(int i, int j, int k) {return velocity_u_(i, j, k);} //u(i - 0.5, j,       k)
+    double& v(int i, int j, int k) {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
+    double& w(int i, int j, int k) {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
 
-    float& tmp_u(int i, int j, int k) {return velocity_tmp_u_(i, j, k);} //tmp_u(i - 0.5, j,       k)
-    float& tmp_v(int i, int j, int k) {return velocity_tmp_v_(i, j, k);} //tmp_v(i,       j - 0.5, k)
-    float& tmp_w(int i, int j, int k) {return velocity_tmp_w_(i, j, k);} //tmp_w(i,       j,       k - 0.5)
+    double& tmp_u(int i, int j, int k) {return velocity_tmp_u_(i, j, k);} //tmp_u(i - 0.5, j,       k)
+    double& tmp_v(int i, int j, int k) {return velocity_tmp_v_(i, j, k);} //tmp_v(i,       j - 0.5, k)
+    double& tmp_w(int i, int j, int k) {return velocity_tmp_w_(i, j, k);} //tmp_w(i,       j,       k - 0.5)
 
-    Vec3f get_velocity(const Vec3f& position);
-    Vec3f trace_rk2(const Vec3f& position, float dt);
+    Vec3d get_velocity(const Vec3d& position);
+    Vec3d trace_rk2(const Vec3d& position, double dt);
 
     void init_matrix();
     void compute_rhs();

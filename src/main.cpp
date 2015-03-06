@@ -6,8 +6,6 @@
 #include <QSurfaceFormat>
 #include <QDebug>
 
-#include <Eigen/Dense>
-
 #include "bubble.h"
 #include "fluid_sim.h"
 
@@ -28,8 +26,9 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    FluidSim fs(60);
+    FluidSim fs(10);
 
+    //fs.print();
     fs.test();
 
     QApplication a(argc, argv);

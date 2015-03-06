@@ -7,7 +7,7 @@ FluidSim::FluidSim(int n):
   ni_(n),
   nj_(n),
   nk_(n),
-  dx_(1.0f/n),
+  dx_(1.0/n),
   velocity_u_(n + 1, n, n),
   velocity_v_(n, n + 1, n),
   velocity_w_(n, n, n + 1),
@@ -16,7 +16,7 @@ FluidSim::FluidSim(int n):
   velocity_tmp_w_(n, n, n + 1),
   bubbles_(),
   solver_(),
-  matrix_(n*n*n, n*n*n),
+  matrix_(n*n*n, 7),
   rhs_(n*n*n),
   pressure_(n*n*n)
 {
@@ -25,7 +25,6 @@ FluidSim::FluidSim(int n):
   velocity_w_.set_zero();
 
   init_matrix();
-  solver_.compute(matrix_);
 }
 
 FluidSim::~FluidSim()
@@ -38,7 +37,7 @@ void FluidSim::init_matrix()
   int top = 0, bottom = 0;
   int near = 0, far = 0;
 
-  matrix_.reserve(Eigen::VectorXf::Constant(ni_*nj_*nk_, 7));
+  //matrix_.reserve(Eigen::VectorXf::Constant(ni_*nj_*nk_, 7));
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_; ++j)
       for(int i = 0; i < ni_; ++i)
@@ -48,51 +47,49 @@ void FluidSim::init_matrix()
         if(i > 0)
         {
           left = (i - 1)*nj_*nk_ + j*nk_ + k;
-          matrix_.insert(row, left) = -1;
+          matrix_.add_to_element(row, left, -1);
         }
 
         if(i < ni_ - 1)
         {
           right = (i + 1)*nj_*nk_ + j*nk_ + k;
-          matrix_.insert(row, right) = -1;
+          matrix_.add_to_element(row, right, -1);
         }
 
         if(j > 0)
         {
           bottom = i*nj_*nk_ + (j - 1)*nk_ + k;
-          matrix_.insert(row, bottom) = -1;
+          matrix_.add_to_element(row, bottom, -1);
         }
 
         if(j < nj_ - 1)
         {
           top = i*nj_*nk_ + (j + 1)*nk_ + k;
-          matrix_.insert(row, top) = -1;
+          matrix_.add_to_element(row, top, -1);
         }
 
         if(k > 0)
         {
           near = i*nj_*nk_ + j*nk_ + k - 1;
-          matrix_.insert(row, near) = -1;
+          matrix_.add_to_element(row, near, -1);
         }
 
         if(k < nk_ - 1)
         {
           far = i*nj_*nk_ + j*nk_ + k + 1;
-          matrix_.insert(row, far) = -1;
+          matrix_.add_to_element(row, far, -1);
         }
 
-        matrix_.insert(row, row) = 6 - (i == 0) - (j == 0) - (k == 0) - (i == ni_ - 1) - (j == nj_ - 1) - (k == nk_ - 1);
+        matrix_.add_to_element(row, row, 6 - (i == 0) - (j == 0) - (k == 0) - (i == ni_ - 1) - (j == nj_ - 1) - (k == nk_ - 1));
       }
-
-  matrix_.makeCompressed();
 
   //std::cout << matrix_ << std::endl;
 }
 
 //The main fluid simulation step
-void FluidSim::advance(float dt)
+void FluidSim::advance(double dt)
 {
-  float t = 0, substep = 0;
+  double t = 0, substep = 0;
 
   while(t < dt)
   {
@@ -100,54 +97,54 @@ void FluidSim::advance(float dt)
     if(t + substep > dt)
       substep = dt - t;
 
-    //printf("step 0\n");
-    //print();
+//    printf("step 0\n");
+//    print();
 
     advect(substep);
 
-    //printf("advected. step 1\n");
-    //print();
+//    printf("advected. step 1\n");
+//    print();
 
     add_force(substep);
 
-    //printf("foces added. step 2\n");
-    //print();
+//    printf("foces added. step 2\n");
+//    print();
 
     project();
 
-    //printf("projected. done\n");
-    //print();
+//    printf("projected. done\n");
+//    print();
 
     t += substep;
   }
 }
 
-float FluidSim::cfl()
+double FluidSim::cfl()
 {
-  float maxvel = 0;
+  double maxvel = 0;
 
   for(unsigned int i = 0; i < velocity_u_.size(); ++i)
-    maxvel = std::max(maxvel, fabsf(velocity_u_.a[i]));
+    maxvel = std::max(maxvel, fabs(velocity_u_.a[i]));
   for(unsigned int i = 0; i < velocity_v_.size(); ++i)
-    maxvel = std::max(maxvel, fabsf(velocity_v_.a[i]));
+    maxvel = std::max(maxvel, fabs(velocity_v_.a[i]));
   for(unsigned int i = 0; i < velocity_w_.size(); ++i)
-    maxvel = std::max(maxvel, fabsf(velocity_w_.a[i]));
+    maxvel = std::max(maxvel, fabs(velocity_w_.a[i]));
 
   if(!maxvel) return 0.1f;
 
   return dx_ / maxvel;
 }
 
-void FluidSim::advect(float dt)
+void FluidSim::advect(double dt)
 {
-  Vec3f pos;
+  Vec3d pos;
 
   //semi-Lagrangian advection on u-component of velocity
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_; ++j)
       for(int i = 0; i < ni_ + 1; ++i)
       {
-        pos = Vec3f(i*dx_, (j + 0.5f)*dx_, (k + 0.5f)*dx_);
+        pos = Vec3d(i*dx_, (j + 0.5)*dx_, (k + 0.5)*dx_);
         pos = trace_rk2(pos, -dt);
         tmp_u(i, j, k) = get_velocity(pos)[0];
       }
@@ -157,7 +154,7 @@ void FluidSim::advect(float dt)
     for(int j = 0; j < nj_ + 1; ++j)
       for(int i = 0; i < ni_; ++i)
       {
-        pos = Vec3f((i + 0.5f)*dx_, j*dx_, (k + 0.5f)*dx_);
+        pos = Vec3d((i + 0.5)*dx_, j*dx_, (k + 0.5)*dx_);
         pos = trace_rk2(pos, -dt);
         tmp_v(i, j, k) = get_velocity(pos)[1];
       }
@@ -167,7 +164,7 @@ void FluidSim::advect(float dt)
     for(int j = 0; j < nj_; ++j)
       for(int i = 0; i < ni_; ++i)
       {
-        pos = Vec3f((i + 0.5f)*dx_, (j + 0.5f)*dx_, k*dx_);
+        pos = Vec3d((i + 0.5)*dx_, (j + 0.5)*dx_, k*dx_);
         pos = trace_rk2(pos, -dt);
         tmp_w(i, j, k) = get_velocity(pos)[2];
       }
@@ -178,40 +175,44 @@ void FluidSim::advect(float dt)
   velocity_w_ = velocity_tmp_w_;
 }
 
-Vec3f FluidSim::get_velocity(const Vec3f& position)
+Vec3d FluidSim::get_velocity(const Vec3d& position)
 {
-  float u_value = interpolate_value(position / dx_ - Vec3f(0, 0.5f, 0.5f), velocity_u_);
-  float v_value = interpolate_value(position / dx_ - Vec3f(0.5f, 0, 0.5f), velocity_v_);
-  float w_value = interpolate_value(position / dx_ - Vec3f(0.5f, 0.5f, 0), velocity_w_);
+  double u_value = interpolate_value(position / dx_ - Vec3d(0, 0.5, 0.5), velocity_u_);
+  double v_value = interpolate_value(position / dx_ - Vec3d(0.5, 0, 0.5), velocity_v_);
+  double w_value = interpolate_value(position / dx_ - Vec3d(0.5, 0.5, 0), velocity_w_);
 
-  return Vec3f(u_value, v_value, w_value);
+  return Vec3d(u_value, v_value, w_value);
 }
 
-Vec3f FluidSim::trace_rk2(const Vec3f& position, float dt)
+Vec3d FluidSim::trace_rk2(const Vec3d& position, double dt)
 {
-  Vec3f velocity = get_velocity(position);
-  velocity = get_velocity(position + 0.5f*dt*velocity);
+  Vec3d velocity = get_velocity(position);
+  velocity = get_velocity(position + 0.5*dt*velocity);
   return position + dt*velocity;
 }
 
-void FluidSim::add_force(float dt)
+void FluidSim::add_force(double dt)
 {
   //gravity
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_ + 1; ++j)
       for(int i = 0; i < ni_; ++i)
-        v(i,j,k) -= 9.81f * dt;
-        //v(i,j,k) -= 10.0f * dt;
+        //v(i,j,k) -= 9.81 * dt;
+        v(i,j,k) -= 10.0f * dt;
 }
 
 void FluidSim::project()
 {
   compute_rhs();
 
-  solver_.setTolerance(1.0e-10);
-  solver_.setMaxIterations(1000);
+  double tolerance = 0;
+  int iterations = 0;
+  solver_.set_solver_parameters(1e-18, 10000);
+  bool success = solver_.solve(matrix_, rhs_, pressure_, tolerance, iterations);
+  printf("Solver took %d iterations and had residual %e\n", iterations, tolerance);
+  if(!success)
+    printf("WARNING: Pressure solve failed!************************************************\n");
 
-  pressure_ = solver_.solve(rhs_);
 
   int row = 0;
   int left = 0;
@@ -259,7 +260,7 @@ void FluidSim::project()
         else
           w(i, j, k) -= (pressure_[row] - pressure_[near]);
       }
-  /*
+
   //TODO delete this, just testing
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_; ++j)
@@ -267,40 +268,37 @@ void FluidSim::project()
       {
         row = i*nj_*nk_ + j*nk_ + k;
         pressure_[row] *= dx_;
-        pressure_[row] /= dt;
+        pressure_[row] /= 0.01;
       }
-  */
 }
 
 void FluidSim::compute_rhs()
 {
   int row = 0;
-  rhs_.setZero();
-
-  //std::cout << "RHS:" << std::endl;
 
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_; ++j)
       for(int i = 0; i < ni_; ++i)
       {
         row = i*nj_*nk_ + j*nk_ + k;
-        rhs_[row] -= get_u(i + 1, j, k)*(i != ni_ - 1) - get_u(i, j, k)*(i != 0);
-        rhs_[row] -= get_v(i, j + 1, k)*(j != nj_ - 1) - get_v(i, j, k)*(j != 0);
-        rhs_[row] -= get_w(i, j, k + 1)*(k != nk_ - 1) - get_w(i, j, k)*(k != 0);
-        //std::cout << rhs_[row] << std::endl;
+        rhs_[row] = 0;
+        rhs_[row] += - get_u(i + 1, j, k)*(i != ni_ - 1) + get_u(i, j, k)*(i != 0);
+        rhs_[row] += - get_v(i, j + 1, k)*(j != nj_ - 1) + get_v(i, j, k)*(j != 0);
+        rhs_[row] += - get_w(i, j, k + 1)*(k != nk_ - 1) + get_w(i, j, k)*(k != 0);
+        //printf("(i, j, k) = (%d, %d, %d), (j != nj_ - 1) = %d, (j != 0) = %d, rhs_[row]  = %f\n", i, j, k, j != nj_ - 1, j != 0, rhs_[row]);
+        //printf("rhs_[row]  = %f\n", rhs_[row]);
       }
-  //std::cout << std::endl;
 }
 
 void FluidSim::test()
 {
-  advance(0.01f);
+  advance(0.01);
 
   // std::cout << fs.pressure_ << std::endl;
-  for(int j = 0; j < nj_ + 1; ++j)
+  for(int j = 0; j < nj_; ++j)
   {
-    //std::cout << fs.pressure_[j*fs.nk_] << std::endl;
-    std::cout << get_v(0, j, 0) << std::endl;
+    std::cout << pressure_[j*nk_] << std::endl;
+    //std::cout << get_v(0, j, 0) << std::endl;
   }
 
 }
@@ -320,6 +318,16 @@ void FluidSim::print() const
         printf("p = %f\n", pressure_[row]);
       }
 
+  printf("matrix\n");
+  for(unsigned int j = 0; j < matrix_.n; ++j)
+  {
+    for(unsigned int i = 0; i < matrix_.n; ++i)
+    {
+      printf("%2f ", matrix_(i, j));
+    }
+    printf("\n");
+  }
+  printf("\n");
 }
 
 

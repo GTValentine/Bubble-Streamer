@@ -1,10 +1,11 @@
 #ifndef BUBBLE_H_
 #define BUBBLE_H_
 
-#include<list>
+#include <list>
 
-#include<glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <3dGrid/vec.h>
+#include <pcgsolver/pcg_solver.h>
 
 class Bubble
 {
