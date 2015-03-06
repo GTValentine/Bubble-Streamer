@@ -38,7 +38,6 @@ void FluidSim::init_matrix()
   int near = 0, far = 0;
   int last = ni_*nj_*nk_ -1;
 
-  //matrix_.reserve(Eigen::VectorXf::Constant(ni_*nj_*nk_, 7));
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_; ++j)
       for(int i = 0; i < ni_; ++i)
@@ -105,23 +104,9 @@ void FluidSim::advance(double dt)
     if(t + substep > dt)
       substep = dt - t;
 
-//    printf("step 0\n");
-//    print();
-
     advect(substep);
-
-//    printf("advected. step 1\n");
-//    print();
-
     add_force(substep);
-
-//    printf("foces added. step 2\n");
-//    print();
-
     project();
-
-//    printf("projected. done\n");
-//    print();
 
     t += substep;
   }
@@ -205,8 +190,8 @@ void FluidSim::add_force(double dt)
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_ + 1; ++j)
       for(int i = 0; i < ni_; ++i)
-        //v(i,j,k) -= 9.81 * dt;
-        v(i,j,k) -= 10.0f * dt;
+        v(i,j,k) -= 9.81 * dt;
+        //v(i,j,k) -= 10.0f * dt;
 }
 
 void FluidSim::project()
@@ -251,10 +236,7 @@ void FluidSim::project()
         if(j == 0 || j == nj_)
           v(i, j, k) = 0;
         else
-        {
           v(i, j, k) -= (pressure_[row] - pressure_[bottom]);
-          //printf("pressure_[row] - pressure_[bottom] = %f\n", pressure_[row] - pressure_[bottom]);
-        }
       }
 
   for(int k = 0; k < nk_ + 1; ++k)
@@ -270,6 +252,7 @@ void FluidSim::project()
           w(i, j, k) -= (pressure_[row] - pressure_[near]);
       }
 
+  /*
   //TODO delete this, just testing
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_; ++j)
@@ -279,6 +262,7 @@ void FluidSim::project()
         pressure_[row] *= dx_;
         pressure_[row] /= 0.01;
       }
+  */
 }
 
 void FluidSim::compute_rhs()
@@ -307,8 +291,8 @@ void FluidSim::test()
   // std::cout << fs.pressure_ << std::endl;
   for(int j = 0; j < nj_; ++j)
   {
-    std::cout << pressure_[(nj_ - 1 - j)*nk_] << std::endl;
-    //std::cout << get_v(0, j, 0) << std::endl;
+    //std::cout << pressure_[(nj_ - 1 - j)*nk_] << std::endl;
+    std::cout << get_v(0, j, 0) << std::endl;
   }
 
 }
