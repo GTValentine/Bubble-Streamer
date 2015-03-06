@@ -20,8 +20,6 @@ class FluidSim
     FluidSim(int n);
     ~FluidSim();
 
-    // i goes from -1 to ni - 'ghost pressure' on solid walls. same for j and k
-    double get_pressure(int i, int j, int k) const {return pressure_[(i + 1)*(nj_ + 2)*(nk_ + 2) + (j + 1)*(nk_ + 2) + k + 1];}
     double get_u(int i, int j, int k) const {return velocity_u_(i, j, k);} //u(i - 0.5, j,       k)
     double get_v(int i, int j, int k) const {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
     double get_w(int i, int j, int k) const {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
@@ -50,7 +48,7 @@ class FluidSim
     PCGSolver<double> solver_;
     SparseMatrix<double> matrix_;
     vector<double> rhs_; //right-hand-side
-    vector<double> pressure_; //actually, this is pressure times dx/dt
+    vector<double> pressure_; //actually, this is pressure times constant=dx/dt
 
     double cfl();
 
