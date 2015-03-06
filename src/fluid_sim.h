@@ -32,7 +32,10 @@ class FluidSim
     float get_v(int i, int j, int k) const {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
     float get_w(int i, int j, int k) const {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
 
-  public: //TODO change to private, test
+    void test();
+
+    void print() const;
+  private:
     FluidSim();//{}
 
     int ni_, nj_, nk_;
@@ -53,14 +56,14 @@ class FluidSim
     ConjugateGradient<SparseMatrix<float>> solver_;
     SparseMatrix<float> matrix_;
     VectorXf rhs_; //right-hand-side
-    VectorXf pressure_;
+    VectorXf pressure_; //actually, this is pressure times dx/dt
 
     float cfl();
 
     void advance(float dt);
     void advect(float dt);
     void add_force(float dt);
-    void project(float dt);
+    void project();
 
     float& u(int i, int j, int k) {return velocity_u_(i, j, k);} //u(i - 0.5, j,       k)
     float& v(int i, int j, int k) {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
@@ -75,7 +78,7 @@ class FluidSim
 
     void init_matrix();
     void compute_rhs();
-};
+    };
 
 #endif // FLUID_SIM_H_
 
