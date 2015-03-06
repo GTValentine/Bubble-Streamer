@@ -26,7 +26,7 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    FluidSim fs(10);
+    FluidSim fs(60);
 
     //fs.print();
     fs.test();
