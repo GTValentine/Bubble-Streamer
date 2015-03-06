@@ -4,8 +4,7 @@
 #include<list>
 
 #include<glm/glm.hpp>
-
-using glm::vec3;
+#include <3dGrid/vec.h>
 
 class Bubble
 {
@@ -14,8 +13,8 @@ class Bubble
     ~Bubble();
 
   private:
-    vec3 velocity_;
-    vec3 position_;
+    Vec3f velocity_;
+    Vec3f position_;
     float radius_;
 };
 

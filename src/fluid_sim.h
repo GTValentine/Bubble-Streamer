@@ -32,7 +32,7 @@ class FluidSim
     float get_v(int i, int j, int k) const {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
     float get_w(int i, int j, int k) const {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
 
-  private:
+  public: //TODO change to private, test
     FluidSim();//{}
 
     int ni_, nj_, nk_;
@@ -72,6 +72,9 @@ class FluidSim
 
     Vec3f get_velocity(const Vec3f& position);
     Vec3f trace_rk2(const Vec3f& position, float dt);
+
+    void init_matrix();
+    void compute_rhs();
 };
 
 #endif // FLUID_SIM_H_

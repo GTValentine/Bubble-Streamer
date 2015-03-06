@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <mainwindow.h>
 
 #include <QApplication>
@@ -26,7 +28,13 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    FluidSim fs(60);
+    FluidSim fs(3);
+
+    fs.advance(0.1);
+
+    std::cout << fs.pressure_ << std::endl;
+    for(int i = 0; i < fs.velocity_w_.size(); ++i)
+      std::cout << fs.velocity_w_.a[i] << std::endl;
 
     QApplication a(argc, argv);
 
