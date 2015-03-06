@@ -26,10 +26,10 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    FluidSim fs(60);
+    FluidSim fs(2);
 
-    //fs.print();
     fs.test();
+    fs.print();
 
     QApplication a(argc, argv);
 

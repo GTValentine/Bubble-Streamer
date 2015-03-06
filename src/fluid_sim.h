@@ -14,6 +14,9 @@
 using std::list;
 using std::vector;
 
+double const WATER_DENSITY = 1000;
+double const AIR_DENSITY = 1.25;
+
 class FluidSim
 {
   public:
@@ -24,7 +27,7 @@ class FluidSim
     double get_v(int i, int j, int k) const {return velocity_v_(i, j, k);} //v(i,       j - 0.5, k)
     double get_w(int i, int j, int k) const {return velocity_w_(i, j, k);} //w(i,       j,       k - 0.5)
 
-    void test();
+    void test();//TODO delete me in the end
 
     void print() const;
   private:
@@ -32,6 +35,8 @@ class FluidSim
 
     int ni_, nj_, nk_;
     double dx_;
+
+    Array3d density_;
 
     //Fluid velocity
     Array3d velocity_u_;
@@ -48,7 +53,7 @@ class FluidSim
     PCGSolver<double> solver_;
     SparseMatrix<double> matrix_;
     vector<double> rhs_; //right-hand-side
-    vector<double> pressure_; //actually, this is pressure times constant=dx/dt
+    vector<double> pressure_; //actually, this is pressure times constant=dx/dt*water_density (scaling is better this way)
 
     double cfl();
 
@@ -68,9 +73,9 @@ class FluidSim
     Vec3d get_velocity(const Vec3d& position);
     Vec3d trace_rk2(const Vec3d& position, double dt);
 
-    void init_matrix();
+    void compute_matrix();
     void compute_rhs();
-    };
+};
 
 #endif // FLUID_SIM_H_
 
