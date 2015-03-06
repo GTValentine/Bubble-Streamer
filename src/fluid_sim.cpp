@@ -236,6 +236,16 @@ void FluidSim::project(float dt)
         else
           w(i, j, k) -= dt * (pressure_[row] - pressure_[near]) / dx_;
       }
+
+  //TODO delete this, just testing
+  for(int k = 0; k < nk_; ++k)
+    for(int j = 0; j < nj_; ++j)
+      for(int i = 0; i < ni_; ++i)
+      {
+        row = i*nj_*nk_ + j*nk_ + k;
+        pressure_[row] *= dx_;
+        pressure_[row] /= dt;
+      }
 }
 
 void FluidSim::compute_rhs()

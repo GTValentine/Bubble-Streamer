@@ -28,14 +28,16 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    FluidSim fs(3);
+    FluidSim fs(10);
 
-    fs.advance(0.1);
+    fs.advance(0.2);
 
-    std::cout << fs.pressure_ << std::endl;
-    for(int i = 0; i < fs.velocity_w_.size(); ++i)
-      std::cout << fs.velocity_w_.a[i] << std::endl;
-
+    // std::cout << fs.pressure_ << std::endl;
+    for(int j = 0; j < fs.nj_; ++j)
+    {
+      //std::cout << fs.pressure_[j*fs.nk_] << std::endl;
+      std::cout << fs.get_v(0, j, 0) << std::endl;
+    }
     QApplication a(argc, argv);
 
     // Set OpenGL 3.2 and, optionally, 4-sample multisampling
