@@ -15,7 +15,6 @@ FluidSim::FluidSim(int n):
   velocity_tmp_u_(n + 1, n, n),
   velocity_tmp_v_(n, n + 1, n),
   velocity_tmp_w_(n, n, n + 1),
-  bubbles_(),
   solver_(),
   matrix_(n*n*n - 1, 7),
   rhs_(n*n*n - 1),
@@ -24,8 +23,6 @@ FluidSim::FluidSim(int n):
   velocity_u_.set_zero();
   velocity_v_.set_zero();
   velocity_w_.set_zero();
-
-  density_.assign(WATER_DENSITY);
 }
 
 FluidSim::~FluidSim()
@@ -114,48 +111,48 @@ void FluidSim::compute_matrix()
           {
             left = (i - 1)*nj_*nk_ + j*nk_ + k;
             if(left != last)
-              matrix_.add_to_element(row, left, -2.0*WATER_DENSITY/(density_(i, j, k) + density_(i - 1, j, k)));
-            matrix_.add_to_element(row, row, 2.0*WATER_DENSITY/(density_(i, j, k) + density_(i - 1, j, k)));
+              matrix_.add_to_element(row, left, -2.0/(density_(i, j, k) + density_(i - 1, j, k)));
+            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i - 1, j, k)));
           }
 
           if(i < ni_ - 1)
           {
             right = (i + 1)*nj_*nk_ + j*nk_ + k;
             if(right != last)
-              matrix_.add_to_element(row, right, -2.0*WATER_DENSITY/(density_(i, j, k) + density_(i + 1, j, k)));
-            matrix_.add_to_element(row, row, 2.0*WATER_DENSITY/(density_(i, j, k) + density_(i + 1, j, k)));
+              matrix_.add_to_element(row, right, -2.0/(density_(i, j, k) + density_(i + 1, j, k)));
+            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i + 1, j, k)));
           }
 
           if(j > 0)
           {
             bottom = i*nj_*nk_ + (j - 1)*nk_ + k;
             if(bottom != last)
-              matrix_.add_to_element(row, bottom, -2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j - 1, k)));
-            matrix_.add_to_element(row, row, 2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j - 1, k)));
+              matrix_.add_to_element(row, bottom, -2.0/(density_(i, j, k) + density_(i, j - 1, k)));
+            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j - 1, k)));
           }
 
           if(j < nj_ - 1)
           {
             top = i*nj_*nk_ + (j + 1)*nk_ + k;
             if(top != last)
-              matrix_.add_to_element(row, top, -2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j + 1, k)));
-            matrix_.add_to_element(row, row, 2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j + 1, k)));
+              matrix_.add_to_element(row, top, -2.0/(density_(i, j, k) + density_(i, j + 1, k)));
+            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j + 1, k)));
           }
 
           if(k > 0)
           {
             near = i*nj_*nk_ + j*nk_ + k - 1;
             if(near != last)
-              matrix_.add_to_element(row, near, -2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j, k - 1)));
-            matrix_.add_to_element(row, row, 2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j, k - 1)));
+              matrix_.add_to_element(row, near, -2.0/(density_(i, j, k) + density_(i, j, k - 1)));
+            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j, k - 1)));
           }
 
           if(k < nk_ - 1)
           {
             far = i*nj_*nk_ + j*nk_ + k + 1;
             if(far != last)
-              matrix_.add_to_element(row, far, -2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j, k + 1)));
-            matrix_.add_to_element(row, row, 2.0*WATER_DENSITY/(density_(i, j, k) + density_(i, j, k + 1)));
+              matrix_.add_to_element(row, far, -2.0/(density_(i, j, k) + density_(i, j, k + 1)));
+            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j, k + 1)));
           }
         }
 
@@ -357,7 +354,7 @@ void FluidSim::compute_rhs()
 
 void FluidSim::test()
 {
-  advance(0.01);
+  advance(0.1);
 
   // std::cout << fs.pressure_ << std::endl;
   for(int j = 0; j < nj_; ++j)

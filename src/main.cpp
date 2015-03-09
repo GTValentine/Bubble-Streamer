@@ -7,7 +7,7 @@
 #include <QDebug>
 
 #include "bubble.h"
-#include "fluid_sim.h"
+#include "bubble_solver.h"
 
 void debugFormatVersion()
 {
@@ -26,10 +26,10 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    FluidSim fs(2);
+    BubbleSolver bs(10);
 
-    fs.test();
-    fs.print();
+    //fs.test();
+    //fs.print();
 
     QApplication a(argc, argv);
 

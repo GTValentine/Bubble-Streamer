@@ -7,17 +7,11 @@
 #include <3dGrid/vec.h>
 #include <pcgsolver/pcg_solver.h>
 
-class Bubble
+struct Bubble
 {
-  public:
-    Bubble();
-    ~Bubble();
-
-  private:
-    Vec3f velocity_;
-    Vec3f position_;
-    float radius_;
+    Vec3f velocity; //TODO: do you need this?
+    Vec3f position;
+    float radius;
 };
 
 #endif // BUBBLE_H_
-

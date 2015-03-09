@@ -89,7 +89,6 @@ void MyGL::paintGL()
 
     prog_wire.setModelMatrix(model);
     prog_wire.draw(*this, geom_wire);
-
 }
 
 void MyGL::keyPressEvent(QKeyEvent *e)
