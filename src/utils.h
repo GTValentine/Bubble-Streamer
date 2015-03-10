@@ -74,7 +74,7 @@ namespace la {
         return QMatrix4x4(value_ptr(transpose(m)));
     }
 
-    inline glm::vec3 from_vec3f(const Vec3f &v)
+    inline glm::vec3 from_vec3d(const Vec3d &v)
     {
         return glm::vec3(v[0], v[1], v[2]);
     }

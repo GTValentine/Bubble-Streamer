@@ -120,7 +120,7 @@ void BubbleDraw::d_bubbles::update()
     std::vector<glm::vec3> ps;
     int i = 0;
     for (Bubble b : bubs) {
-        ps.push_back(la::from_vec3f(b.position));
+        ps.push_back(la::from_vec3d(b.position));
         is.push_back(i);
         i++;
     }
