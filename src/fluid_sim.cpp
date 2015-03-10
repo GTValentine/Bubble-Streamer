@@ -16,17 +16,25 @@ FluidSim::FluidSim(int n):
   velocity_tmp_v_(n, n + 1, n),
   velocity_tmp_w_(n, n, n + 1),
   solver_(),
-  matrix_(n*n*n - 1, 7),
+  matrix_(n*n*n - 1, 7),//7 non-zero elements per row
   rhs_(n*n*n - 1),
-  pressure_(n*n*n)
+  pressure_(n*n*n),
+  external_force_(n*n*n)
 {
   velocity_u_.set_zero();
   velocity_v_.set_zero();
   velocity_w_.set_zero();
+
+  set_zero_force();
 }
 
 FluidSim::~FluidSim()
 {}
+
+void FluidSim::set_zero_force()
+{
+  std::fill(external_force_.begin(), external_force_.end(), Vec3d(0, 0, 0));
+}
 
 /*
 void FluidSim::init_matrix()
@@ -163,6 +171,11 @@ void FluidSim::compute_matrix()
 //The main fluid simulation step
 void FluidSim::advance(double dt)
 {
+    advect(dt);
+    add_force(dt);
+    project();
+
+/*
   double t = 0, substep = 0;
 
   while(t < dt)
@@ -177,9 +190,10 @@ void FluidSim::advance(double dt)
 
     t += substep;
   }
+*/
 }
 
-double FluidSim::cfl()
+double FluidSim::cfl() const
 {
   double maxvel = 0;
 
@@ -235,7 +249,7 @@ void FluidSim::advect(double dt)
   velocity_w_ = velocity_tmp_w_;
 }
 
-Vec3d FluidSim::get_velocity(const Vec3d& position)
+Vec3d FluidSim::get_velocity(const Vec3d& position) const
 {
   double u_value = interpolate_value(position / dx_ - Vec3d(0, 0.5, 0.5), velocity_u_);
   double v_value = interpolate_value(position / dx_ - Vec3d(0.5, 0, 0.5), velocity_v_);
@@ -254,11 +268,17 @@ Vec3d FluidSim::trace_rk2(const Vec3d& position, double dt)
 void FluidSim::add_force(double dt)
 {
   //gravity
+  int row = 0;
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_ + 1; ++j)
       for(int i = 0; i < ni_; ++i)
-        v(i,j,k) -= 9.81 * dt;
+      {
+        row = i*nj_*nk_ + j*nk_ + k;
+        u(i,j,k) +=  external_force_[row][0];
+        v(i,j,k) += (external_force_[row][1] - 9.81 * dt);
+        w(i,j,k) +=  external_force_[row][2];
         //v(i,j,k) -= 10.0f * dt;
+      }
 }
 
 void FluidSim::project()

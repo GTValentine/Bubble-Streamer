@@ -3,14 +3,13 @@
 
 #include <list>
 
-#include <glm/glm.hpp>
 #include <3dGrid/vec.h>
 #include <pcgsolver/pcg_solver.h>
 
 struct Bubble
 {
-    Vec3f velocity; //TODO: do you need this?
-    Vec3f position;
+    Vec3d velocity; //TODO: do you need this?
+    Vec3d position;
     float radius;
 };
 

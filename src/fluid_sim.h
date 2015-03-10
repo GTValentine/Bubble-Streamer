@@ -37,6 +37,14 @@ class FluidSim
     Array3d& density() {return density_;}
     double& density(int i, int j, int k) {return density_(i, j, k);}
 
+    double cfl() const;
+    void advance(double dt);
+
+    void set_zero_force();
+    Vec3d& set_force(int i, int j, int k) {return external_force_[i*nj_*nk_ + j*nk_ + k];}
+
+    Vec3d get_velocity(const Vec3d& position) const;
+
   private:
     FluidSim();//{}
 
@@ -59,10 +67,8 @@ class FluidSim
     SparseMatrix<double> matrix_;
     vector<double> rhs_; //right-hand-side
     vector<double> pressure_; //actually, this is pressure times constant=dx/dt (scaling is better this way)
+    vector<Vec3d> external_force_;
 
-    double cfl();
-
-    void advance(double dt);
     void advect(double dt);
     void add_force(double dt);
     void project();
@@ -75,7 +81,6 @@ class FluidSim
     double& tmp_v(int i, int j, int k) {return velocity_tmp_v_(i, j, k);} //tmp_v(i,       j - 0.5, k)
     double& tmp_w(int i, int j, int k) {return velocity_tmp_w_(i, j, k);} //tmp_w(i,       j,       k - 0.5)
 
-    Vec3d get_velocity(const Vec3d& position);
     Vec3d trace_rk2(const Vec3d& position, double dt);
 
     void compute_matrix();

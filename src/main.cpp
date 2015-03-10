@@ -6,6 +6,9 @@
 #include <QSurfaceFormat>
 #include <QDebug>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "bubble.h"
 #include "bubble_solver.h"
 
@@ -30,6 +33,8 @@ int main(int argc, char *argv[])
 
     //fs.test();
     //fs.print();
+
+    for(int i = 0; i < 100; ++i) std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
 
     QApplication a(argc, argv);
 
