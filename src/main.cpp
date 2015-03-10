@@ -29,12 +29,17 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    BubbleSolver bs(10);
+    BubbleSolver bs(25);
 
-    //fs.test();
-    //fs.print();
+    bs.seed_test_bubbles(1);
 
-    for(int i = 0; i < 100; ++i) std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
+    //for(int i = 0; i < 100; ++i) std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
+
+    for(int i = 0; i < 100; ++i)
+    {
+      std::cout << bs.get_bubbles().back().position << std::endl;
+      bs.advance(0.1);
+    }
 
     QApplication a(argc, argv);
 

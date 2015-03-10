@@ -29,6 +29,8 @@ class BubbleSolver
 
     static Vec3d get_random_point_cone_rim(const Vec3d& unit_axis, double height, double radius);
 
+    void seed_test_bubbles(int n);
+
   private:
     BubbleSolver(); //{}
 

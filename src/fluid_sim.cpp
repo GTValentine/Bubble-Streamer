@@ -3,6 +3,8 @@
 
 #include "fluid_sim.h"
 
+const double SCALING_FACTOR = 1000.0;
+
 FluidSim::FluidSim(int n):
   ni_(n),
   nj_(n),
@@ -19,7 +21,9 @@ FluidSim::FluidSim(int n):
   matrix_(n*n*n - 1, 7),//7 non-zero elements per row
   rhs_(n*n*n - 1),
   pressure_(n*n*n),
-  external_force_(n*n*n)
+  extern_force_x_(n + 1, n, n),
+  extern_force_y_(n, n + 1, n),
+  extern_force_z_(n, n, n + 1)
 {
   velocity_u_.set_zero();
   velocity_v_.set_zero();
@@ -33,75 +37,15 @@ FluidSim::~FluidSim()
 
 void FluidSim::set_zero_force()
 {
-  std::fill(external_force_.begin(), external_force_.end(), Vec3d(0, 0, 0));
+  extern_force_x_.set_zero();
+  extern_force_y_.set_zero();
+  extern_force_z_.set_zero();
 }
 
-/*
-void FluidSim::init_matrix()
-{
-  int row = 0;
-  int left = 0, right = 0;
-  int top = 0, bottom = 0;
-  int near = 0, far = 0;
-  int last = ni_*nj_*nk_ -1;
-
-  for(int k = 0; k < nk_; ++k)
-    for(int j = 0; j < nj_; ++j)
-      for(int i = 0; i < ni_; ++i)
-        if((i != ni_ - 1) || (j != nj_ - 1) || (k != nk_ - 1))
-        {
-          row = i*nj_*nk_ + j*nk_ + k;
-  
-          if(i > 0)
-          {
-            left = (i - 1)*nj_*nk_ + j*nk_ + k;
-            if(left != last)
-              matrix_.add_to_element(row, left, -1);
-          }
-  
-          if(i < ni_ - 1)
-          {
-            right = (i + 1)*nj_*nk_ + j*nk_ + k;
-            if(right != last)
-              matrix_.add_to_element(row, right, -1);
-          }
-  
-          if(j > 0)
-          {
-            bottom = i*nj_*nk_ + (j - 1)*nk_ + k;
-            if(bottom != last)
-              matrix_.add_to_element(row, bottom, -1);
-          }
-  
-          if(j < nj_ - 1)
-          {
-            top = i*nj_*nk_ + (j + 1)*nk_ + k;
-            if(top != last)
-              matrix_.add_to_element(row, top, -1);
-          }
-  
-          if(k > 0)
-          {
-            near = i*nj_*nk_ + j*nk_ + k - 1;
-            if(near != last)
-              matrix_.add_to_element(row, near, -1);
-          }
-  
-          if(k < nk_ - 1)
-          {
-            far = i*nj_*nk_ + j*nk_ + k + 1;
-            if(far != last)
-              matrix_.add_to_element(row, far, -1);
-          }
-  
-          matrix_.add_to_element(row, row, 6 - (i == 0) - (j == 0) - (k == 0) - (i == ni_ - 1) - (j == nj_ - 1) - (k == nk_ - 1));
-        }
-
-  //std::cout << matrix_ << std::endl;
-}
-*/
 void FluidSim::compute_matrix()
 {
+  matrix_.zero();
+
   int row = 0;
   int left = 0, right = 0;
   int top = 0, bottom = 0;
@@ -119,48 +63,48 @@ void FluidSim::compute_matrix()
           {
             left = (i - 1)*nj_*nk_ + j*nk_ + k;
             if(left != last)
-              matrix_.add_to_element(row, left, -2.0/(density_(i, j, k) + density_(i - 1, j, k)));
-            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i - 1, j, k)));
+              matrix_.add_to_element(row, left, -2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i - 1, j, k)));
+            matrix_.add_to_element(row, row, 2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i - 1, j, k)));
           }
 
           if(i < ni_ - 1)
           {
             right = (i + 1)*nj_*nk_ + j*nk_ + k;
             if(right != last)
-              matrix_.add_to_element(row, right, -2.0/(density_(i, j, k) + density_(i + 1, j, k)));
-            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i + 1, j, k)));
+              matrix_.add_to_element(row, right, -2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i + 1, j, k)));
+            matrix_.add_to_element(row, row, 2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i + 1, j, k)));
           }
 
           if(j > 0)
           {
             bottom = i*nj_*nk_ + (j - 1)*nk_ + k;
             if(bottom != last)
-              matrix_.add_to_element(row, bottom, -2.0/(density_(i, j, k) + density_(i, j - 1, k)));
-            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j - 1, k)));
+              matrix_.add_to_element(row, bottom, -2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j - 1, k)));
+            matrix_.add_to_element(row, row, 2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j - 1, k)));
           }
 
           if(j < nj_ - 1)
           {
             top = i*nj_*nk_ + (j + 1)*nk_ + k;
             if(top != last)
-              matrix_.add_to_element(row, top, -2.0/(density_(i, j, k) + density_(i, j + 1, k)));
-            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j + 1, k)));
+              matrix_.add_to_element(row, top, -2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j + 1, k)));
+            matrix_.add_to_element(row, row, 2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j + 1, k)));
           }
 
           if(k > 0)
           {
             near = i*nj_*nk_ + j*nk_ + k - 1;
             if(near != last)
-              matrix_.add_to_element(row, near, -2.0/(density_(i, j, k) + density_(i, j, k - 1)));
-            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j, k - 1)));
+              matrix_.add_to_element(row, near, -2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j, k - 1)));
+            matrix_.add_to_element(row, row, 2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j, k - 1)));
           }
 
           if(k < nk_ - 1)
           {
             far = i*nj_*nk_ + j*nk_ + k + 1;
             if(far != last)
-              matrix_.add_to_element(row, far, -2.0/(density_(i, j, k) + density_(i, j, k + 1)));
-            matrix_.add_to_element(row, row, 2.0/(density_(i, j, k) + density_(i, j, k + 1)));
+              matrix_.add_to_element(row, far, -2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j, k + 1)));
+            matrix_.add_to_element(row, row, 2.0*SCALING_FACTOR/(density_(i, j, k) + density_(i, j, k + 1)));
           }
         }
 
@@ -171,26 +115,9 @@ void FluidSim::compute_matrix()
 //The main fluid simulation step
 void FluidSim::advance(double dt)
 {
-    advect(dt);
-    add_force(dt);
-    project();
-
-/*
-  double t = 0, substep = 0;
-
-  while(t < dt)
-  {
-    substep = cfl();
-    if(t + substep > dt)
-      substep = dt - t;
-
-    advect(substep);
-    add_force(substep);
-    project();
-
-    t += substep;
-  }
-*/
+  advect(dt);
+  add_force(dt);
+  project();
 }
 
 double FluidSim::cfl() const
@@ -205,6 +132,8 @@ double FluidSim::cfl() const
     maxvel = std::max(maxvel, fabs(velocity_w_.a[i]));
 
   if(!maxvel) return 0.1f;
+
+//  printf("maxvel = %f\n", maxvel);
 
   return dx_ / maxvel;
 }
@@ -267,18 +196,20 @@ Vec3d FluidSim::trace_rk2(const Vec3d& position, double dt)
 
 void FluidSim::add_force(double dt)
 {
-  //gravity
-  int row = 0;
+  for(int k = 0; k < nk_; ++k)
+    for(int j = 0; j < nj_; ++j)
+      for(int i = 0; i < ni_ + 1; ++i)
+        u(i, j, k) += extern_force_x_(i, j, k);
+
   for(int k = 0; k < nk_; ++k)
     for(int j = 0; j < nj_ + 1; ++j)
       for(int i = 0; i < ni_; ++i)
-      {
-        row = i*nj_*nk_ + j*nk_ + k;
-        u(i,j,k) +=  external_force_[row][0];
-        v(i,j,k) += (external_force_[row][1] - 9.81 * dt);
-        w(i,j,k) +=  external_force_[row][2];
-        //v(i,j,k) -= 10.0f * dt;
-      }
+        v(i, j, k) += (extern_force_y_(i, j, k) - 9.81*dt);
+
+  for(int k = 0; k < nk_ + 1; ++k)
+    for(int j = 0; j < nj_; ++j)
+      for(int i = 0; i < ni_; ++i)
+        w(i, j, k) += extern_force_z_(i, j, k);
 }
 
 void FluidSim::project()
@@ -311,7 +242,7 @@ void FluidSim::project()
         if(i == 0 || i == ni_)
           u(i, j, k) = 0;
         else
-          u(i, j, k) -= (pressure_[row] - pressure_[left]);
+          u(i, j, k) -= (pressure_[row] - pressure_[left])*SCALING_FACTOR*2.0/(density_(i, j, k) + density_(i - 1, j, k));
       }
 
   for(int k = 0; k < nk_; ++k)
@@ -324,7 +255,7 @@ void FluidSim::project()
         if(j == 0 || j == nj_)
           v(i, j, k) = 0;
         else
-          v(i, j, k) -= (pressure_[row] - pressure_[bottom]);
+          v(i, j, k) -= (pressure_[row] - pressure_[bottom])*SCALING_FACTOR*2.0/(density_(i, j, k) + density_(i, j - 1, k));
       }
 
   for(int k = 0; k < nk_ + 1; ++k)
@@ -337,7 +268,7 @@ void FluidSim::project()
         if(k == 0 || k == nk_)
           w(i, j, k) = 0;
         else
-          w(i, j, k) -= (pressure_[row] - pressure_[near]);
+          w(i, j, k) -= (pressure_[row] - pressure_[near])*SCALING_FACTOR*2.0/(density_(i, j, k) + density_(i, j, k - 1));
       }
 
   /*
@@ -367,22 +298,9 @@ void FluidSim::compute_rhs()
           rhs_[row] += - get_u(i + 1, j, k)*(i != ni_ - 1) + get_u(i, j, k)*(i != 0);
           rhs_[row] += - get_v(i, j + 1, k)*(j != nj_ - 1) + get_v(i, j, k)*(j != 0);
           rhs_[row] += - get_w(i, j, k + 1)*(k != nk_ - 1) + get_w(i, j, k)*(k != 0);
-          //printf("(i, j, k) = (%d, %d, %d), (j != nj_ - 1) = %d, (j != 0) = %d, rhs_[row]  = %f\n", i, j, k, j != nj_ - 1, j != 0, rhs_[row]);
-          //printf("rhs_[row]  = %f\n", rhs_[row]);
+//          printf("(i, j, k) = (%d, %d, %d), (j != nj_ - 1) = %d, (j != 0) = %d, rhs_[row]  = %f\n", i, j, k, j != nj_ - 1, j != 0, rhs_[row]);
+//          printf("rhs_[row]  = %f\n", rhs_[row]);
         }
-}
-
-void FluidSim::test()
-{
-  advance(0.1);
-
-  // std::cout << fs.pressure_ << std::endl;
-  for(int j = 0; j < nj_; ++j)
-  {
-    std::cout << pressure_[(nj_ - 1 - j)*nk_] << std::endl;
-    //std::cout << get_v(0, j, 0) << std::endl;
-  }
-
 }
 
 void FluidSim::print() const

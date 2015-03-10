@@ -31,6 +31,8 @@ void BubbleSolver::compute_density()
       radius = b->radius;
       fluid_.density(i, j, k) -= WATER_DENSITY*4.0/3.0*M_PI*radius/get_dx()*radius/get_dx()*radius/get_dx();
       if(fluid_.density(i, j, k) < 0) fluid_.density(i, j, k) = 0;
+
+      //printf("%f ", fluid_.density(i, j, k));
     }
   }
 }
@@ -41,14 +43,21 @@ void BubbleSolver::advance(double dt)
 
   while(t < dt)
   {
+
+    //printf("a\n");
     compute_density();
+    //printf("b\n");
     substep = fluid_.cfl();
+    printf("substep = %f\n", substep);
     if(t + substep > dt)
       substep = dt - t;
 
     compute_scattering_forces(substep);
+    //printf("d\n");
     fluid_.advance(substep);
+    //printf("e\n");
     advance_bubbles(substep);
+    //printf("f\n");
 
     t += substep;
   }
@@ -94,4 +103,19 @@ Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& unit_axis, double hei
   res = glm::rotate(res, acos(glm::dot(glm_unit_axis, glm::dvec3(0, 0, 1))), normal);
 
   return Vec3d(res[0], res[1], res[2]);
+}
+
+void BubbleSolver::seed_test_bubbles(int n)
+{
+  static std::default_random_engine generator;
+  std::uniform_real_distribution<double> distribution(0.05, 0.95);
+
+  for(int i = 0; i < n; ++i)
+  {
+    bubbles_.push_back(Bubble());
+    bubbles_.back().position[0] = distribution(generator)*get_dx()*get_ni();
+    bubbles_.back().position[1] = distribution(generator)*get_dx()*get_nj()*0.2;
+    bubbles_.back().position[2] = distribution(generator)*get_dx()*get_nk();
+    bubbles_.back().radius = 0.005;
+  }
 }

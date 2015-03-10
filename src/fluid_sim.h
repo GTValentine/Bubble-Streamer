@@ -30,8 +30,6 @@ class FluidSim
     int get_nj() const {return nj_;}
     int get_nk() const {return nk_;}
 
-    void test();//TODO delete me in the end
-
     void print() const;
 
     Array3d& density() {return density_;}
@@ -41,7 +39,7 @@ class FluidSim
     void advance(double dt);
 
     void set_zero_force();
-    Vec3d& set_force(int i, int j, int k) {return external_force_[i*nj_*nk_ + j*nk_ + k];}
+    //Vec3d& set_force(int i, int j, int k) {return external_force_[i*nj_*nk_ + j*nk_ + k];}
 
     Vec3d get_velocity(const Vec3d& position) const;
 
@@ -66,8 +64,11 @@ class FluidSim
     PCGSolver<double> solver_;
     SparseMatrix<double> matrix_;
     vector<double> rhs_; //right-hand-side
-    vector<double> pressure_; //actually, this is pressure times constant=dx/dt (scaling is better this way)
-    vector<Vec3d> external_force_;
+    vector<double> pressure_; //actually, this is pressure times constant=dt/(dx*SCALING_CONST) (scaling is better this way)
+
+    Array3d extern_force_x_;
+    Array3d extern_force_y_;
+    Array3d extern_force_z_;
 
     void advect(double dt);
     void add_force(double dt);
