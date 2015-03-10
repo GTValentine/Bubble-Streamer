@@ -2,13 +2,11 @@
 
 
 BubbleDraw::BubbleDraw()
-    : solver(15)
+    : solver(12)
     , box(&solver)
     , bub(&solver)
     , dirty(true)
 {
-    solver.seed_test_bubbles(1000);
-
     //for (int i = 0; i < 100; ++i) std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
 
     //for (int i = 0; i < 100; ++i) {
@@ -31,7 +29,14 @@ void BubbleDraw::destroy()
 
 void BubbleDraw::stepSim()
 {
+    int static frame = 0;
     solver.advance(0.1);
+    if(frame < 450)
+    {
+        solver.seed_test_bubbles(10);
+        ++frame;
+    }
+//    solver.advance_cfl();
     dirty = true;
 }
 

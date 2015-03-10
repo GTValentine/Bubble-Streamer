@@ -25,15 +25,19 @@ FluidSim::FluidSim(int n):
   extern_force_y_(n, n + 1, n),
   extern_force_z_(n, n, n + 1)
 {
-  velocity_u_.set_zero();
-  velocity_v_.set_zero();
-  velocity_w_.set_zero();
-
+  set_zero_velocity();
   set_zero_force();
 }
 
 FluidSim::~FluidSim()
 {}
+
+void FluidSim::set_zero_velocity()
+{
+  extern_force_x_.set_zero();
+  extern_force_y_.set_zero();
+  extern_force_z_.set_zero();
+}
 
 void FluidSim::set_zero_force()
 {
@@ -221,7 +225,7 @@ void FluidSim::project()
   int iterations = 0;
   solver_.set_solver_parameters(1e-18, 10000);
   bool success = solver_.solve(matrix_, rhs_, pressure_, tolerance, iterations);
-  printf("Solver took %d iterations and had residual %e\n", iterations, tolerance);
+  //printf("Solver took %d iterations and had residual %e\n", iterations, tolerance);
   if(!success)
     printf("WARNING: Pressure solve failed!************************************************\n");
 

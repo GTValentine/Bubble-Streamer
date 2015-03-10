@@ -26,8 +26,9 @@ class BubbleSolver
     int get_nk() const {return fluid_.get_nk();}
 
     void advance(double dt);
+    void advance_cfl();
 
-    static Vec3d get_random_point_cone_rim(const Vec3d& unit_axis, double height, double radius);
+    static Vec3d get_random_point_cone_rim(const Vec3d& axis, double height, double radius);
 
     void seed_test_bubbles(int n);
 
@@ -48,6 +49,7 @@ class BubbleSolver
 
     double get_cos_scattering_angle() const;
     double get_scattering_probability(const Bubble& bubble) const;
+    Vec3d get_scattering_force(const Bubble& bubble, double dt) const;
 };
 
 #endif // BUBBLESOLVER_H_

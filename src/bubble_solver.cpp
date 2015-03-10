@@ -3,7 +3,7 @@
 BubbleSolver::BubbleSolver(int grid_resolution):
   fluid_(grid_resolution),
   bubbles_(),
-  scattering_freq_(0.25),
+  scattering_freq_(10.0),
   scattering_coef_(0.9),
   breakup_freq_(0.001)
 {
@@ -48,7 +48,7 @@ void BubbleSolver::advance(double dt)
   {
     compute_density();
     substep = fluid_.cfl();
-    printf("substep = %f\n", substep);
+    //printf("substep = %f\n", substep);
     if(t + substep > dt)
       substep = dt - t;
 
@@ -60,13 +60,53 @@ void BubbleSolver::advance(double dt)
   }
 }
 
+void BubbleSolver::advance_cfl()
+{
+  double substep = fluid_.cfl();
+  if(substep <= 0) substep = 0.1;
+
+  compute_scattering_forces(substep);
+  fluid_.advance(substep);
+  advance_bubbles(substep);
+}
+
 void BubbleSolver::compute_scattering_forces(double dt)
 {
+  static std::default_random_engine generator;
+  std::uniform_real_distribution<double> distribution(0.0, 1.0);
+
+  fluid_.set_zero_force();
+  int i = 0, j = 0, k = 0;
+  Vec3d force;
+
+  for(auto b = bubbles_.begin(); b != bubbles_.end(); ++b)
+    if(distribution(generator) < get_scattering_probability(*b))
+    {
+      //printf("yep, i get scattered\n");
+      i = static_cast<int>(b->position[0]/get_dx());
+      j = static_cast<int>(b->position[1]/get_dx());
+      k = static_cast<int>(b->position[2]/get_dx());
+      if(i >= 0 && i < get_ni() &&
+         j >= 0 && j < get_nj() &&
+         k >= 0 && k < get_nk())
+      {
+        force = get_scattering_force(*b, dt);
+
+        fluid_.force_x(i + 0, j + 0, k + 0) += 0.5*force[0];
+        fluid_.force_x(i + 1, j + 0, k + 0) += 0.5*force[0];
+
+        fluid_.force_y(i + 0, j + 0, k + 0) += 0.5*force[1];
+        fluid_.force_y(i + 0, j + 1, k + 0) += 0.5*force[1];
+
+        fluid_.force_z(i + 0, j + 0, k + 0) += 0.5*force[2];
+        fluid_.force_z(i + 0, j + 0, k + 1) += 0.5*force[2];
+      }
+    }
 }
 
 void BubbleSolver::advance_bubbles(double dt)
 {
-  const Vec3d container_dim(get_dx()*get_ni(), get_dx()*get_nj(), get_dx()*get_nk());
+  const Vec3d container_dim(get_dx()*get_ni(), get_dx()*get_nj()*0.97, get_dx()*get_nk());
 
   for(auto b = bubbles_.begin(); b != bubbles_.end(); ++b)
   {
@@ -85,7 +125,7 @@ void BubbleSolver::advance_bubbles(double dt)
   }
 }
 
-Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& unit_axis, double height, double radius) //TODO can you make it bettter?
+Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, double radius) //TODO can you make it bettter?
 {
   static std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution(0, M_PI*2);
@@ -93,7 +133,8 @@ Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& unit_axis, double hei
 
   glm::dvec3 res(radius*cos(phi), radius*sin(phi), height);
 
-  glm::dvec3 glm_unit_axis(unit_axis[0], unit_axis[1], unit_axis[2]);
+  glm::dvec3 glm_unit_axis(axis[0], axis[1], axis[2]);
+  glm_unit_axis = glm::normalize(glm_unit_axis);
 
   glm::dvec3 normal = glm::cross(glm::dvec3(0, 0, 1), glm_unit_axis);
 
@@ -112,11 +153,23 @@ void BubbleSolver::seed_test_bubbles(int n)
   for(int i = 0; i < n; ++i)
   {
     bubbles_.push_back(Bubble());
-    bubbles_.back().position[0] = distribution(generator)*get_dx()*get_ni();
-    bubbles_.back().position[1] = distribution(generator)*get_dx()*get_nj()*0.2;
-    bubbles_.back().position[2] = distribution(generator)*get_dx()*get_nk();
+    bubbles_.back().position[0] = 0.5*get_dx()*get_ni() + 2.5*distribution(generator)*get_dx();
+    bubbles_.back().position[1] = get_dx()*0.5;
+    bubbles_.back().position[2] = 0.5*get_dx()*get_ni() + 2.5*distribution(generator)*get_dx();
     bubbles_.back().radius = 0.005;
   }
+}
+
+Vec3d BubbleSolver::get_scattering_force(const Bubble& bubble, double dt) const
+{
+  double cos_theta = get_cos_scattering_angle();
+  Vec3d velocity = fluid_.get_velocity(bubble.position);
+
+  double magnitude = sqrt(velocity[0]*velocity[0] + velocity[1]*velocity[1] + velocity[2]*velocity[2]);
+
+  Vec3d a_velocity = get_random_point_cone_rim(velocity, magnitude*cos_theta, magnitude*sqrt(1.0 - cos_theta*cos_theta));
+
+  return AIR_DENSITY * 4.0 * M_PI / 3.0 * bubble.radius * bubble.radius * bubble.radius / dt * (a_velocity - velocity) * 100000.0; //TODO x100000? wasn't in the paper
 }
 
 double BubbleSolver::get_scattering_probability(const Bubble& bubble) const

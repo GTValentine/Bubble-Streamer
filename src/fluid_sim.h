@@ -40,7 +40,11 @@ class FluidSim
     void advance(double dt);
 
     void set_zero_force();
-    //Vec3d& set_force(int i, int j, int k) {return external_force_[i*nj_*nk_ + j*nk_ + k];}
+    void set_zero_velocity();
+
+    double& force_x(int i, int j, int k) {return extern_force_x_(i, j, k);}
+    double& force_y(int i, int j, int k) {return extern_force_y_(i, j, k);}
+    double& force_z(int i, int j, int k) {return extern_force_z_(i, j, k);}
 
     Vec3d get_velocity(const Vec3d& position) const;
 
