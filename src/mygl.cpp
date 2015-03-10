@@ -1,14 +1,19 @@
 #include "mygl.h"
-#include <la.h>
 
 #include <iostream>
 #include <QApplication>
 #include <QKeyEvent>
+#include <QWheelEvent>
 
 
 MyGL::MyGL(QWidget *parent)
     : GLWidget277(parent)
+    , camerasph(6, 0.5, -0.5)
 {
+    // Update the simulation constantly as fast as possible
+    // TODO: move to thread maybe
+    connect(&simTimer, SIGNAL(timeout()), this, SLOT(stepSim()));
+    simTimer.start(0);
 }
 
 MyGL::~MyGL()
@@ -16,7 +21,6 @@ MyGL::~MyGL()
     makeCurrent();
 
     vao.destroy();
-    geom_quad.destroy();
 }
 
 void MyGL::initializeGL()
@@ -33,47 +37,29 @@ void MyGL::initializeGL()
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
     glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     // Set the point rendering size
-    glPointSize(5);
+    glPointSize(2);
     // Set the color which clears the screen between frames
-    glClearColor(0.5, 0.5, 0.5, 1);
+    glClearColor(0.4f, 0.5f, 0.8f, 1.0f);
 
     printGLErrorLog();
 
     // Create a VAO
     vao.create();
+    // We have to have a VAO bound in OpenGL 3.2 Core. But if we're not
+    // using multiple VAOs, we can just bind one once.
+    vao.bind();
 
-    // Create and set up the sample solid quad
-    geom_quad.create();
-    // Create and set up the sample wireframe triangle
-    geom_wire.create();
+    bubs.create();
 
     // Create and set up the diffuse shader
     prog_lambert.create(":/glsl/lambert.vert.glsl", ":/glsl/lambert.frag.glsl");
     // Create and set up the wireframe shader
     prog_wire.create(":/glsl/wire.vert.glsl", ":/glsl/wire.frag.glsl");
-
-    // We have to have a VAO bound in OpenGL 3.2 Core. But if we're not
-    // using multiple VAOs, we can just bind one once.
-    vao.bind();
 }
 
 void MyGL::resizeGL(int w, int h)
 {
-    // vvv TODO REPLACE THIS CODE
-    la::mat4 proj = la::perspective(PI/4, w / (float) h, 0.1f, 100.f);
-    la::mat4 view = la::lookAt(glm::vec3(-3, 4, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-    la::mat4 viewproj = proj * view;
-    // ^^^ TODO REPLACE THIS CODE
-
-    // Upload the projection matrix
-    QMatrix4x4 qviewproj = la::to_qmat(viewproj);
-
-    prog_lambert.prog.bind();
-    prog_lambert.prog.setUniformValue(prog_lambert.unifViewProj, qviewproj);
-
-    prog_wire.prog.bind();
-    prog_wire.prog.setUniformValue(prog_wire.unifViewProj, qviewproj);
-
+    updateCamera();
     printGLErrorLog();
 }
 
@@ -85,16 +71,101 @@ void MyGL::paintGL()
     la::mat4 model;
 
     prog_lambert.setModelMatrix(model);
-    prog_lambert.draw(*this, geom_quad);
-
     prog_wire.setModelMatrix(model);
-    prog_wire.draw(*this, geom_wire);
+    bubs.draw(prog_wire);
+}
+
+void MyGL::updateCamera()
+{
+    const qreal retinaScale = devicePixelRatio();
+    glViewport(0, 0, width() * retinaScale, height() * retinaScale);
+
+    int w = width();
+    int h = height();
+    glm::mat4 proj = glm::perspective(PI/4, w / (float) h, 0.1f, 1000.f);
+    glm::vec3 cam(
+            cameraxyz.x + camerasph.x * cos(camerasph.y) * sin(camerasph.z),
+            cameraxyz.y + camerasph.x * sin(camerasph.y),
+            cameraxyz.z + camerasph.x * cos(camerasph.y) * cos(camerasph.z)
+            );
+    glm::mat4 view = glm::lookAt(cam, cameraxyz, glm::vec3(0, 1, 0));
+    glm::mat4 viewproj = proj * view;
+    setViewProj(viewproj);
+}
+
+void MyGL::setViewProj(const glm::mat4 &viewproj)
+{
+    // Upload the projection matrix
+    QMatrix4x4 qviewproj = la::to_qmat(viewproj);
+
+    prog_wire.prog.bind();
+    prog_wire.prog.setUniformValue(prog_wire.unifViewProj, qviewproj);
+
+    prog_lambert.prog.bind();
+    prog_lambert.prog.setUniformValue(prog_lambert.unifViewProj, qviewproj);
 }
 
 void MyGL::keyPressEvent(QKeyEvent *e)
 {
     // http://doc.qt.io/qt-5/qt.html#Key-enum
-    if (e->key() == Qt::Key_Escape) {
-        QApplication::quit();
+    switch (e->key()) {
+        case Qt::Key_Escape:
+            QApplication::quit();
+            break;
+        case Qt::Key_A:
+            cameraxyz += glm::rotateY(glm::vec3(-0.1, 0, 0), camerasph.z);
+            updateCamera();
+            break;
+        case Qt::Key_D:
+            cameraxyz += glm::rotateY(glm::vec3(+0.1, 0, 0), camerasph.z);
+            updateCamera();
+            break;
+        case Qt::Key_W:
+            cameraxyz += glm::rotateY(glm::vec3(0, 0, -0.1), camerasph.z);
+            updateCamera();
+            break;
+        case Qt::Key_S:
+            cameraxyz += glm::rotateY(glm::vec3(0, 0, +0.1), camerasph.z);
+            updateCamera();
+            break;
+        case Qt::Key_F:
+            cameraxyz += glm::vec3(0, -0.1, 0);
+            updateCamera();
+            break;
+        case Qt::Key_R:
+            cameraxyz += glm::vec3(0, +0.1, 0);
+            updateCamera();
+            break;
     }
+}
+
+void MyGL::mousePressEvent(QMouseEvent *e)
+{
+    mouselast = e->pos();
+}
+
+void MyGL::mouseMoveEvent(QMouseEvent *e)
+{
+    if (e->buttons() & Qt::LeftButton) {
+        auto pos = e->pos();
+        QPoint diff = pos - mouselast;
+        mouselast = e->pos();
+
+        camerasph += glm::vec3(0, diff.y() * 0.005, -diff.x() * 0.005);
+        updateCamera();
+    }
+}
+
+void MyGL::wheelEvent(QWheelEvent *e)
+{
+    auto delta = e->angleDelta();
+    if (!delta.isNull()) {
+        camerasph = glm::vec3(glm::max(1.f, camerasph.x + delta.y() * -0.005f), camerasph.y, camerasph.z);
+        updateCamera();
+    }
+}
+
+void MyGL::stepSim()
+{
+    bubs.stepSim();
 }

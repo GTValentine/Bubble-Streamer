@@ -71,6 +71,10 @@ void BubbleSolver::advance_bubbles(double dt)
   for(auto b = bubbles_.begin(); b != bubbles_.end(); ++b)
   {
     b->position += fluid_.get_velocity(b->position)*dt;
+
+    //printf("bubble: %f %f %f\n", b->position[0], b->position[1], b->position[2]);
+    //printf("container: %f %f %f\n", container_dim[0], container_dim[1], container_dim[2]);
+
     if(b->position[0] < 0 ||
        b->position[1] < 0 ||
        b->position[2] < 0 ||

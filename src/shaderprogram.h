@@ -1,8 +1,8 @@
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 
+#include <utils.h>
 #include <glwidget277.h>
-#include <la.h>
 
 #include <QOpenGLFunctions_3_2_Core>
 #include <QOpenGLShaderProgram>
@@ -37,7 +37,7 @@ public:
 public:
     void create(const char *vertfile, const char *fragfile);
     void setModelMatrix(const la::mat4 &model);
-    void draw(GLWidget277 &f, Drawable &d);
+    void draw(Drawable &d);
 };
 
 

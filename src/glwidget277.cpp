@@ -11,21 +11,10 @@
 GLWidget277::GLWidget277(QWidget *parent)
     : QOpenGLWidget(parent)
 {
-    // Check whether automatic testing is enabled
-    autotesting = qgetenv("CIS277_AUTOTESTING") != nullptr;
-
-    if (autotesting) {
-        /*** AUTOMATIC TESTING: DO NOT MODIFY ***/
-        /*** Save one frame and exit */
-        /***/ connect(&timer, SIGNAL(timeout()), this, SLOT(saveImageAndQuit()));
-        /***/ timer.setSingleShot(true);
-        /***/ timer.start(0);
-    } else {
-        // Allow the timer to redraw the window
-        connect(&timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
-        // Tell the timer to redraw 60 times per second
-        timer.start(16);
-    }
+    // Allow the timer to redraw the window
+    connect(&timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
+    // Tell the timer to redraw 60 times per second
+    timer.start(16);
 }
 
 GLWidget277::~GLWidget277()
@@ -86,14 +75,6 @@ void GLWidget277::debugContextVersion()
         // * Change the shaders to require GLSL 1.30 or 1.40.
     }
 }
-
-/*** AUTOMATIC TESTING: DO NOT MODIFY ***/
-/***/ void GLWidget277::saveImageAndQuit() {
-/***/     glFlush();
-/***/     QImage image = grabFramebuffer();
-/***/     image.save("image.png");
-/***/     QApplication::quit();
-/***/ }
 
 void GLWidget277::timerUpdate()
 {

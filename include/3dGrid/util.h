@@ -193,6 +193,7 @@ template<class T>
 inline T ramp(T r)
 { return smooth_step((r+1)/2)*2-1; }
 
+/*
 #ifdef WIN32
 inline int lround(double x)
 {
@@ -207,6 +208,7 @@ inline double remainder(double x, double y)
    return x-std::floor(x/y+0.5)*y;
 }
 #endif
+*/
 
 inline unsigned int round_up_to_power_of_two(unsigned int n)
 {

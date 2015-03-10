@@ -1,6 +1,8 @@
 #ifndef GLWIDGET277_H
 #define GLWIDGET277_H
 
+#include <utils.h>
+
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QTimer>
@@ -16,11 +18,6 @@ private:
     /// Timer for drawing new frames
     QTimer timer;
 
-protected:
-    /*** AUTOMATIC TESTING: DO NOT MODIFY ***/
-    /*** If true, save a test image and exit */
-    /***/ bool autotesting;
-
 public:
     GLWidget277(QWidget *parent);
     ~GLWidget277();
@@ -28,9 +25,6 @@ public:
     void debugContextVersion();
 
 private slots:
-    /*** AUTOMATIC TESTING: DO NOT MODIFY ***/
-    /***/ void saveImageAndQuit();
-
     /// Slot that gets called ~60 times per second
     void timerUpdate();
 };
