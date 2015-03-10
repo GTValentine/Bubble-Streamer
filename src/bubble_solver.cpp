@@ -2,7 +2,10 @@
 
 BubbleSolver::BubbleSolver(int grid_resolution):
   fluid_(grid_resolution),
-  bubbles_()
+  bubbles_(),
+  scattering_freq_(0.25),
+  scattering_coef_(0.9),
+  breakup_freq_(0.001)
 {
   compute_density();
 }
@@ -43,21 +46,15 @@ void BubbleSolver::advance(double dt)
 
   while(t < dt)
   {
-
-    //printf("a\n");
     compute_density();
-    //printf("b\n");
     substep = fluid_.cfl();
     printf("substep = %f\n", substep);
     if(t + substep > dt)
       substep = dt - t;
 
     compute_scattering_forces(substep);
-    //printf("d\n");
     fluid_.advance(substep);
-    //printf("e\n");
     advance_bubbles(substep);
-    //printf("f\n");
 
     t += substep;
   }
@@ -65,8 +62,6 @@ void BubbleSolver::advance(double dt)
 
 void BubbleSolver::compute_scattering_forces(double dt)
 {
-
-
 }
 
 void BubbleSolver::advance_bubbles(double dt)
@@ -118,4 +113,32 @@ void BubbleSolver::seed_test_bubbles(int n)
     bubbles_.back().position[2] = distribution(generator)*get_dx()*get_nk();
     bubbles_.back().radius = 0.005;
   }
+}
+
+double BubbleSolver::get_scattering_probability(const Bubble& bubble) const
+{
+  int i = static_cast<int>(bubble.position[0]/get_dx());
+  int j = static_cast<int>(bubble.position[1]/get_dx());
+  int k = static_cast<int>(bubble.position[2]/get_dx());
+
+  Vec3d velocity = fluid_.get_velocity(bubble.position);
+
+  glm::dvec3 glm_velocity(velocity[0], velocity[1], velocity[2]);
+
+  if(i >= 0 && i < get_ni() &&
+     j >= 0 && j < get_nj() &&
+     k >= 0 && k < get_nk())
+    return scattering_freq_*AIR_DENSITY*(1.0 - fluid_.get_density(i, j, k)/WATER_DENSITY)*glm::dot(glm_velocity, glm_velocity);
+
+  return 0.0;
+}
+
+double BubbleSolver::get_cos_scattering_angle() const
+{
+  static std::default_random_engine generator;
+  std::uniform_real_distribution<double> distribution(0.0, 1.0);
+
+  double sigma = distribution(generator);
+
+  return (2*sigma + scattering_coef_ - 1.0)/(2*scattering_coef_*sigma - scattering_coef_ + 1);
 }

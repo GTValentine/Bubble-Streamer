@@ -35,12 +35,13 @@ int main(int argc, char *argv[])
 
     //for(int i = 0; i < 100; ++i) std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
 
+/*
     for(int i = 0; i < 100; ++i)
     {
       std::cout << bs.get_bubbles().back().position << std::endl;
       bs.advance(0.1);
     }
-
+*/
     QApplication a(argc, argv);
 
     // Set OpenGL 3.2 and, optionally, 4-sample multisampling

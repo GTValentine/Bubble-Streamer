@@ -34,6 +34,7 @@ class FluidSim
 
     Array3d& density() {return density_;}
     double& density(int i, int j, int k) {return density_(i, j, k);}
+    double get_density(int i, int j, int k) const {return density_(i, j, k);}
 
     double cfl() const;
     void advance(double dt);

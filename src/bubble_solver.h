@@ -37,11 +37,17 @@ class BubbleSolver
     FluidSim fluid_;
     list<Bubble> bubbles_;
 
+    double scattering_freq_;
+    double scattering_coef_;
+    double breakup_freq_;
+
     void compute_density();
 
     void advance_bubbles(double dt);
     void compute_scattering_forces(double dt);
 
+    double get_cos_scattering_angle() const;
+    double get_scattering_probability(const Bubble& bubble) const;
 };
 
 #endif // BUBBLESOLVER_H_
