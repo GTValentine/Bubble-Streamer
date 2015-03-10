@@ -24,6 +24,7 @@ win32 {
     CONFIG -= warn_on
     QMAKE_CXXFLAGS += -Wall -Wextra -pedantic -Winit-self
     QMAKE_CXXFLAGS += -Wno-strict-aliasing
+    QMAKE_CXXFLAGS += -Wno-unused-parameter
     QMAKE_CXXFLAGS += -Wno-unneeded-internal-declaration
     QMAKE_CXXFLAGS += -fno-omit-frame-pointer
 }

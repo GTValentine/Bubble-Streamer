@@ -254,17 +254,19 @@ inline unsigned int unhash(unsigned int h)
    return h;
 }
 
+static unsigned int MYUINTMAX = -1;
+
 // returns repeatable stateless pseudo-random number in [0,1]
 inline double randhashd(unsigned int seed)
-{ return randhash(seed)/(double)UINT_MAX; }
+{ return randhash(seed) / (double) MYUINTMAX; }
 inline float randhashf(unsigned int seed)
-{ return randhash(seed)/(float)UINT_MAX; }
+{ return randhash(seed)/ (float) MYUINTMAX; }
 
 // returns repeatable stateless pseudo-random number in [a,b]
 inline double randhashd(unsigned int seed, double a, double b)
-{ return (b-a)*randhash(seed)/(double)UINT_MAX + a; }
+{ return (b-a)*randhash(seed) / (double) MYUINTMAX + a; }
 inline float randhashf(unsigned int seed, float a, float b)
-{ return ( (b-a)*randhash(seed)/(float)UINT_MAX + a); }
+{ return ( (b-a)*randhash(seed) / (float) MYUINTMAX + a); }
 
 inline int intlog2(int x)
 {
