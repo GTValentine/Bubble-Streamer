@@ -30,8 +30,10 @@ void ShaderProgram::setModelMatrix(const la::mat4 &model)
     }
 }
 
-void ShaderProgram::draw(GLWidget277 &f, Drawable &d)
+void ShaderProgram::draw(Drawable &d)
 {
+    QOpenGLFunctions_3_2_Core f;
+    f.initializeOpenGLFunctions();
     prog.bind();
 
     // Each of the following blocks checks that:

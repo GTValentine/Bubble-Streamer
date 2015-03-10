@@ -1,6 +1,8 @@
 #ifndef GLWIDGET277_H
 #define GLWIDGET277_H
 
+#include <utils.h>
+
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QTimer>
