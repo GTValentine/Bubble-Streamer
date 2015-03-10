@@ -10,6 +10,10 @@ MyGL::MyGL(QWidget *parent)
     : GLWidget277(parent)
     , camerasph(6, 0.5, -0.5)
 {
+    // Update the simulation constantly as fast as possible
+    // TODO: move to thread maybe
+    connect(&simTimer, SIGNAL(timeout()), this, SLOT(stepSim()));
+    simTimer.start(0);
 }
 
 MyGL::~MyGL()
@@ -61,9 +65,6 @@ void MyGL::resizeGL(int w, int h)
 
 void MyGL::paintGL()
 {
-    // For now, step the simulation in here. TODO: move?
-    bubs.step();
-
     // Clear the screen so that we only see newly drawn images
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -162,4 +163,9 @@ void MyGL::wheelEvent(QWheelEvent *e)
         camerasph = glm::vec3(glm::max(1.f, camerasph.x + delta.y() * -0.005f), camerasph.y, camerasph.z);
         updateCamera();
     }
+}
+
+void MyGL::stepSim()
+{
+    bubs.stepSim();
 }

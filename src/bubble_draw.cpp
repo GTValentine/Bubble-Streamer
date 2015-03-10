@@ -1,9 +1,11 @@
 #include "bubble_draw.h"
 
+
 BubbleDraw::BubbleDraw()
     : solver(25)
     , box(&solver)
     , bub(&solver)
+    , dirty(true)
 {
     solver.seed_test_bubbles(1);
 
@@ -27,16 +29,21 @@ void BubbleDraw::destroy()
     bub.destroy();
 }
 
-void BubbleDraw::step()
+void BubbleDraw::stepSim()
 {
     solver.advance(0.1);
+    dirty = true;
 }
 
 void BubbleDraw::draw(ShaderProgram &p)
 {
-    box.update();
+    if (dirty) {
+        box.update();
+        bub.update();
+        dirty = false;
+    }
+
     p.draw(box);
-    bub.update();
     p.draw(bub);
 }
 

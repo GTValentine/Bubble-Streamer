@@ -56,6 +56,7 @@ private:
     BubbleSolver solver;
     d_box box;
     d_bubbles bub;
+    bool dirty;
 
 public:
     BubbleDraw();
@@ -63,6 +64,6 @@ public:
     void create();
     void destroy();
 
-    void step();
+    void stepSim();
     void draw(ShaderProgram &p);
 };
