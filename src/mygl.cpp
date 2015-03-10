@@ -33,9 +33,9 @@ void MyGL::initializeGL()
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
     glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     // Set the point rendering size
-    glPointSize(5);
+    glPointSize(2);
     // Set the color which clears the screen between frames
-    glClearColor(0.5, 0.5, 0.5, 1);
+    glClearColor(0.4f, 0.5f, 0.8f, 1.0f);
 
     printGLErrorLog();
 
@@ -61,6 +61,9 @@ void MyGL::resizeGL(int w, int h)
 
 void MyGL::paintGL()
 {
+    // For now, step the simulation in here. TODO: move?
+    bubs.step();
+
     // Clear the screen so that we only see newly drawn images
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

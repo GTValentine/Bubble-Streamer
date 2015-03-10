@@ -35,6 +35,7 @@ private:
         int count;
         QOpenGLBuffer bufIdx;
         QOpenGLBuffer bufPos;
+        QOpenGLBuffer bufCol;
 
     public:
         explicit d_bubbles(BubbleSolver *s);
@@ -48,7 +49,7 @@ private:
         bool bindIdx() { return bufIdx.bind(); }
         bool bindPos() { return bufPos.bind(); }
         bool bindNor() { return false; }
-        bool bindCol() { return false; }
+        bool bindCol() { return bufCol.bind(); }
     };
 
 private:
@@ -62,5 +63,6 @@ public:
     void create();
     void destroy();
 
+    void step();
     void draw(ShaderProgram &p);
 };

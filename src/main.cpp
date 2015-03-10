@@ -30,18 +30,6 @@ void debugFormatVersion()
 
 int main(int argc, char *argv[])
 {
-    BubbleSolver bs(25);
-
-    bs.seed_test_bubbles(1);
-
-    //for(int i = 0; i < 100; ++i) std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
-
-    for(int i = 0; i < 100; ++i)
-    {
-      std::cout << bs.get_bubbles().back().position << std::endl;
-      bs.advance(0.1);
-    }
-
     QApplication a(argc, argv);
 
     // Set OpenGL 3.2 and, optionally, 4-sample multisampling
@@ -49,7 +37,7 @@ int main(int argc, char *argv[])
     format.setVersion(3, 2);
     format.setOption(QSurfaceFormat::DeprecatedFunctions, false);
     format.setProfile(QSurfaceFormat::CoreProfile);
-    //format.setSamples(4);  // Uncomment for nice antialiasing. Not always supported.
+    format.setSamples(4);  // Uncomment for nice antialiasing. Not always supported.
 
     /*** AUTOMATIC TESTING: DO NOT MODIFY ***/
     /*** Check whether automatic testing is enabled */
