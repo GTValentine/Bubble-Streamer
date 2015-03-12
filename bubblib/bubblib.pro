@@ -1,4 +1,5 @@
-QT += core widgets
+CONFIG -= QT
+QT -= core widgets
 
 TARGET = bubblib
 VERSION = 0.1.0
