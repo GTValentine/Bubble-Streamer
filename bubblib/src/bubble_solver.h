@@ -1,15 +1,16 @@
-#ifndef BUBBLESOLVER_H_
-#define BUBBLESOLVER_H_
+#pragma once
+
+#include "fluid_sim.h"
 
 #include <random>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-#include "fluid_sim.h"
 
 double const WATER_DENSITY = 1000.0;
 double const AIR_DENSITY = 1.25;
+
 
 class BubbleSolver
 {
@@ -51,5 +52,3 @@ class BubbleSolver
     double get_scattering_probability(const Bubble& bubble) const;
     Vec3d get_scattering_force(const Bubble& bubble, double dt) const;
 };
-
-#endif // BUBBLESOLVER_H_

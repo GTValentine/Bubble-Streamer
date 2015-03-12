@@ -1,5 +1,6 @@
-#ifndef FLUID_SIM_H_
-#define FLUID_SIM_H_
+#pragma once
+
+#include "bubble.h"
 
 #include <list>
 #include <cmath>
@@ -8,8 +9,6 @@
 #include <3dGrid/util.h>
 #include <3dGrid/array3.h>
 #include <3dGrid/array3_utils.h>
-
-#include "bubble.h"
 
 using std::list;
 using std::vector;
@@ -92,6 +91,3 @@ class FluidSim
     void compute_matrix();
     void compute_rhs();
 };
-
-#endif // FLUID_SIM_H_
-

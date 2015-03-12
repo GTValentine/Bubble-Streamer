@@ -12,7 +12,6 @@ BubbleSolver::BubbleSolver(int grid_resolution):
 
 BubbleSolver::~BubbleSolver()
 {
-
 }
 
 void BubbleSolver::compute_density()

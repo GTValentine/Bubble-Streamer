@@ -1,12 +1,17 @@
 # Convenience makefile
 
-build:
-	mkdir -p build && cd build && qmake .. && make
+all: build-preview build-hplugin
+
+build-preview:
+	mkdir -p build-preview && cd build-preview && qmake ../preview.pro && make
+
+build-hplugin:
+	mkdir -p build-hplugin && cd build-hplugin && qmake ../hplugin.pro && make
+
+preview: | build-preview
+	build-preview/preview/preview
 
 clean:
-	rm -rf build
+	rm -rf build-preview build-hplugin *.pro.user
 
-run: | build
-	build/277
-
-.PHONY: build clean run
+.PHONY: all build-preview build-hplugin preview clean

@@ -1,6 +1,3 @@
-#ifndef FLUID_SIM_CPP_
-#define FLUID_SIM_CPP_
-
 #include "fluid_sim.h"
 
 const double SCALING_FACTOR = 1000.0;
@@ -30,7 +27,8 @@ FluidSim::FluidSim(int n):
 }
 
 FluidSim::~FluidSim()
-{}
+{
+}
 
 void FluidSim::set_zero_velocity()
 {
@@ -333,7 +331,3 @@ void FluidSim::print() const
   }
   printf("\n");
 }
-
-
-#endif // FLUID_SIM_CPP_
-

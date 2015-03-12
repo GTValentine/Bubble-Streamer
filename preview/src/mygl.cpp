@@ -8,7 +8,7 @@
 
 MyGL::MyGL(QWidget *parent)
     : GLWidget277(parent)
-    , camerasph(6, 0.5, -0.5)
+    , camerasph(3, 0.2, -0.5)
 {
     // Update the simulation constantly as fast as possible
     // TODO: move to thread maybe

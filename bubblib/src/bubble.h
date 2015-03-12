@@ -1,5 +1,4 @@
-#ifndef BUBBLE_H_
-#define BUBBLE_H_
+#pragma once
 
 #include <list>
 
@@ -12,5 +11,3 @@ struct Bubble
     Vec3d position;
     float radius;
 };
-
-#endif // BUBBLE_H_
