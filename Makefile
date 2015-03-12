@@ -12,6 +12,6 @@ preview: | build-preview
 	build-preview/preview/preview
 
 clean:
-	rm -rf build-preview build-hplugin *.pro.user
+	rm -rf build-preview build-hplugin
 
 .PHONY: all build-preview build-hplugin preview clean
