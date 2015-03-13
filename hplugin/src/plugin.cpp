@@ -267,7 +267,6 @@ SOP_Lsystem::cookMySop(OP_Context &context)
         // regardless of what opStart() returns.
         boss->opEnd();
     }
-
 #endif
 
     // Notify the display cache that we have directly edited

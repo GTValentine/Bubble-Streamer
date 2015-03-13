@@ -1,7 +1,7 @@
 CONFIG -= QT
-QT -= core widgets
+QT -= core widgets gui
 
-TARGET = hplugin
+TARGET = SOP_Bubbles
 VERSION = 0.1.0
 TEMPLATE = lib
 
@@ -30,8 +30,8 @@ linux {
         MAKING_DSO \
         SESI_LITTLE_ENDIAN \
         SWAP_BITFIELDS
-    QMAKE_CXXFLAGS += -isystem /opt/houdini14/toolkit/include
-    LIBS += -L/opt/houdini14/dsolib/
+    QMAKE_CXXFLAGS += -isystem /opt/hfs14.0.258/toolkit/include
+    LIBS += -L/opt/hfs14.0.258/dsolib/
 }
 
 LIBS += \
