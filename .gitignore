@@ -30,6 +30,7 @@ build
 # QtCreator
 
 *.autosave
+*.orig
 
 # Windows image file caches
 Thumbs.db

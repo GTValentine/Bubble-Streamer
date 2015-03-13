@@ -3,19 +3,19 @@
 
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+  QMainWindow(parent),
+  ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
-    ui->mygl->setFocus();
+  ui->setupUi(this);
+  ui->mygl->setFocus();
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+  delete ui;
 }
 
 void MainWindow::on_actionQuit_triggered()
 {
-    QApplication::exit();
+  QApplication::exit();
 }

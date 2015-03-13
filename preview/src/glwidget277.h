@@ -9,24 +9,24 @@
 
 
 class GLWidget277
-    : public QOpenGLWidget,
-      public QOpenGLFunctions_3_2_Core
+  : public QOpenGLWidget,
+    public QOpenGLFunctions_3_2_Core
 {
-    Q_OBJECT
+  Q_OBJECT
 
 private:
-    /// Timer for drawing new frames
-    QTimer timer;
+  /// Timer for drawing new frames
+  QTimer timer;
 
 public:
-    GLWidget277(QWidget *parent);
-    ~GLWidget277();
+  GLWidget277(QWidget *parent);
+  ~GLWidget277();
 
-    void debugContextVersion();
+  void debugContextVersion();
 
 private slots:
-    /// Slot that gets called ~60 times per second
-    void timerUpdate();
+  /// Slot that gets called ~60 times per second
+  void timerUpdate();
 };
 
 

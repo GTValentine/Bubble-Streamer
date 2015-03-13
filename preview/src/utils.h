@@ -20,11 +20,12 @@
 
 #include <la.h>
 
-namespace la {
-    inline QMatrix4x4 to_qmat(const mat4 &m)
-    {
-        return QMatrix4x4(value_ptr(transpose(m)));
-    }
+namespace la
+{
+inline QMatrix4x4 to_qmat(const mat4 &m)
+{
+  return QMatrix4x4(value_ptr(transpose(m)));
+}
 }
 
 void printGLErrorLog();
