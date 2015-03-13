@@ -20,6 +20,7 @@ LIBS += -L../bubblib -lbubblib
 
 linux {
     QMAKE_CXXFLAGS += -isystem /opt/hfs14.0.258/toolkit/include
+    INCLUDEPATH += /opt/hfs14.0.258/toolkit/include
     LIBS += -L/opt/hfs14.0.258/dsolib/
 
     # From outputs of hcustom -c/-m and results of Makefile.gnu

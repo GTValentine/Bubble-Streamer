@@ -1,6 +1,7 @@
 #pragma once
 
 #include <la.h>
+#include <bubble_solver.h>
 
 //#include <GEO/GEO_Point.h>
 #include <SOP/SOP_Node.h>
@@ -46,53 +47,21 @@ protected:
     }
 
 private:
-    /// The following list of accessors simplify evaluating the parameters
-    /// of the SOP.
+    // The following list of accessors simplify evaluating the parameters of the SOP.
 
-    // PUT YOUR CODE HERE
-    // Here you need to declare functions which need to be called from the
-    // .C file to constantly update the cook function, these functions help
-    // you get the current value that the node has
-    // Example : To declare a function to fetch angle you need to do it
-    // this way
-    // fpreal ANGLE(fpreal t) { return evalFloat("angle", 0, t); }
-    fpreal ANGLE(fpreal t)
-    {
-        return evalFloat("angle", 0, t);
-    }
-
-    fpreal STEPSIZE(fpreal t)
-    {
-        return evalFloat("stepsize", 0, t);
-    }
-
-    int ITERS(fpreal t)
-    {
-        return evalInt("iters", 0, t);
-    }
-
-    std::string GRAMMARSTART()
-    {
-        UT_String str;
-        evalString(str, "grammarstart", 0, 0);
-        return std::string(str.buffer());
-    }
-
-    std::string GRAMMARRULE()
-    {
-        UT_String str;
-        evalString(str, "grammarrule", 0, 0);
-        return std::string(str.buffer());
-    }
+    int    get_gridres(fpreal t) { return evalInt  ("gridres", 0, t); }
+    fpreal get_simstep(fpreal t) { return evalFloat("simstep", 0, t); }
 
     ///////////////////////////////////////////////////////////////////////
 
-    /// Member variables are stored in the actual SOP, not with the geometry
-    /// In this case these are just used to transfer data to the local
-    /// variable callback.
-    /// Another use for local data is a cache to store expensive calculations.
+    // Member variables are stored in the actual SOP, not with the geometry
+    // In this case these are just used to transfer data to the local
+    // variable callback.
+    // Another use for local data is a cache to store expensive calculations.
 
     // NOTE : You can declare local variables here like this
     int myCurrPoint;
     int myTotalPoints;
+    BubbleSolver *solver;
+    int laststep;
 };
