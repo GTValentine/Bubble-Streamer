@@ -6,9 +6,7 @@
 #include <SOP/SOP_Node.h>
 
 
-namespace HDK_Sample
-{
-class SOP_Lsystem : public SOP_Node
+class SOP_BubbleStreamer : public SOP_Node
 {
 public:
     static OP_Node *myConstructor(OP_Network*, const char *, OP_Operator *);
@@ -21,8 +19,8 @@ public:
     static CH_LocalVariable myVariables[];
 
 protected:
-    SOP_Lsystem(OP_Network *net, const char *name, OP_Operator *op);
-    virtual ~SOP_Lsystem();
+    SOP_BubbleStreamer(OP_Network *net, const char *name, OP_Operator *op);
+    virtual ~SOP_BubbleStreamer();
 
     /// Disable parameters according to other parameters.
     virtual unsigned disableParms();
@@ -98,4 +96,3 @@ private:
     int myCurrPoint;
     int myTotalPoints;
 };
-} // End HDK_Sample namespace

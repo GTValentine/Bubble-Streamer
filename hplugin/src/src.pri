@@ -2,7 +2,8 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 SOURCES += \
-    $$PWD/plugin.cpp
+    $$PWD/hooks.cpp \
+    $$PWD/SOP_BubbleStreamer.cpp
 
 HEADERS += \
-    $$PWD/plugin.h
+    $$PWD/SOP_BubbleStreamer.h
