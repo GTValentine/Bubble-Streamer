@@ -1,5 +1,8 @@
 #include "SOP_BubbleStreamer.h"
 
+#include <climits>
+#include <cstdio>
+
 #include <UT/UT_DSOVersion.h>
 //#include <RE/RE_EGLServer.h>
 
@@ -11,9 +14,6 @@
 #include <CH/CH_LocalVariable.h>
 #include <PRM/PRM_Include.h>
 #include <PRM/PRM_SpareData.h>
-
-#include <climits>
-#include <cstdio>
 
 
 static PRM_Name nm_gridres("gridres", "Grid Resolution");
@@ -122,7 +122,7 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context)
 
     // Start the interrupt server
     if (boss->opStart("Instantiating bubbles")) {
-      const list<Bubble> &bubs = solver->get_bubbles();
+      const std::list<Bubble> &bubs = solver->get_bubbles();
       for (Bubble b : bubs) {
         GU_PrimSphereParms parms;
         parms.gdp = gdp;

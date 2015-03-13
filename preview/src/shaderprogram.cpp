@@ -1,5 +1,4 @@
 #include "shaderprogram.h"
-#include "utils.h"
 
 
 void ShaderProgram::create(const char *vertfile, const char *fragfile)

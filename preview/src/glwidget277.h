@@ -1,7 +1,5 @@
-#ifndef GLWIDGET277_H
-#define GLWIDGET277_H
-
-#include <utils.h>
+#pragma once
+#include "utils.h"
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_2_Core>
@@ -28,6 +26,3 @@ private slots:
   /// Slot that gets called ~60 times per second
   void timerUpdate();
 };
-
-
-#endif // GLWIDGET277_H

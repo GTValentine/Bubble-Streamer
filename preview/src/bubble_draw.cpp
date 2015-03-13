@@ -83,8 +83,8 @@ void BubbleDraw::d_box::update()
   glm::vec3 y2 = glm::vec3(0, solver->get_nj() * dx * 0.5, 0);
   glm::vec3 z2 = glm::vec3(0, 0, solver->get_nk() * dx * 0.5);
 
-  vector<GLuint> is;
-  vector<glm::vec3> ps;
+  std::vector<GLuint> is;
+  std::vector<glm::vec3> ps;
   count = 0;
   for (int _i = -1; _i <= 1; _i += 2) {
     float i = _i;
@@ -143,7 +143,7 @@ void BubbleDraw::d_bubbles::destroy()
 
 void BubbleDraw::d_bubbles::update()
 {
-  const list<Bubble> &bubs = solver->get_bubbles();
+  const std::list<Bubble> &bubs = solver->get_bubbles();
   count = bubs.size();
 
   double dx = solver->get_dx();

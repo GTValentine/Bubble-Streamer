@@ -1,7 +1,9 @@
 #pragma once
+#include "utils.h"
+
+#include <bubble_solver.h>
 
 #include "shaderprogram.h"
-#include "bubble_solver.h"
 
 
 class BubbleDraw

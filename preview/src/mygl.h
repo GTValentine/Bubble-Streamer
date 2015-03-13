@@ -1,5 +1,4 @@
-#ifndef MYGL_H
-#define MYGL_H
+#pragma once
 
 #include <glwidget277.h>
 #include <utils.h>
@@ -50,6 +49,3 @@ protected:
 private slots:
   void stepSim();
 };
-
-
-#endif // MYGL_H

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "bubble.h"
-
 #include <list>
 #include <cmath>
 #include <algorithm>
@@ -10,8 +8,8 @@
 #include <3dGrid/array3.h>
 #include <3dGrid/array3_utils.h>
 
-using std::list;
-using std::vector;
+#include "bubble.h"
+
 
 class FluidSim
 {
@@ -106,8 +104,8 @@ private:
   //Solver data
   PCGSolver<double> solver_;
   SparseMatrix<double> matrix_;
-  vector<double> rhs_; //right-hand-side
-  vector<double> pressure_; //actually, this is pressure times constant=dt/(dx*SCALING_CONST) (scaling is better this way)
+  std::vector<double> rhs_; //right-hand-side
+  std::vector<double> pressure_; //actually, this is pressure times constant=dt/(dx*SCALING_CONST) (scaling is better this way)
 
   Array3d extern_force_x_;
   Array3d extern_force_y_;

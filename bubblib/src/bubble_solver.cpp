@@ -1,11 +1,12 @@
 #include "bubble_solver.h"
 
-BubbleSolver::BubbleSolver(int grid_resolution):
-  fluid_(grid_resolution),
-  bubbles_(),
-  scattering_freq_(10.0),
-  scattering_coef_(0.9),
-  breakup_freq_(0.001)
+
+BubbleSolver::BubbleSolver(int grid_resolution)
+  : fluid_(grid_resolution)
+  , bubbles_()
+  , scattering_freq_(10.0)
+  , scattering_coef_(0.9)
+  , breakup_freq_(0.001)
 {
   compute_density();
 }

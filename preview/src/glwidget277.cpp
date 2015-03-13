@@ -1,7 +1,7 @@
 #include "glwidget277.h"
-#include <utils.h>
 
 #include <iostream>
+
 #include <QApplication>
 #include <QProcessEnvironment>
 #include <QOpenGLContext>

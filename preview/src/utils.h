@@ -1,8 +1,13 @@
 #pragma once
 
 #define NOMINMAX 1
-
 #define GLM_FORCE_RADIANS
+
+#include <algorithm>
+#include <string>
+#include <cmath>
+#include <QMatrix4x4>
+#include <3dGrid/vec.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -12,13 +17,8 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <QMatrix4x4>
-#include <3dGrid/vec.h>
-#include <algorithm>
-#include <string>
-#include <cmath>
-
 #include <la.h>
+
 
 namespace la
 {

@@ -1,7 +1,7 @@
-#include <SOP_BubbleStreamer.h>
-
 #include <OP/OP_Operator.h>
 #include <OP/OP_OperatorTable.h>
+
+#include "SOP_BubbleStreamer.h"
 
 
 /// newSopOperator is the hook that Houdini grabs from this dll

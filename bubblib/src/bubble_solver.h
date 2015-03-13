@@ -1,11 +1,11 @@
 #pragma once
 
-#include "fluid_sim.h"
-
 #include <random>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+
+#include "fluid_sim.h"
 
 
 double const WATER_DENSITY = 1000.0;
@@ -18,7 +18,7 @@ public:
   BubbleSolver(int grid_resolution);
   ~BubbleSolver();
 
-  const list<Bubble>& get_bubbles() const
+  const std::list<Bubble>& get_bubbles() const
   {
     return bubbles_;
   }
@@ -32,10 +32,12 @@ public:
   {
     return fluid_.get_ni();
   }
+
   int get_nj() const
   {
     return fluid_.get_nj();
   }
+
   int get_nk() const
   {
     return fluid_.get_nk();
@@ -49,10 +51,10 @@ public:
   void seed_test_bubbles(int n);
 
 private:
-  BubbleSolver(); //{}
+  BubbleSolver();
 
   FluidSim fluid_;
-  list<Bubble> bubbles_;
+  std::list<Bubble> bubbles_;
 
   double scattering_freq_;
   double scattering_coef_;

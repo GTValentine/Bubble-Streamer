@@ -1,6 +1,11 @@
 #include "fluid_sim.h"
 
+
+using std::list;
+using std::vector;
+
 const double SCALING_FACTOR = 1000.0;
+
 
 FluidSim::FluidSim(int n):
   ni_(n),

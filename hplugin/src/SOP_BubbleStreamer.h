@@ -1,10 +1,10 @@
 #pragma once
 
-#include <la.h>
-#include <bubble_solver.h>
-
 //#include <GEO/GEO_Point.h>
 #include <SOP/SOP_Node.h>
+
+#include <la.h>
+#include <bubble_solver.h>
 
 
 class SOP_BubbleStreamer : public SOP_Node
@@ -44,10 +44,11 @@ protected:
 private:
   // The following list of accessors simplify evaluating the parameters of the SOP.
 
-  int    get_gridres(fpreal t)
+  int get_gridres(fpreal t)
   {
-    return evalInt  ("gridres", 0, t);
+    return evalInt("gridres", 0, t);
   }
+
   fpreal get_simstep(fpreal t)
   {
     return evalFloat("simstep", 0, t);

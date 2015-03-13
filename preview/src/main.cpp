@@ -1,17 +1,16 @@
 #include <iostream>
 
-#include <mainwindow.h>
-#include <ui_mainwindow.h>
-
 #include <QApplication>
 #include <QSurfaceFormat>
 #include <QDebug>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "bubble.h"
-#include "bubble_solver.h"
+#include <mainwindow.h>
+#include <ui_mainwindow.h>
+#include <bubble.h>
+#include <bubble_solver.h>
+
 
 void debugFormatVersion()
 {
