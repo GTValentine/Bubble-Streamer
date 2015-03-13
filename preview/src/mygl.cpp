@@ -8,24 +8,21 @@
 
 
 MyGL::MyGL(QWidget *parent)
-  : GLWidget277(parent)
-  , camerasph(3, 0.2, -0.5)
-{
+    : GLWidget277(parent)
+    , camerasph(3, 0.2, -0.5) {
   // Update the simulation constantly as fast as possible
   // TODO: move to thread maybe
   connect(&simTimer, SIGNAL(timeout()), this, SLOT(stepSim()));
   simTimer.start(0);
 }
 
-MyGL::~MyGL()
-{
+MyGL::~MyGL() {
   makeCurrent();
 
   vao.destroy();
 }
 
-void MyGL::initializeGL()
-{
+void MyGL::initializeGL() {
   // Create an OpenGL context
   initializeOpenGLFunctions();
   // Print out some information about the current OpenGL context
@@ -58,14 +55,12 @@ void MyGL::initializeGL()
   prog_wire.create(":/glsl/wire.vert.glsl", ":/glsl/wire.frag.glsl");
 }
 
-void MyGL::resizeGL(int w, int h)
-{
+void MyGL::resizeGL(int w, int h) {
   updateCamera();
   printGLErrorLog();
 }
 
-void MyGL::paintGL()
-{
+void MyGL::paintGL() {
   // Clear the screen so that we only see newly drawn images
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -76,8 +71,7 @@ void MyGL::paintGL()
   bubs.draw(prog_wire);
 }
 
-void MyGL::updateCamera()
-{
+void MyGL::updateCamera() {
   const qreal retinaScale = devicePixelRatio();
   glViewport(0, 0, width() * retinaScale, height() * retinaScale);
 
@@ -94,8 +88,7 @@ void MyGL::updateCamera()
   setViewProj(viewproj);
 }
 
-void MyGL::setViewProj(const glm::mat4 &viewproj)
-{
+void MyGL::setViewProj(const glm::mat4 &viewproj) {
   // Upload the projection matrix
   QMatrix4x4 qviewproj = la::to_qmat(viewproj);
 
@@ -106,8 +99,7 @@ void MyGL::setViewProj(const glm::mat4 &viewproj)
   prog_lambert.prog.setUniformValue(prog_lambert.unifViewProj, qviewproj);
 }
 
-void MyGL::keyPressEvent(QKeyEvent *e)
-{
+void MyGL::keyPressEvent(QKeyEvent *e) {
   // http://doc.qt.io/qt-5/qt.html#Key-enum
   switch (e->key()) {
   case Qt::Key_Escape:
@@ -140,13 +132,11 @@ void MyGL::keyPressEvent(QKeyEvent *e)
   }
 }
 
-void MyGL::mousePressEvent(QMouseEvent *e)
-{
+void MyGL::mousePressEvent(QMouseEvent *e) {
   mouselast = e->pos();
 }
 
-void MyGL::mouseMoveEvent(QMouseEvent *e)
-{
+void MyGL::mouseMoveEvent(QMouseEvent *e) {
   if (e->buttons() & Qt::LeftButton) {
     auto pos = e->pos();
     QPoint diff = pos - mouselast;
@@ -157,8 +147,7 @@ void MyGL::mouseMoveEvent(QMouseEvent *e)
   }
 }
 
-void MyGL::wheelEvent(QWheelEvent *e)
-{
+void MyGL::wheelEvent(QWheelEvent *e) {
   auto delta = e->angleDelta();
   if (!delta.isNull()) {
     camerasph = glm::vec3(glm::max(1.f, camerasph.x + delta.y() * -0.005f), camerasph.y, camerasph.z);
@@ -166,7 +155,6 @@ void MyGL::wheelEvent(QWheelEvent *e)
   }
 }
 
-void MyGL::stepSim()
-{
+void MyGL::stepSim() {
   bubs.stepSim();
 }

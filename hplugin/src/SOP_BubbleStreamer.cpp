@@ -41,8 +41,7 @@ CH_LocalVariable SOP_BubbleStreamer::myVariables[] = {
   { 0, 0, 0 },
 };
 
-bool SOP_BubbleStreamer::evalVariableValue(fpreal &val, int index, int thread)
-{
+bool SOP_BubbleStreamer::evalVariableValue(fpreal &val, int index, int thread) {
   // myCurrPoint will be negative when we're not cooking so only try to
   // handle the local variables when we have a valid myCurrPoint index.
   if (myCurrPoint >= 0) {
@@ -63,30 +62,25 @@ bool SOP_BubbleStreamer::evalVariableValue(fpreal &val, int index, int thread)
   return SOP_Node::evalVariableValue(val, index, thread);
 }
 
-OP_Node *SOP_BubbleStreamer::myConstructor(OP_Network *net, const char *name, OP_Operator *op)
-{
+OP_Node *SOP_BubbleStreamer::myConstructor(OP_Network *net, const char *name, OP_Operator *op) {
   return new SOP_BubbleStreamer(net, name, op);
 }
 
 SOP_BubbleStreamer::SOP_BubbleStreamer(OP_Network *net, const char *name, OP_Operator *op)
-  : SOP_Node(net, name, op)
-  , solver(nullptr)
-  , laststep(-1)
-{
+    : SOP_Node(net, name, op)
+    , solver(nullptr)
+    , laststep(-1) {
   myCurrPoint = -1; // To prevent garbage values from being returned
 }
 
-SOP_BubbleStreamer::~SOP_BubbleStreamer()
-{
+SOP_BubbleStreamer::~SOP_BubbleStreamer() {
 }
 
-unsigned SOP_BubbleStreamer::disableParms()
-{
+unsigned SOP_BubbleStreamer::disableParms() {
   return 0;
 }
 
-OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context)
-{
+OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
   flags().timeDep = 1;
   //fpreal now = context.getTime();
 

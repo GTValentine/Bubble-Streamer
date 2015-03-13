@@ -9,25 +9,21 @@
 
 
 GLWidget277::GLWidget277(QWidget *parent)
-  : QOpenGLWidget(parent)
-{
+    : QOpenGLWidget(parent) {
   // Allow the timer to redraw the window
   connect(&timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
   // Tell the timer to redraw 60 times per second
   timer.start(16);
 }
 
-GLWidget277::~GLWidget277()
-{
+GLWidget277::~GLWidget277() {
 }
 
-inline const char *glGS(GLenum e)
-{
+inline const char *glGS(GLenum e) {
   return reinterpret_cast<const char *>(glGetString(e));
 }
 
-void GLWidget277::debugContextVersion()
-{
+void GLWidget277::debugContextVersion() {
   QOpenGLContext *ctx = context();
   QSurfaceFormat form = format();
   QSurfaceFormat ctxform = ctx->format();
@@ -76,8 +72,7 @@ void GLWidget277::debugContextVersion()
   }
 }
 
-void GLWidget277::timerUpdate()
-{
+void GLWidget277::timerUpdate() {
   // This function is called roughly 60 times per second.
   // Use it to update your scene and then tell it to redraw.
   // (Don't update your scene in paintGL, because it

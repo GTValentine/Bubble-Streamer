@@ -12,34 +12,28 @@ double const WATER_DENSITY = 1000.0;
 double const AIR_DENSITY = 1.25;
 
 
-class BubbleSolver
-{
-public:
+class BubbleSolver {
+ public:
   BubbleSolver(int grid_resolution);
   ~BubbleSolver();
 
-  const std::list<Bubble>& get_bubbles() const
-  {
+  const std::list<Bubble>& get_bubbles() const {
     return bubbles_;
   }
 
-  double get_dx() const
-  {
+  double get_dx() const {
     return fluid_.get_dx();
   }
 
-  int get_ni() const
-  {
+  int get_ni() const {
     return fluid_.get_ni();
   }
 
-  int get_nj() const
-  {
+  int get_nj() const {
     return fluid_.get_nj();
   }
 
-  int get_nk() const
-  {
+  int get_nk() const {
     return fluid_.get_nk();
   }
 
@@ -50,7 +44,7 @@ public:
 
   void seed_test_bubbles(int n);
 
-private:
+ private:
   BubbleSolver();
 
   FluidSim fluid_;

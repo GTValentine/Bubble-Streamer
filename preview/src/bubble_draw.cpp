@@ -2,33 +2,31 @@
 
 
 BubbleDraw::BubbleDraw()
-  : solver(12)
-  , box(&solver)
-  , bub(&solver)
-  , dirty(true)
-{
-  //for (int i = 0; i < 100; ++i) std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
+    : solver(12)
+    , box(&solver)
+    , bub(&solver)
+    , dirty(true) {
+  //for (int i = 0; i < 100; ++i) {
+  //  std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
+  //}
 
   //for (int i = 0; i < 100; ++i) {
-  //    std::cout << solver.get_bubbles().back().position << std::endl;
-  //    solver.advance(0.1);
+  //  std::cout << solver.get_bubbles().back().position << std::endl;
+  //  solver.advance(0.1);
   //}
 }
 
-void BubbleDraw::create()
-{
+void BubbleDraw::create() {
   box.create();
   bub.create();
 }
 
-void BubbleDraw::destroy()
-{
+void BubbleDraw::destroy() {
   box.destroy();
   bub.destroy();
 }
 
-void BubbleDraw::stepSim()
-{
+void BubbleDraw::stepSim() {
   int static frame = 0;
   solver.advance(0.1);
   if (frame < 450) {
@@ -39,8 +37,7 @@ void BubbleDraw::stepSim()
   dirty = true;
 }
 
-void BubbleDraw::draw(ShaderProgram &p)
-{
+void BubbleDraw::draw(ShaderProgram &p) {
   if (dirty) {
     box.update();
     bub.update();
@@ -53,14 +50,12 @@ void BubbleDraw::draw(ShaderProgram &p)
 
 
 BubbleDraw::d_box::d_box(BubbleSolver *s)
-  : solver(s)
-  , bufIdx(QOpenGLBuffer::IndexBuffer)
-  , bufPos(QOpenGLBuffer::VertexBuffer)
-{
+    : solver(s)
+    , bufIdx(QOpenGLBuffer::IndexBuffer)
+    , bufPos(QOpenGLBuffer::VertexBuffer) {
 }
 
-void BubbleDraw::d_box::create()
-{
+void BubbleDraw::d_box::create() {
   bufIdx.create();
   bufIdx.bind();
   bufIdx.setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -70,14 +65,12 @@ void BubbleDraw::d_box::create()
   bufPos.setUsagePattern(QOpenGLBuffer::StaticDraw);
 }
 
-void BubbleDraw::d_box::destroy()
-{
+void BubbleDraw::d_box::destroy() {
   bufIdx.destroy();
   bufPos.destroy();
 }
 
-void BubbleDraw::d_box::update()
-{
+void BubbleDraw::d_box::update() {
   double dx = solver->get_dx();
   glm::vec3 x2 = glm::vec3(solver->get_ni() * dx * 0.5, 0, 0);
   glm::vec3 y2 = glm::vec3(0, solver->get_nj() * dx * 0.5, 0);
@@ -112,15 +105,13 @@ void BubbleDraw::d_box::update()
 
 
 BubbleDraw::d_bubbles::d_bubbles(BubbleSolver *s)
-  : solver(s)
-  , bufIdx(QOpenGLBuffer::IndexBuffer)
-  , bufPos(QOpenGLBuffer::VertexBuffer)
-  , bufCol(QOpenGLBuffer::VertexBuffer)
-{
+    : solver(s)
+    , bufIdx(QOpenGLBuffer::IndexBuffer)
+    , bufPos(QOpenGLBuffer::VertexBuffer)
+    , bufCol(QOpenGLBuffer::VertexBuffer) {
 }
 
-void BubbleDraw::d_bubbles::create()
-{
+void BubbleDraw::d_bubbles::create() {
   bufIdx.create();
   bufIdx.bind();
   bufIdx.setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -134,15 +125,13 @@ void BubbleDraw::d_bubbles::create()
   bufCol.setUsagePattern(QOpenGLBuffer::StreamDraw);
 }
 
-void BubbleDraw::d_bubbles::destroy()
-{
+void BubbleDraw::d_bubbles::destroy() {
   bufIdx.destroy();
   bufPos.destroy();
   bufCol.destroy();
 }
 
-void BubbleDraw::d_bubbles::update()
-{
+void BubbleDraw::d_bubbles::update() {
   const std::list<Bubble> &bubs = solver->get_bubbles();
   count = bubs.size();
 

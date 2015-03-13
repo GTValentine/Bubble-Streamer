@@ -6,12 +6,10 @@
 #include <QOpenGLBuffer>
 
 
-class ShaderProgram
-{
-public:
-  class Drawable
-  {
-  public:
+class ShaderProgram {
+ public:
+  class Drawable {
+   public:
     virtual GLenum drawMode() = 0;
     virtual int elemCount() = 0;
     virtual bool bindIdx() = 0;
@@ -20,7 +18,7 @@ public:
     virtual bool bindCol() = 0;
   };
 
-public:
+ public:
   QOpenGLShaderProgram prog;
 
   int attrPos;
@@ -31,7 +29,7 @@ public:
   int unifModelInvTr;
   int unifViewProj;
 
-public:
+ public:
   void create(const char *vertfile, const char *fragfile);
   void setModelMatrix(const la::mat4 &model);
   void draw(Drawable &d);

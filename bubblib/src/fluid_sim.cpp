@@ -25,32 +25,27 @@ FluidSim::FluidSim(int n):
   pressure_(n * n * n),
   extern_force_x_(n + 1, n, n),
   extern_force_y_(n, n + 1, n),
-  extern_force_z_(n, n, n + 1)
-{
+  extern_force_z_(n, n, n + 1) {
   set_zero_velocity();
   set_zero_force();
 }
 
-FluidSim::~FluidSim()
-{
+FluidSim::~FluidSim() {
 }
 
-void FluidSim::set_zero_velocity()
-{
+void FluidSim::set_zero_velocity() {
   extern_force_x_.set_zero();
   extern_force_y_.set_zero();
   extern_force_z_.set_zero();
 }
 
-void FluidSim::set_zero_force()
-{
+void FluidSim::set_zero_force() {
   extern_force_x_.set_zero();
   extern_force_y_.set_zero();
   extern_force_z_.set_zero();
 }
 
-void FluidSim::compute_matrix()
-{
+void FluidSim::compute_matrix() {
   matrix_.zero();
 
   int row = 0;
@@ -119,15 +114,13 @@ void FluidSim::compute_matrix()
 
 
 //The main fluid simulation step
-void FluidSim::advance(double dt)
-{
+void FluidSim::advance(double dt) {
   advect(dt);
   add_force(dt);
   project();
 }
 
-double FluidSim::cfl() const
-{
+double FluidSim::cfl() const {
   double maxvel = 0;
 
   for (unsigned int i = 0; i < velocity_u_.size(); ++i) {
@@ -149,8 +142,7 @@ double FluidSim::cfl() const
   return dx_ / maxvel;
 }
 
-void FluidSim::advect(double dt)
-{
+void FluidSim::advect(double dt) {
   Vec3d pos;
 
   //semi-Lagrangian advection on u-component of velocity
@@ -186,8 +178,7 @@ void FluidSim::advect(double dt)
   velocity_w_ = velocity_tmp_w_;
 }
 
-Vec3d FluidSim::get_velocity(const Vec3d& position) const
-{
+Vec3d FluidSim::get_velocity(const Vec3d& position) const {
   double u_value = interpolate_value(position / dx_ - Vec3d(0, 0.5, 0.5), velocity_u_);
   double v_value = interpolate_value(position / dx_ - Vec3d(0.5, 0, 0.5), velocity_v_);
   double w_value = interpolate_value(position / dx_ - Vec3d(0.5, 0.5, 0), velocity_w_);
@@ -195,15 +186,13 @@ Vec3d FluidSim::get_velocity(const Vec3d& position) const
   return Vec3d(u_value, v_value, w_value);
 }
 
-Vec3d FluidSim::trace_rk2(const Vec3d& position, double dt)
-{
+Vec3d FluidSim::trace_rk2(const Vec3d& position, double dt) {
   Vec3d velocity = get_velocity(position);
   velocity = get_velocity(position + 0.5 * dt * velocity);
   return position + dt * velocity;
 }
 
-void FluidSim::add_force(double dt)
-{
+void FluidSim::add_force(double dt) {
   for (int k = 0; k < nk_; ++k)
     for (int j = 0; j < nj_; ++j)
       for (int i = 0; i < ni_ + 1; ++i) {
@@ -223,8 +212,7 @@ void FluidSim::add_force(double dt)
       }
 }
 
-void FluidSim::project()
-{
+void FluidSim::project() {
   compute_rhs();
   compute_matrix();
 
@@ -296,8 +284,7 @@ void FluidSim::project()
   */
 }
 
-void FluidSim::compute_rhs()
-{
+void FluidSim::compute_rhs() {
   int row = 0;
 
   for (int k = 0; k < nk_; ++k)
@@ -314,8 +301,7 @@ void FluidSim::compute_rhs()
         }
 }
 
-void FluidSim::print() const
-{
+void FluidSim::print() const {
   printf("dx = %f\n", dx_);
 
   int row = 0;

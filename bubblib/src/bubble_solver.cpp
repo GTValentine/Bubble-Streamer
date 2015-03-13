@@ -2,21 +2,18 @@
 
 
 BubbleSolver::BubbleSolver(int grid_resolution)
-  : fluid_(grid_resolution)
-  , bubbles_()
-  , scattering_freq_(10.0)
-  , scattering_coef_(0.9)
-  , breakup_freq_(0.001)
-{
+    : fluid_(grid_resolution)
+    , bubbles_()
+    , scattering_freq_(10.0)
+    , scattering_coef_(0.9)
+    , breakup_freq_(0.001) {
   compute_density();
 }
 
-BubbleSolver::~BubbleSolver()
-{
+BubbleSolver::~BubbleSolver() {
 }
 
-void BubbleSolver::compute_density()
-{
+void BubbleSolver::compute_density() {
   fluid_.density().assign(WATER_DENSITY);
 
   int i = 0, j = 0, k = 0;
@@ -40,8 +37,7 @@ void BubbleSolver::compute_density()
   }
 }
 
-void BubbleSolver::advance(double dt)
-{
+void BubbleSolver::advance(double dt) {
   double t = 0, substep = 0;
 
   while (t < dt) {
@@ -60,8 +56,7 @@ void BubbleSolver::advance(double dt)
   }
 }
 
-void BubbleSolver::advance_cfl()
-{
+void BubbleSolver::advance_cfl() {
   double substep = fluid_.cfl();
   if (substep <= 0) {
     substep = 0.1;
@@ -72,8 +67,7 @@ void BubbleSolver::advance_cfl()
   advance_bubbles(substep);
 }
 
-void BubbleSolver::compute_scattering_forces(double dt)
-{
+void BubbleSolver::compute_scattering_forces(double dt) {
   static std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution(0.0, 1.0);
 
@@ -104,8 +98,7 @@ void BubbleSolver::compute_scattering_forces(double dt)
     }
 }
 
-void BubbleSolver::advance_bubbles(double dt)
-{
+void BubbleSolver::advance_bubbles(double dt) {
   const Vec3d container_dim(get_dx()*get_ni(), get_dx()*get_nj() * 0.97, get_dx()*get_nk());
 
   for (auto b = bubbles_.begin(); b != bubbles_.end(); ++b) {
@@ -125,8 +118,7 @@ void BubbleSolver::advance_bubbles(double dt)
   }
 }
 
-Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, double radius) //TODO can you make it bettter?
-{
+Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, double radius) { //TODO can you make it bettter?
   static std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution(0, M_PI * 2);
   double phi = distribution(generator);
@@ -147,8 +139,7 @@ Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, 
   return Vec3d(res[0], res[1], res[2]);
 }
 
-void BubbleSolver::seed_test_bubbles(int n)
-{
+void BubbleSolver::seed_test_bubbles(int n) {
   static std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution(0.05, 0.95);
 
@@ -161,8 +152,7 @@ void BubbleSolver::seed_test_bubbles(int n)
   }
 }
 
-Vec3d BubbleSolver::get_scattering_force(const Bubble& bubble, double dt) const
-{
+Vec3d BubbleSolver::get_scattering_force(const Bubble& bubble, double dt) const {
   double cos_theta = get_cos_scattering_angle();
   Vec3d velocity = fluid_.get_velocity(bubble.position);
 
@@ -173,8 +163,7 @@ Vec3d BubbleSolver::get_scattering_force(const Bubble& bubble, double dt) const
   return AIR_DENSITY * 4.0 * M_PI / 3.0 * bubble.radius * bubble.radius * bubble.radius / dt * (a_velocity - velocity) * 100000.0; //TODO x100000? wasn't in the paper
 }
 
-double BubbleSolver::get_scattering_probability(const Bubble& bubble) const
-{
+double BubbleSolver::get_scattering_probability(const Bubble& bubble) const {
   int i = static_cast<int>(bubble.position[0] / get_dx());
   int j = static_cast<int>(bubble.position[1] / get_dx());
   int k = static_cast<int>(bubble.position[2] / get_dx());
@@ -192,8 +181,7 @@ double BubbleSolver::get_scattering_probability(const Bubble& bubble) const
   return 0.0;
 }
 
-double BubbleSolver::get_cos_scattering_angle() const
-{
+double BubbleSolver::get_cos_scattering_angle() const {
   static std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution(0.0, 1.0);
 

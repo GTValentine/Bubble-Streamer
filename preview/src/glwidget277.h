@@ -6,23 +6,20 @@
 #include <QTimer>
 
 
-class GLWidget277
-  : public QOpenGLWidget,
-    public QOpenGLFunctions_3_2_Core
-{
+class GLWidget277 : public QOpenGLWidget, public QOpenGLFunctions_3_2_Core {
   Q_OBJECT
 
-private:
+ private:
   /// Timer for drawing new frames
   QTimer timer;
 
-public:
-  GLWidget277(QWidget *parent);
+ public:
+  explicit GLWidget277(QWidget *parent);
   ~GLWidget277();
 
   void debugContextVersion();
 
-private slots:
+ private slots:
   /// Slot that gets called ~60 times per second
   void timerUpdate();
 };

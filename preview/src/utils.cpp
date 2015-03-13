@@ -7,8 +7,7 @@
 #include <QOpenGLFunctions_3_2_Core>
 
 
-void printGLErrorLog()
-{
+void printGLErrorLog() {
   QOpenGLFunctions &f = *QOpenGLContext::currentContext()->functions();
 
   GLenum error = f.glGetError();
@@ -31,8 +30,7 @@ void printGLErrorLog()
   }
 }
 
-void printLinkInfoLog(int prog)
-{
+void printLinkInfoLog(int prog) {
   QOpenGLFunctions_3_2_Core f;
   f.initializeOpenGLFunctions();
 
@@ -60,8 +58,7 @@ void printLinkInfoLog(int prog)
   throw;
 }
 
-void printShaderInfoLog(int shader)
-{
+void printShaderInfoLog(int shader) {
   QOpenGLFunctions_3_2_Core f;
   f.initializeOpenGLFunctions();
 
@@ -89,13 +86,11 @@ void printShaderInfoLog(int shader)
   throw;
 }
 
-static inline const char *glGS(QOpenGLFunctions *f, GLenum e)
-{
+static inline const char *glGS(QOpenGLFunctions *f, GLenum e) {
   return reinterpret_cast<const char *>(f->glGetString(e));
 }
 
-void debugContextVersion()
-{
+void debugContextVersion() {
   QOpenGLContext *ctx = QOpenGLContext::currentContext();
   QOpenGLFunctions *f = ctx->functions();
   QSurfaceFormat ctxform = ctx->format();
@@ -124,19 +119,7 @@ void debugContextVersion()
   QString glsl = s_glsl;
   if (ctxmajor < 3 || glsl.startsWith("1.10") || glsl.startsWith("1.20")) {
     printf("ERROR: "
-           "Unable to get an OpenGL 3.x context with GLSL 1.30 or newer. "
-           "If your hardware should support it, update your drivers. "
-           "If you have switchable graphics, make sure that you are using the discrete GPU.\n");
+           "Unable to get an OpenGL 3.x context with GLSL 1.30 or newer.");
     QApplication::exit();
-  } else if ((ctxmajor == 3 && ctxminor < 2) || glsl.startsWith("1.30") || glsl.startsWith("1.40")) {
-    printf("WARNING: "
-           "Enable to get an OpenGL 3.2 context with GLSL 1.50. "
-           "If your hardware should support it, update your drivers. "
-           "If you have switchable graphics, make sure that you are using the discrete GPU. "
-           "If you cannot get 3.2 support, it is possible to port this project....");
-
-    // Note: doing this requires at least the following actions:
-    // * Change the header and base class in glwidget277.h to 3.0/3.1 instead of 3.2 Core.
-    // * Change the shaders to require GLSL 1.30 or 1.40.
   }
 }

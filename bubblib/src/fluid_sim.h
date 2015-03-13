@@ -11,55 +11,44 @@
 #include "bubble.h"
 
 
-class FluidSim
-{
-public:
+class FluidSim {
+ public:
   FluidSim(int n);
   ~FluidSim();
 
-  double get_u(int i, int j, int k) const
-  {
+  double get_u(int i, int j, int k) const {
     return velocity_u_(i, j, k); //u(i - 0.5, j,       k)
   }
-  double get_v(int i, int j, int k) const
-  {
+  double get_v(int i, int j, int k) const {
     return velocity_v_(i, j, k); //v(i,       j - 0.5, k)
   }
-  double get_w(int i, int j, int k) const
-  {
+  double get_w(int i, int j, int k) const {
     return velocity_w_(i, j, k); //w(i,       j,       k - 0.5)
   }
 
-  double get_dx() const
-  {
+  double get_dx() const {
     return dx_;
   }
 
-  int get_ni() const
-  {
+  int get_ni() const {
     return ni_;
   }
-  int get_nj() const
-  {
+  int get_nj() const {
     return nj_;
   }
-  int get_nk() const
-  {
+  int get_nk() const {
     return nk_;
   }
 
   void print() const;
 
-  Array3d& density()
-  {
+  Array3d& density() {
     return density_;
   }
-  double& density(int i, int j, int k)
-  {
+  double& density(int i, int j, int k) {
     return density_(i, j, k);
   }
-  double get_density(int i, int j, int k) const
-  {
+  double get_density(int i, int j, int k) const {
     return density_(i, j, k);
   }
 
@@ -69,22 +58,19 @@ public:
   void set_zero_force();
   void set_zero_velocity();
 
-  double& force_x(int i, int j, int k)
-  {
+  double& force_x(int i, int j, int k) {
     return extern_force_x_(i, j, k);
   }
-  double& force_y(int i, int j, int k)
-  {
+  double& force_y(int i, int j, int k) {
     return extern_force_y_(i, j, k);
   }
-  double& force_z(int i, int j, int k)
-  {
+  double& force_z(int i, int j, int k) {
     return extern_force_z_(i, j, k);
   }
 
   Vec3d get_velocity(const Vec3d& position) const;
 
-private:
+ private:
   FluidSim();//{}
 
   int ni_, nj_, nk_;
@@ -115,29 +101,23 @@ private:
   void add_force(double dt);
   void project();
 
-  double& u(int i, int j, int k)
-  {
+  double& u(int i, int j, int k) {
     return velocity_u_(i, j, k); //u(i - 0.5, j,       k)
   }
-  double& v(int i, int j, int k)
-  {
+  double& v(int i, int j, int k) {
     return velocity_v_(i, j, k); //v(i,       j - 0.5, k)
   }
-  double& w(int i, int j, int k)
-  {
+  double& w(int i, int j, int k) {
     return velocity_w_(i, j, k); //w(i,       j,       k - 0.5)
   }
 
-  double& tmp_u(int i, int j, int k)
-  {
+  double& tmp_u(int i, int j, int k) {
     return velocity_tmp_u_(i, j, k); //tmp_u(i - 0.5, j,       k)
   }
-  double& tmp_v(int i, int j, int k)
-  {
+  double& tmp_v(int i, int j, int k) {
     return velocity_tmp_v_(i, j, k); //tmp_v(i,       j - 0.5, k)
   }
-  double& tmp_w(int i, int j, int k)
-  {
+  double& tmp_w(int i, int j, int k) {
     return velocity_tmp_w_(i, j, k); //tmp_w(i,       j,       k - 0.5)
   }
 

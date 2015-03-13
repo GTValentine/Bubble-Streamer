@@ -24,8 +24,7 @@ static const float PI = 3.14159265358979323846f;
  * Float approximate-equality comparison function
  */
 template<typename T>
-inline bool fequal(T a, T b, T epsilon = 0.0001)
-{
+inline bool fequal(T a, T b, T epsilon = 0.0001) {
   if (a == b) {
     // Shortcut
     return true;
@@ -40,18 +39,15 @@ inline bool fequal(T a, T b, T epsilon = 0.0001)
   return diff / (std::abs(a) + std::abs(b)) < epsilon;
 }
 
-namespace la
-{
+namespace la {
 using namespace glm;
 
 template<typename genType>
-inline std::ostream& operator<<(std::ostream& out, const genType& g)
-{
+inline std::ostream& operator<<(std::ostream& out, const genType& g) {
   return out << glm::to_string(g);
 }
 
-inline glm::vec3 from_vec3d(const Vec3d &v)
-{
+inline glm::vec3 from_vec3d(const Vec3d &v) {
   return glm::vec3(v[0], v[1], v[2]);
 }
 }

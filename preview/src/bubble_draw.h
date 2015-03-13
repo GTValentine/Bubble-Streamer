@@ -6,99 +6,84 @@
 #include "shaderprogram.h"
 
 
-class BubbleDraw
-{
-private:
-  class d_box : public ShaderProgram::Drawable
-  {
-  private:
+class BubbleDraw {
+ private:
+  class d_box : public ShaderProgram::Drawable {
+   private:
     BubbleSolver *solver;
     int count;
     QOpenGLBuffer bufIdx;
     QOpenGLBuffer bufPos;
 
-  public:
+   public:
     explicit d_box(BubbleSolver *s);
     void create();
     void destroy();
     void update();
 
-  public:
-    GLenum drawMode()
-    {
+   public:
+    GLenum drawMode() {
       return GL_LINES;
     }
-    int elemCount()
-    {
+    int elemCount() {
       return count;
     }
-    bool bindIdx()
-    {
+    bool bindIdx() {
       return bufIdx.bind();
     }
-    bool bindPos()
-    {
+    bool bindPos() {
       return bufPos.bind();
     }
-    bool bindNor()
-    {
+    bool bindNor() {
       return false;
     }
-    bool bindCol()
-    {
+    bool bindCol() {
       return false;
     }
   };
 
-  class d_bubbles : public ShaderProgram::Drawable
-  {
-  private:
+  class d_bubbles : public ShaderProgram::Drawable {
+   private:
     BubbleSolver *solver;
     int count;
     QOpenGLBuffer bufIdx;
     QOpenGLBuffer bufPos;
     QOpenGLBuffer bufCol;
 
-  public:
+   public:
     explicit d_bubbles(BubbleSolver *s);
     void create();
     void destroy();
     void update();
 
-  public:
-    GLenum drawMode()
-    {
+   public:
+    GLenum drawMode() {
       return GL_POINTS;
     }
-    int elemCount()
-    {
+    int elemCount() {
       return count;
     }
-    bool bindIdx()
-    {
+    bool bindIdx() {
       return bufIdx.bind();
     }
-    bool bindPos()
-    {
+    bool bindPos() {
       return bufPos.bind();
     }
-    bool bindNor()
-    {
+    bool bindNor() {
       return false;
     }
-    bool bindCol()
-    {
+    bool bindCol() {
       return bufCol.bind();
     }
   };
 
-private:
+ private:
   BubbleSolver solver;
   d_box box;
   d_bubbles bub;
   bool dirty;
 
-public:
+ public:
   BubbleDraw();
 
   void create();

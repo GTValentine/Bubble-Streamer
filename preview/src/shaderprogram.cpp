@@ -1,8 +1,7 @@
 #include "shaderprogram.h"
 
 
-void ShaderProgram::create(const char *vertfile, const char *fragfile)
-{
+void ShaderProgram::create(const char *vertfile, const char *fragfile) {
   prog.addShaderFromSourceFile(QOpenGLShader::Vertex  , vertfile);
   prog.addShaderFromSourceFile(QOpenGLShader::Fragment, fragfile);
   prog.link();
@@ -15,8 +14,7 @@ void ShaderProgram::create(const char *vertfile, const char *fragfile)
   unifViewProj   = prog.uniformLocation("u_ViewProj");
 }
 
-void ShaderProgram::setModelMatrix(const la::mat4 &model)
-{
+void ShaderProgram::setModelMatrix(const la::mat4 &model) {
   prog.bind();
 
   if (unifModel != -1) {
@@ -29,8 +27,7 @@ void ShaderProgram::setModelMatrix(const la::mat4 &model)
   }
 }
 
-void ShaderProgram::draw(Drawable &d)
-{
+void ShaderProgram::draw(Drawable &d) {
   QOpenGLFunctions_3_2_Core f;
   f.initializeOpenGLFunctions();
   prog.bind();

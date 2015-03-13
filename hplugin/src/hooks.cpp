@@ -7,8 +7,7 @@
 /// newSopOperator is the hook that Houdini grabs from this dll
 /// and invokes to register the SOP. In this case we add ourselves
 /// to the specified operator table.
-void newSopOperator(OP_OperatorTable *table)
-{
+void newSopOperator(OP_OperatorTable *table) {
   table->addOperator(
     new OP_Operator(
       "BubbleStreamer", // Internal name

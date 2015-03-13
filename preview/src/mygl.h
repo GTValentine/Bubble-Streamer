@@ -10,12 +10,10 @@
 #include <QOpenGLShaderProgram>
 
 
-class MyGL
-  : public GLWidget277
-{
+class MyGL : public GLWidget277 {
   Q_OBJECT
 
-private:
+ private:
   BubbleDraw bubs;
 
   QOpenGLVertexArrayObject vao;
@@ -29,7 +27,7 @@ private:
 
   QTimer simTimer;
 
-public:
+ public:
   explicit MyGL(QWidget *parent = 0);
   ~MyGL();
 
@@ -37,7 +35,7 @@ public:
   void resizeGL(int w, int h);
   void paintGL();
 
-protected:
+ protected:
   void updateCamera();
   void setViewProj(const glm::mat4 &viewproj);
 
@@ -46,6 +44,6 @@ protected:
   void mouseMoveEvent(QMouseEvent *e);
   void wheelEvent(QWheelEvent *e);
 
-private slots:
+ private slots:
   void stepSim();
 };

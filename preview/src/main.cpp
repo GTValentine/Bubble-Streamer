@@ -12,8 +12,7 @@
 #include <bubble_solver.h>
 
 
-void debugFormatVersion()
-{
+void debugFormatVersion() {
   QSurfaceFormat form = QSurfaceFormat::defaultFormat();
   QSurfaceFormat::OpenGLContextProfile prof = form.profile();
 
@@ -27,8 +26,7 @@ void debugFormatVersion()
   printf("  Profile: %s\n", profile);
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
 
   // Set OpenGL 3.2 and, optionally, 4-sample multisampling

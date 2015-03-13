@@ -7,9 +7,8 @@
 #include <bubble_solver.h>
 
 
-class SOP_BubbleStreamer : public SOP_Node
-{
-public:
+class SOP_BubbleStreamer : public SOP_Node {
+ public:
   static OP_Node *myConstructor(OP_Network*, const char *, OP_Operator *);
 
   /// Stores the description of the interface of the SOP in Houdini.
@@ -19,7 +18,7 @@ public:
   /// This optional data stores the list of local variables.
   static CH_LocalVariable myVariables[];
 
-protected:
+ protected:
   SOP_BubbleStreamer(OP_Network *net, const char *name, OP_Operator *op);
   virtual ~SOP_BubbleStreamer();
 
@@ -36,21 +35,18 @@ protected:
 
   /// Add virtual overload that delegates to the super class to avoid
   /// shadow warnings.
-  virtual bool evalVariableValue(UT_String &v, int i, int thread)
-  {
+  virtual bool evalVariableValue(UT_String &v, int i, int thread) {
     return SOP_Node::evalVariableValue(v, i, thread);
   }
 
-private:
+ private:
   // The following list of accessors simplify evaluating the parameters of the SOP.
 
-  int get_gridres(fpreal t)
-  {
+  int get_gridres(fpreal t) {
     return evalInt("gridres", 0, t);
   }
 
-  fpreal get_simstep(fpreal t)
-  {
+  fpreal get_simstep(fpreal t) {
     return evalFloat("simstep", 0, t);
   }
 

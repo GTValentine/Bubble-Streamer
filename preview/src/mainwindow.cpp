@@ -5,18 +5,15 @@
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  ui(new Ui::MainWindow)
-{
+  ui(new Ui::MainWindow) {
   ui->setupUi(this);
   ui->mygl->setFocus();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
   delete ui;
 }
 
-void MainWindow::on_actionQuit_triggered()
-{
+void MainWindow::on_actionQuit_triggered() {
   QApplication::exit();
 }
