@@ -32,18 +32,13 @@ protected:
 
     /// This function is used to lookup local variables that you have
     /// defined specific to your SOP.
-    virtual bool evalVariableValue(
-            fpreal &val,
-            int index,
-            int thread);
-    // Add virtual overload that delegates to the super class to avoid
-    // shadow warnings.
-    virtual bool evalVariableValue(
-            UT_String &v,
-            int i,
-            int thread)
+    virtual bool evalVariableValue(fpreal &val, int index, int thread);
+
+    /// Add virtual overload that delegates to the super class to avoid
+    /// shadow warnings.
+    virtual bool evalVariableValue(UT_String &v, int i, int thread)
     {
-        return evalVariableValue(v, i, thread);
+        return SOP_Node::evalVariableValue(v, i, thread);
     }
 
 private:
@@ -51,8 +46,6 @@ private:
 
     int    get_gridres(fpreal t) { return evalInt  ("gridres", 0, t); }
     fpreal get_simstep(fpreal t) { return evalFloat("simstep", 0, t); }
-
-    ///////////////////////////////////////////////////////////////////////
 
     // Member variables are stored in the actual SOP, not with the geometry
     // In this case these are just used to transfer data to the local

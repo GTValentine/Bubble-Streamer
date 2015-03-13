@@ -76,7 +76,9 @@ SOP_BubbleStreamer::SOP_BubbleStreamer(OP_Network *net, const char *name, OP_Ope
     myCurrPoint = -1; // To prevent garbage values from being returned
 }
 
-SOP_BubbleStreamer::~SOP_BubbleStreamer() {}
+SOP_BubbleStreamer::~SOP_BubbleStreamer()
+{
+}
 
 unsigned SOP_BubbleStreamer::disableParms()
 {
@@ -85,27 +87,27 @@ unsigned SOP_BubbleStreamer::disableParms()
 
 OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context)
 {
-    printf("cookMySop\n");
-    addMessage(SOP_MESSAGE, "cookMySop");  // TODO: Not happening?
+    flags().timeDep = 1;
     //fpreal now = context.getTime();
 
     int   gridres = get_gridres(0);
     float simstep = get_simstep(0);
 
-    int currstep = (int) context.getTime();
+    int currstep = context.getFrame();
 
     if (currstep < laststep || solver == nullptr) {
         if (solver) {
             delete solver;
         }
-        addMessage(SOP_MESSAGE, "solver->new");
         solver = new BubbleSolver(gridres);
         laststep = -1;
     }
 
     for (; laststep < currstep; laststep++) {
-        addMessage(SOP_MESSAGE, "solver->advance");
         solver->advance(simstep);
+        if (laststep < 450) {
+            solver->seed_test_bubbles(10);
+        }
     }
 
     UT_Interrupt *boss;
@@ -127,8 +129,8 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context)
                 parms.rows = 8;
                 parms.cols = 8;
                 UT_Matrix4 mat(1.0f);
-                mat.translate(b.position[0], b.position[1], b.position[2]);
                 mat.scale(b.radius, b.radius, b.radius);
+                mat.translate(b.position[0], b.position[1], b.position[2]);
                 parms.xform = mat;
                 GU_PrimSphere::build(parms);
             }
