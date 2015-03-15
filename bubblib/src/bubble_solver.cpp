@@ -99,7 +99,7 @@ void BubbleSolver::compute_scattering_forces(double dt) {
 }
 
 void BubbleSolver::advance_bubbles(double dt) {
-  const Vec3d container_dim(get_dx()*get_ni(), get_dx()*get_nj() * 0.97, get_dx()*get_nk());
+  const Vec3d container_dim(get_dx()*get_ni(), get_dx()*get_nj(), get_dx()*get_nk());
 
   for (auto b = bubbles_.begin(); b != bubbles_.end(); ++b) {
     b->position += fluid_.get_velocity(b->position) * dt;
