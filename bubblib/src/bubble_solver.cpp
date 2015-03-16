@@ -141,14 +141,17 @@ Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, 
 
 void BubbleSolver::seed_test_bubbles(int n) {
   static std::default_random_engine generator;
-  std::uniform_real_distribution<double> distribution(0.05, 0.95);
+  std::uniform_real_distribution<double> distribution(0.5, 0.95);
 
-  for (int i = 0; i < n; ++i) {
-    bubbles_.push_back(Bubble());
-    bubbles_.back().position[0] = 0.5 * get_dx() * get_ni() + 2.5 * distribution(generator) * get_dx();
-    bubbles_.back().position[1] = get_dx() * 0.5;
-    bubbles_.back().position[2] = 0.5 * get_dx() * get_ni() + 2.5 * distribution(generator) * get_dx();
-    bubbles_.back().radius = 0.005f;
+  for (int i = 0; i < n / 2; ++i) {
+    for (int j = -1; j <= 1; j += 2) {
+      Bubble b;
+      b.position[0] = 0.5 * get_dx() * get_ni() + j * 3.5 * distribution(generator) * get_dx();
+      b.position[1] = get_dx() * 0.5;
+      b.position[2] = 0.5 * get_dx() * get_ni() + j * 3.5 * distribution(generator) * get_dx();
+      b.radius = 0.004f + j * 0.001f;
+      bubbles_.push_back(b);
+    }
   }
 }
 

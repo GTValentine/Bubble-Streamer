@@ -9,7 +9,7 @@
 
 MyGL::MyGL(QWidget *parent)
     : GLWidget277(parent)
-    , camerasph(3, 0.2, -0.5) {
+    , camerasph(3, 0.3, -0.7) {
   // Update the simulation constantly as fast as possible
   // TODO: move to thread maybe
   connect(&simTimer, SIGNAL(timeout()), this, SLOT(stepSim()));
