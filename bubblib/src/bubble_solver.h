@@ -1,20 +1,28 @@
 #pragma once
 
 #include <random>
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::cin;
 
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
+#include "bubble_agent.h"
 #include "fluid_sim.h"
-
 
 double const WATER_DENSITY = 1000.0;
 double const AIR_DENSITY = 1.25;
 
-
 class BubbleSolver {
  public:
   BubbleSolver(int grid_resolution);
+  BubbleSolver(int ni, int nj, int nk, double width_x,
+               double scattering_freq, double scattering_coef, double breakup_freq, double scattering_impact,
+               double expected_radius, double stddev_radius,
+               BubbleAgent* agent);
   ~BubbleSolver();
 
   const std::list<Bubble>& get_bubbles() const {
@@ -37,12 +45,17 @@ class BubbleSolver {
     return fluid_.get_nk();
   }
 
+  double& scattering_freq() {return scattering_freq_;}
+  double& scattering_coef() {return scattering_coef_;}
+  double& breakup_freq() {return breakup_freq_;}
+  double& scattering_impact(){return scattering_impact_;}
+  double& expected_radius(){return expected_radius_;}
+  double& stddev_radius() {return stddev_radius_;}
+
   void advance(double dt);
   void advance_cfl();
 
-  static Vec3d get_random_point_cone_rim(const Vec3d& axis, double height, double radius);
-
-  void seed_test_bubbles(int n);
+  void generate_n_bubbles(int n);
 
  private:
   BubbleSolver();
@@ -53,6 +66,11 @@ class BubbleSolver {
   double scattering_freq_;
   double scattering_coef_;
   double breakup_freq_;
+  double scattering_impact_;
+  double expected_radius_;
+  double stddev_radius_;
+
+  BubbleAgent* agent_;
 
   void compute_density();
 
@@ -62,4 +80,6 @@ class BubbleSolver {
   double get_cos_scattering_angle() const;
   double get_scattering_probability(const Bubble& bubble) const;
   Vec3d get_scattering_force(const Bubble& bubble, double dt) const;
+
+  static Vec3d get_random_point_cone_rim(const Vec3d& axis, double height, double radius);
 };

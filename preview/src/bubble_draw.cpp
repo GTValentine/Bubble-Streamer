@@ -1,19 +1,11 @@
 #include "bubble_draw.h"
 
-
 BubbleDraw::BubbleDraw()
-    : solver(12)
+//    : solver(12)
+    : solver(12, 12, 12, 1.0, 10.0, 0.9, 0.001, 1.0, 0.001, 0.0001, new Disk(Vec3d(0.66, 0.05, 0.4), 0.05))
     , box(&solver)
     , bub(&solver)
     , dirty(true) {
-  //for (int i = 0; i < 100; ++i) {
-  //  std::cout << BubbleSolver::get_random_point_cone_rim(Vec3d(0, 0, 1), 1, 0) << std::endl;
-  //}
-
-  //for (int i = 0; i < 100; ++i) {
-  //  std::cout << solver.get_bubbles().back().position << std::endl;
-  //  solver.advance(0.1);
-  //}
 }
 
 void BubbleDraw::create() {
@@ -28,9 +20,11 @@ void BubbleDraw::destroy() {
 
 void BubbleDraw::stepSim() {
   int static frame = 0;
+  //printf("a\n");
   solver.advance(0.1);
-  if (frame < 450) {
-    solver.seed_test_bubbles(10);
+  //printf("b\n");
+  if (frame < 150) {
+    solver.generate_n_bubbles(100);
     ++frame;
   }
 //    solver.advance_cfl();

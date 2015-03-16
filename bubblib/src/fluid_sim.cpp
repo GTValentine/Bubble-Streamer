@@ -6,6 +6,28 @@ using std::vector;
 
 const double SCALING_FACTOR = 1000.0;
 
+FluidSim::FluidSim(int ni, int nj, int nk, double width_x):
+  ni_(ni),
+  nj_(nj),
+  nk_(nk),
+  dx_(width_x / ni),
+  density_(ni, nj, nk),
+  velocity_u_(ni + 1, nj, nk),
+  velocity_v_(ni, nj + 1, nk),
+  velocity_w_(ni, nj, nk + 1),
+  velocity_tmp_u_(ni + 1, nj, nk),
+  velocity_tmp_v_(ni, nj + 1, nk),
+  velocity_tmp_w_(ni, nj, nk + 1),
+  solver_(),
+  matrix_(ni * nj * nk - 1, 7), //7 non-zero elements per row
+  rhs_(ni * nj * nk - 1),
+  pressure_(ni * nj * nk),
+  extern_force_x_(ni + 1, nj, nk),
+  extern_force_y_(ni, nj + 1, nk),
+  extern_force_z_(ni, nj, nk + 1) {
+  set_zero_velocity();
+  set_zero_force();
+}
 
 FluidSim::FluidSim(int n):
   ni_(n),
@@ -219,6 +241,7 @@ void FluidSim::project() {
   double tolerance = 0;
   int iterations = 0;
   solver_.set_solver_parameters(1e-18, 10000);
+  //printf("Solver started\n");
   bool success = solver_.solve(matrix_, rhs_, pressure_, tolerance, iterations);
   //printf("Solver took %d iterations and had residual %e\n", iterations, tolerance);
   if (!success) {

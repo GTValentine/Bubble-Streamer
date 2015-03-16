@@ -14,6 +14,7 @@
 class FluidSim {
  public:
   FluidSim(int n);
+  FluidSim(int ni, int nj, int nk, double width_x);
   ~FluidSim();
 
   double get_u(int i, int j, int k) const {
