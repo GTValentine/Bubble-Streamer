@@ -148,7 +148,7 @@ void BubbleSolver::seed_test_bubbles(int n) {
     bubbles_.back().position[0] = 0.5 * get_dx() * get_ni() + 2.5 * distribution(generator) * get_dx();
     bubbles_.back().position[1] = get_dx() * 0.5;
     bubbles_.back().position[2] = 0.5 * get_dx() * get_ni() + 2.5 * distribution(generator) * get_dx();
-    bubbles_.back().radius = 0.005;
+    bubbles_.back().radius = 0.005f;
   }
 }
 

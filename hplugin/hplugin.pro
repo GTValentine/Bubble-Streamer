@@ -6,10 +6,8 @@ VERSION = 0.1.0
 TEMPLATE = lib
 
 include(../common.pri)
+include(../bubblib.pri)
 include(src/src.pri)
-
-INCLUDEPATH += $$PWD/../bubblib/src
-LIBS += -L../bubblib -lbubblib
 
 
 ######## HOUDINI ##############################################################
@@ -19,6 +17,11 @@ LIBS += -L../bubblib -lbubblib
 }
 
 linux {
+    LIBS += \
+        -lHoudiniUI -lHoudiniOPZ \
+        -lHoudiniOP3 -lHoudiniOP2 -lHoudiniOP1 \
+        -lHoudiniSIM -lHoudiniGEO -lHoudiniPRM -lHoudiniUT
+
     QMAKE_CXXFLAGS += -isystem /opt/hfs14.0.258/toolkit/include
     INCLUDEPATH += /opt/hfs14.0.258/toolkit/include
     LIBS += -L/opt/hfs14.0.258/dsolib/
@@ -46,7 +49,30 @@ linux {
     QMAKE_LFLAGS += -L/usr/X11R6/lib64 -L/usr/X11R6/lib -lGLU -lGL -lX11 -lXext -lXi -ldl -lpthread
 }
 
-LIBS += \
-    -lHoudiniUI -lHoudiniOPZ \
-    -lHoudiniOP3 -lHoudiniOP2 -lHoudiniOP1 \
-    -lHoudiniSIM -lHoudiniGEO -lHoudiniPRM -lHoudiniUT
+win32 {
+    HPATH = "C:\Program Files (x86)\Side Effects Software\Houdini 14.0.258"
+    INCLUDEPATH += \"$$HPATH\toolkit\include\"
+    DEFINES += \
+        BOOST_ALL_NO_LIB \
+        HOUDINI_TEMPLATE_EXPORTS \
+        I386 \
+        MAKING_DSO \
+        NDEBUG \
+        NEED_SPECIALIZATION_STORAGE \
+        SESI_LITTLE_ENDIAN \
+        SIZEOF_VOID_P=8 \
+        SWAP_BITFIELDS \
+        VERSION=\"14.0.258\" \
+        WIN32 \
+        WIN32 \
+        WINVER=0x0501 \
+        _USE_MATH_DEFINES \
+        _USRDLL \
+        _WIN32_WINNT=0x0501 \
+        _WINDOWS
+    QMAKE_CXXFLAGS += -EHsc -GR -I . -TP -Zc:forScope
+    # Link with everything in dsolib.
+    QMAKE_LFLAGS += \
+        \"$$HPATH/custom/houdini/dsolib/*.a\" \
+        \"$$HPATH/custom/houdini/dsolib/*.lib\"
+}

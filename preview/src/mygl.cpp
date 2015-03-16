@@ -55,7 +55,7 @@ void MyGL::initializeGL() {
   prog_wire.create(":/glsl/wire.vert.glsl", ":/glsl/wire.frag.glsl");
 }
 
-void MyGL::resizeGL(int w, int h) {
+void MyGL::resizeGL(int, int) {
   updateCamera();
   printGLErrorLog();
 }

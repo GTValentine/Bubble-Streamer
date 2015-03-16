@@ -32,7 +32,7 @@ class MyGL : public GLWidget277 {
   ~MyGL();
 
   void initializeGL();
-  void resizeGL(int w, int h);
+  void resizeGL(int, int);
   void paintGL();
 
  protected:
