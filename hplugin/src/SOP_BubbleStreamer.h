@@ -1,7 +1,9 @@
 #pragma once
 
+#pragma warning(push, 0)
 //#include <GEO/GEO_Point.h>
 #include <SOP/SOP_Node.h>
+#pragma warning(pop)
 
 #include <la.h>
 #include <bubble_solver.h>
@@ -23,7 +25,7 @@ class SOP_BubbleStreamer : public SOP_Node {
   virtual ~SOP_BubbleStreamer();
 
   /// Disable parameters according to other parameters.
-  virtual unsigned disableParms();
+  //virtual unsigned disableParms();
 
   /// cookMySop does the actual work of the SOP computing, in this
   /// case, a LSYSTEM

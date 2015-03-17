@@ -3,9 +3,9 @@
 #include <climits>
 #include <cstdio>
 
+#pragma warning(push, 0)
 #include <UT/UT_DSOVersion.h>
 //#include <RE/RE_EGLServer.h>
-
 #include <SYS/SYS_Math.h>
 #include <UT/UT_Interrupt.h>
 #include <GU/GU_Detail.h>
@@ -14,7 +14,7 @@
 #include <CH/CH_LocalVariable.h>
 #include <PRM/PRM_Include.h>
 #include <PRM/PRM_SpareData.h>
-
+#pragma warning(pop)
 
 static PRM_Name nm_gridres("gridres", "Grid Resolution");
 static PRM_Name nm_simstep("simstep", "Simulation Step");
@@ -47,16 +47,16 @@ bool SOP_BubbleStreamer::evalVariableValue(fpreal &val, int index, int thread) {
   if (myCurrPoint >= 0) {
     // Note that "gdp" may be null here, so we do the safe thing
     // and cache values we are interested in.
-    switch (index) {
+    //switch (index) {
     //case VAR_PT:
     //    val = (fpreal)myCurrPoint;
     //    return true;
     //case VAR_NPT:
     //    val = (fpreal)myTotalPoints;
     //    return true;
-    default:
-      ; // do nothing
-    }
+    //default:
+    //  ; // do nothing
+    //}
   }
   // Not one of our variables, must delegate to the base class.
   return SOP_Node::evalVariableValue(val, index, thread);
@@ -71,21 +71,22 @@ SOP_BubbleStreamer::SOP_BubbleStreamer(OP_Network *net, const char *name, OP_Ope
     , solver(nullptr)
     , laststep(-1) {
   myCurrPoint = -1; // To prevent garbage values from being returned
+  //gdp = nullptr;  // Under some build circumstances, Houdini will not initialize this for us.
 }
 
 SOP_BubbleStreamer::~SOP_BubbleStreamer() {
 }
 
-unsigned SOP_BubbleStreamer::disableParms() {
-  return 0;
-}
+//unsigned SOP_BubbleStreamer::disableParms() {
+//  return 0;
+//}
 
 OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
   flags().timeDep = 1;
   //fpreal now = context.getTime();
 
-  int   gridres = get_gridres(0);
-  float simstep = get_simstep(0);
+  int    gridres = get_gridres(0);
+  double simstep = get_simstep(0);
 
   int currstep = context.getFrame();
 
@@ -110,9 +111,13 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
 
   // Check to see that there hasn't been a critical error in cooking the SOP.
   if (error() < UT_ERROR_ABORT) {
+    clearInstance();
+    makeInstanceOf(this, context, inputidx);
     boss = UTgetInterrupt();
     //addWarning(SOP_MESSAGE, "Example warning");
-    gdp->clearAndDestroy();
+    if (gdp) {
+      gdp->clearAndDestroy();
+    }
 
     // Start the interrupt server
     if (boss->opStart("Instantiating bubbles")) {
@@ -124,7 +129,9 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
         parms.cols = 8;
         UT_Matrix4 mat(1.0f);
         mat.scale(b.radius, b.radius, b.radius);
-        mat.translate(b.position[0], b.position[1], b.position[2]);
+        mat.translate((fpreal32) b.position[0],
+                      (fpreal32) b.position[1],
+                      (fpreal32) b.position[2]);
         parms.xform = mat;
         GU_PrimSphere::build(parms);
       }

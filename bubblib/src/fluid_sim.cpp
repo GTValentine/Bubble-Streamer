@@ -30,24 +30,24 @@ FluidSim::FluidSim(int ni, int nj, int nk, double width_x):
 }
 
 FluidSim::FluidSim(int n):
-  ni_(n),
-  nj_(n),
-  nk_(n),
-  dx_(1.0 / n),
-  density_(n, n, n),
-  velocity_u_(n + 1, n, n),
-  velocity_v_(n, n + 1, n),
-  velocity_w_(n, n, n + 1),
-  velocity_tmp_u_(n + 1, n, n),
-  velocity_tmp_v_(n, n + 1, n),
-  velocity_tmp_w_(n, n, n + 1),
-  solver_(),
-  matrix_(n * n * n - 1, 7), //7 non-zero elements per row
-  rhs_(n * n * n - 1),
-  pressure_(n * n * n),
-  extern_force_x_(n + 1, n, n),
-  extern_force_y_(n, n + 1, n),
-  extern_force_z_(n, n, n + 1) {
+    ni_(n),
+    nj_(n),
+    nk_(n),
+    dx_(1.0 / n),
+    density_(n, n, n),
+    velocity_u_(n + 1, n, n),
+    velocity_v_(n, n + 1, n),
+    velocity_w_(n, n, n + 1),
+    velocity_tmp_u_(n + 1, n, n),
+    velocity_tmp_v_(n, n + 1, n),
+    velocity_tmp_w_(n, n, n + 1),
+    solver_(),
+    matrix_(n * n * n - 1, 7), //7 non-zero elements per row
+    rhs_(n * n * n - 1),
+    pressure_(n * n * n),
+    extern_force_x_(n + 1, n, n),
+    extern_force_y_(n, n + 1, n),
+    extern_force_z_(n, n, n + 1) {
   set_zero_velocity();
   set_zero_force();
 }
