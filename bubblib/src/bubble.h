@@ -7,7 +7,7 @@
 
 
 struct Bubble {
-  Vec3d velocity; //TODO: do you need this?
+  //Vec3d velocity; //TODO: do you need this?
   Vec3d position;
   float radius;
 };

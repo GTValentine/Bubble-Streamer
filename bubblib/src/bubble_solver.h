@@ -57,6 +57,9 @@ class BubbleSolver {
 
   void generate_n_bubbles(int n);
 
+  void add_bubble(const glm::vec3& pos, double radius);
+  void add_bubble(const Vec3d& pos, double radius);
+
  private:
   BubbleSolver();
 

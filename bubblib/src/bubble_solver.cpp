@@ -179,6 +179,19 @@ void BubbleSolver::generate_n_bubbles(int n)
     }
 }
 
+void BubbleSolver::add_bubble(const glm::vec3& pos, double radius)
+{
+  add_bubble(Vec3d(pos[0], pos[1], pos[2]), radius);
+}
+
+void BubbleSolver::add_bubble(const Vec3d& pos, double radius)
+{
+  Bubble b;
+  b.position = pos;
+  b.radius = radius;
+  bubbles_.push_back(b);
+}
+
 Vec3d BubbleSolver::get_scattering_force(const Bubble& bubble, double dt) const {
   double cos_theta = get_cos_scattering_angle();
   Vec3d velocity = fluid_.get_velocity(bubble.position);
