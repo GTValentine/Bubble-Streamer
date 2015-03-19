@@ -1,5 +1,7 @@
+#pragma warning(push, 0)
 #include <OP/OP_Operator.h>
 #include <OP/OP_OperatorTable.h>
+#pragma warning(pop)
 
 #include "SOP_BubbleStreamer.h"
 

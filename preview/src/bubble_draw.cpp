@@ -146,10 +146,12 @@ void BubbleDraw::d_bubbles::update() {
     i++;
   }
 
-  bufIdx.bind();
-  bufIdx.allocate(&is[0], is.size() * sizeof(GLuint));
-  bufPos.bind();
-  bufPos.allocate(&ps[0], ps.size() * sizeof(glm::vec3));
-  bufCol.bind();
-  bufCol.allocate(&cs[0], cs.size() * sizeof(glm::vec3));
+  if (i > 0) {
+    bufIdx.bind();
+    bufIdx.allocate(&is[0], is.size() * sizeof(GLuint));
+    bufPos.bind();
+    bufPos.allocate(&ps[0], ps.size() * sizeof(glm::vec3));
+    bufCol.bind();
+    bufCol.allocate(&cs[0], cs.size() * sizeof(glm::vec3));
+  }
 }

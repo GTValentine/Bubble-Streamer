@@ -32,7 +32,6 @@ linux {
         AMD64 \
         ENABLE_THREADS \
         FBX_ENABLED=1 \
-        GCC3 \
         GCC4 \
         LINUX \
         MAKING_DSO \
@@ -54,23 +53,34 @@ win32 {
     INCLUDEPATH += \"$$HPATH\toolkit\include\"
     DEFINES += \
         BOOST_ALL_NO_LIB \
+        FBX_ENABLED=1 \
         HOUDINI_TEMPLATE_EXPORTS \
         I386 \
         MAKING_DSO \
         NDEBUG \
         NEED_SPECIALIZATION_STORAGE \
+        NOMINMAX \
+        OPENCL_ENABLED=1 \
+        OPENVDB_ENABLED=1 \
         SESI_LITTLE_ENDIAN \
-        SIZEOF_VOID_P=8 \
+        SIZEOF_VOID_P=4 \
+        STRICT \
         SWAP_BITFIELDS \
         VERSION=\"14.0.258\" \
         WIN32 \
-        WIN32 \
-        WINVER=0x0501 \
+        WIN32_LEAN_AND_MEAN \
+        WINVER=0x0502 \
+        _CRT_NONSTDC_NO_DEPRECATE \
+        _CRT_SECURE_NO_DEPRECATE \
+        _SCL_SECURE_NO_WARNINGS \
         _USE_MATH_DEFINES \
         _USRDLL \
-        _WIN32_WINNT=0x0501 \
+        _WIN32_WINNT=0x0502 \
         _WINDOWS
-    QMAKE_CXXFLAGS += -EHsc -GR -I . -TP -Zc:forScope
+    QMAKE_CXXFLAGS += \
+        -EHsc -GR -TP -Zc:forScope -bigobj -nologo \
+        -w14996 -wd4355
+
     # Link with everything in dsolib.
     QMAKE_LFLAGS += \
         \"$$HPATH/custom/houdini/dsolib/*.a\" \
