@@ -94,14 +94,14 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
     if (solver) {
       delete solver;
     }
-    solver = new BubbleSolver(gridres);
+    solver = new BubbleSolver(gridres, gridres, gridres, 1.0, 10.0, 0.9, 0.001, 1, 0.001, 0.0005, new Disk(Vec3d(0.5, 0.01, 0.5), 0.05));
     laststep = -1;
   }
 
   for (; laststep < currstep; laststep++) {
     solver->advance(simstep);
     if (laststep < 450) {
-      solver->seed_test_bubbles(10);
+      solver->generate_n_bubbles(30);
     }
   }
 
@@ -112,7 +112,7 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
   // Check to see that there hasn't been a critical error in cooking the SOP.
   if (error() < UT_ERROR_ABORT) {
     clearInstance();
-    makeInstanceOf(this, context, inputidx);
+//    makeInstanceOf(this, context, inputidx); //TODO what is it for?
     boss = UTgetInterrupt();
     //addWarning(SOP_MESSAGE, "Example warning");
     if (gdp) {
