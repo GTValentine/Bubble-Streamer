@@ -15,9 +15,12 @@ win32 {
     QMAKE_CXXFLAGS += -Wall -Wextra -pedantic -Winit-self
     QMAKE_CXXFLAGS += -Wno-strict-aliasing
     QMAKE_CXXFLAGS += -Wno-unused-parameter
-    QMAKE_CXXFLAGS += -Wno-unneeded-internal-declaration
     QMAKE_CXXFLAGS += -fno-omit-frame-pointer
 }
+*-clang* {
+    QMAKE_CXXFLAGS += -Wno-unneeded-internal-declaration
+}
+
 linux-clang*|linux-g++*|macx-clang*|macx-g++* {
     message("Enabling stack protector")
     QMAKE_CXXFLAGS += -fstack-protector-all

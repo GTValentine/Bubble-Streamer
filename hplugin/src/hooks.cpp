@@ -17,7 +17,7 @@ void newSopOperator(OP_OperatorTable *table) {
       SOP_BubbleStreamer::myConstructor, // How to build the SOP
       SOP_BubbleStreamer::myTemplateList, // My parameters
       0, // Min # of sources
-      0, // Max # of sources
+      1, // Max # of sources
       SOP_BubbleStreamer::myVariables, // Local variables
       OP_FLAG_GENERATOR // Flag it as generator
     )

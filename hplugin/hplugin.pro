@@ -44,6 +44,7 @@ linux {
         _FILE_OFFSET_BITS=64 \
         _GNU_SOURCE \
         _REENTRANT
+    QMAKE_CXXFLAGS += -Wno-unknown-pragmas
     QMAKE_CXXFLAGS += -fno-strict-aliasing
     QMAKE_LFLAGS += -L/usr/X11R6/lib64 -L/usr/X11R6/lib -lGLU -lGL -lX11 -lXext -lXi -ldl -lpthread
 }

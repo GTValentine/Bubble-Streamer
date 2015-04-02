@@ -20,7 +20,8 @@ class BubbleSolver {
  public:
   BubbleSolver(int grid_resolution);
   BubbleSolver(int ni, int nj, int nk, double width_x,
-               double scattering_freq, double scattering_coef, double breakup_freq, double scattering_impact,
+               double scattering_freq, double scattering_coef,
+               double breakup_freq, double scattering_impact,
                double expected_radius, double stddev_radius,
                BubbleAgent* agent);
   ~BubbleSolver();
