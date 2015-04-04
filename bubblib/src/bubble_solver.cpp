@@ -30,7 +30,6 @@ BubbleSolver::BubbleSolver(int grid_resolution):
 }
 
 BubbleSolver::~BubbleSolver() {
-  if(agent_) delete agent_;
 }
 
 void BubbleSolver::compute_density() {
@@ -167,16 +166,16 @@ void BubbleSolver::generate_n_bubbles(int n)
 
   //std::cout << agent_ << std::endl;
 
-  if(agent_)
-    for (int i = 0; i < n; ++i)
-    {
-        b.position = agent_->get_random_point();
-        //b.position[0] = get_ni()/2*get_dx() + get_dx()*distribution(generator);
-        //b.position[1] = 0.5*get_dx();
-        //b.position[2] = get_nk()/2*get_dx() + get_dx()*distribution(generator);
-        b.radius = fabs(distribution(generator));
-        bubbles_.push_back(b);
+  if(agent_) {
+    for (int i = 0; i < n; ++i) {
+      b.position = agent_->get_random_point();
+      //b.position[0] = get_ni()/2*get_dx() + get_dx()*distribution(generator);
+      //b.position[1] = 0.5*get_dx();
+      //b.position[2] = get_nk()/2*get_dx() + get_dx()*distribution(generator);
+      b.radius = fabs(distribution(generator));
+      bubbles_.push_back(b);
     }
+  }
 }
 
 void BubbleSolver::add_bubble(const glm::vec3& pos, double radius)

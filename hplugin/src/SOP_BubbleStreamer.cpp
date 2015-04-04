@@ -150,7 +150,7 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
                 scfreq, sccoef,
                 brfreq, scimpc,
                 0.001, 0.0005,
-                new Disk(Vec3d(0.5, 0.01, 0.5), 0.05));
+                nullptr);
 
     laststep = -1;
   }
