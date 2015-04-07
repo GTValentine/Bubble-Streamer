@@ -33,13 +33,13 @@ public:
 
   void destroy();
 
-  void updateWith(const std::vector<vec3tri> &pos);
+  void replaceMesh(const std::vector<vec3tri> &pos);
 
   // Drawable interface
 public:
   GLenum drawMode() {
-    return GL_LINE_LOOP;
-    //return GL_TRIANGLES;  // Use this to render solid
+    //return GL_LINE_LOOP;  // Use this to render wireframe
+    return GL_TRIANGLES;  // Use this to render solid
   }
 
   int elemCount() { return tricount * 3; }

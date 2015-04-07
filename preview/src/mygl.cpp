@@ -63,7 +63,7 @@ void MyGL::initializeGL() {
     glm::vec3(0.6f, 0.4f, 0.6f)
   };
   tritest.push_back(tritest1);
-  soup.updateWith(tritest);
+  soup.replaceMesh(tritest);
 }
 
 void MyGL::resizeGL(int, int) {
@@ -80,7 +80,7 @@ void MyGL::paintGL() {
   prog_lambert.setModelMatrix(model);
   prog_wire.setModelMatrix(model);
   bubs.draw(prog_wire);
-  prog_wire.draw(soup);
+  prog_lambert.draw(soup);
 }
 
 void MyGL::updateCamera() {

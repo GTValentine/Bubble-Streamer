@@ -25,7 +25,7 @@ void TriRenderer::destroy() {
     bufCol.destroy();
 }
 
-void TriRenderer::updateWith(const std::vector<vec3tri> &pos) {
+void TriRenderer::replaceMesh(const std::vector<vec3tri> &pos) {
     tricount = pos.size();
     std::vector<uint3> idx;
     std::vector<vec3tri> nor;
@@ -40,8 +40,6 @@ void TriRenderer::updateWith(const std::vector<vec3tri> &pos) {
         col.push_back({w, w, w});
         i += 3;
     }
-
-    int a1 = idx.size(), a2 = pos.size(), a3 = nor.size(), a4 = col.size();
 
     bufIdx.bind();
     bufIdx.allocate(idx.data(), idx.size() * sizeof(uint3));
