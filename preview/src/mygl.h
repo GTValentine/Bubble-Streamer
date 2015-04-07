@@ -4,6 +4,7 @@
 #include <utils.h>
 #include <shaderprogram.h>
 #include <bubble_draw.h>
+#include <trirenderer.h>
 
 #include <QTimer>
 #include <QOpenGLVertexArrayObject>
@@ -15,6 +16,7 @@ class MyGL : public GLWidget277 {
 
  private:
   BubbleDraw bubs;
+  TriRenderer soup;
 
   QOpenGLVertexArrayObject vao;
 

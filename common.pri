@@ -31,3 +31,7 @@ address_sanitizer {
     QMAKE_CXXFLAGS += -fsanitize=address
     QMAKE_LFLAGS += -fsanitize=address
 }
+
+HEADERS +=
+
+SOURCES +=

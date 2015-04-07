@@ -8,7 +8,8 @@ SOURCES += \
     $$PWD/mygl.cpp \
     $$PWD/shaderprogram.cpp \
     $$PWD/utils.cpp \
-    $$PWD/bubble_draw.cpp
+    $$PWD/bubble_draw.cpp \
+    $$PWD/trirenderer.cpp
 
 HEADERS += \
     $$PWD/mainwindow.h \
@@ -16,4 +17,5 @@ HEADERS += \
     $$PWD/mygl.h \
     $$PWD/shaderprogram.h \
     $$PWD/utils.h \
-    $$PWD/bubble_draw.h
+    $$PWD/bubble_draw.h \
+    $$PWD/trirenderer.h

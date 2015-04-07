@@ -20,6 +20,7 @@ MyGL::~MyGL() {
   makeCurrent();
 
   vao.destroy();
+  soup.destroy();
 }
 
 void MyGL::initializeGL() {
@@ -48,11 +49,21 @@ void MyGL::initializeGL() {
   vao.bind();
 
   bubs.create();
+  soup.create();
 
   // Create and set up the diffuse shader
   prog_lambert.create(":/glsl/lambert.vert.glsl", ":/glsl/lambert.frag.glsl");
   // Create and set up the wireframe shader
   prog_wire.create(":/glsl/wire.vert.glsl", ":/glsl/wire.frag.glsl");
+
+  std::vector<vec3tri> tritest;
+  vec3tri tritest1 = {
+    glm::vec3(0.4f, 0.4f, 0.4f),
+    glm::vec3(0.6f, 0.4f, 0.4f),
+    glm::vec3(0.6f, 0.4f, 0.6f)
+  };
+  tritest.push_back(tritest1);
+  soup.updateWith(tritest);
 }
 
 void MyGL::resizeGL(int, int) {
@@ -69,6 +80,7 @@ void MyGL::paintGL() {
   prog_lambert.setModelMatrix(model);
   prog_wire.setModelMatrix(model);
   bubs.draw(prog_wire);
+  prog_wire.draw(soup);
 }
 
 void MyGL::updateCamera() {
