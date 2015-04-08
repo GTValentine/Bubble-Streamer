@@ -2,7 +2,7 @@
 
 BubbleDraw::BubbleDraw()
 //    : solver(12)
-    : solver(12, 12, 12, 1.0, 10.0, 0.9, 0.001, 1.0, 0.001, 0.0001, new Disk(Vec3d(0.66, 0.05, 0.4), 0.05))
+    : solver(1.0, 1.0, 1.0, 0.1, new Disk(Vec3d(0.66, 0.05, 0.4), 0.05))
     , box(&solver)
     , bub(&solver)
     , dirty(true) {

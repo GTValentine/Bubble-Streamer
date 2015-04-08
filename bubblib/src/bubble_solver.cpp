@@ -3,29 +3,31 @@
 BubbleSolver::BubbleSolver(int ni, int nj, int nk, double width_x,
     double scattering_freq, double scattering_coef, double breakup_freq, double scattering_impact,
     double expected_radius, double stddev_radius,
-    BubbleAgent* agent):
-  fluid_(ni, nj, nk, width_x),
-  bubbles_(),
-  scattering_freq_(scattering_freq),
-  scattering_coef_(scattering_coef),
-  breakup_freq_(breakup_freq),
-  scattering_impact_(scattering_impact),
-  expected_radius_(expected_radius),
-  stddev_radius_(stddev_radius),
-  agent_(agent){
+    BubbleAgent* agent)
+  : fluid_(ni, nj, nk, width_x)
+  , bubbles_()
+  , scattering_freq_(scattering_freq)
+  , scattering_coef_(scattering_coef)
+  , breakup_freq_(breakup_freq)
+  , scattering_impact_(scattering_impact)
+  , expected_radius_(expected_radius)
+  , stddev_radius_(stddev_radius)
+  , agent_(agent) {
+  radius_distribution = std::normal_distribution<double>(expected_radius_, stddev_radius_);
   compute_density();
 }
 
-BubbleSolver::BubbleSolver(int grid_resolution):
-  fluid_(grid_resolution),
-  bubbles_(),
-  scattering_freq_(10.0),
-  scattering_coef_(0.9),
-  breakup_freq_(0.001),
-  scattering_impact_(100000),
-  expected_radius_(0.001),
-  stddev_radius_(0.0001),
-  agent_(NULL){
+BubbleSolver::BubbleSolver(double wx, double wy, double wz, double dx, BubbleAgent *agent)
+  : fluid_((int) (wx / dx), (int) (wy / dx), (int) (wz / dx), wx)
+  , bubbles_()
+  , scattering_freq_(10.0)
+  , scattering_coef_(0.9)
+  , breakup_freq_(0.001)
+  , scattering_impact_(100000)
+  , expected_radius_(0.001)
+  , stddev_radius_(0.0001)
+  , agent_(agent) {
+  radius_distribution = std::normal_distribution<double>(expected_radius_, stddev_radius_);
   compute_density();
 }
 
@@ -159,21 +161,9 @@ Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, 
 
 void BubbleSolver::generate_n_bubbles(int n)
 {
-  static std::default_random_engine generator;
-  std::normal_distribution<double> distribution(expected_radius_, stddev_radius_);
-
-  Bubble b;
-
-  //std::cout << agent_ << std::endl;
-
-  if(agent_) {
+  if (agent_) {
     for (int i = 0; i < n; ++i) {
-      b.position = agent_->get_random_point();
-      //b.position[0] = get_ni()/2*get_dx() + get_dx()*distribution(generator);
-      //b.position[1] = 0.5*get_dx();
-      //b.position[2] = get_nk()/2*get_dx() + get_dx()*distribution(generator);
-      b.radius = fabs(distribution(generator));
-      bubbles_.push_back(b);
+      add_bubble(agent_->get_random_point());
     }
   }
 }
@@ -185,6 +175,10 @@ void BubbleSolver::add_bubble(const glm::vec3& pos, double radius)
 
 void BubbleSolver::add_bubble(const Vec3d& pos, double radius)
 {
+  if (radius < 0) {
+    radius = std::max(0.0001, radius_distribution(random_generator));
+  }
+
   Bubble b;
   b.position = pos;
   b.radius = radius;

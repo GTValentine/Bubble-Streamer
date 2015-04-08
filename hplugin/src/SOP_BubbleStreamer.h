@@ -49,8 +49,8 @@ protected:
  private:
   // The following list of accessors simplify evaluating the parameters of the SOP.
 
-  int get_gridres(fpreal t) {
-    return evalInt("gridres", 0, t);
+  fpreal get_cellsize(fpreal t) {
+    return evalFloat("cellsize", 0, t);
   }
 
   fpreal get_simstep(fpreal t) {
@@ -62,23 +62,23 @@ protected:
   }
 
   fpreal get_sccoef(fpreal t) {
-      return evalFloat("sccoef", 0, t);
+    return evalFloat("sccoef", 0, t);
   }
 
   fpreal get_scimpc(fpreal t) {
-      return evalFloat("scimpc", 0, t);
+    return evalFloat("scimpc", 0, t);
   }
 
   fpreal get_brfreq(fpreal t) {
-      return evalFloat("brfreq", 0, t);
+    return evalFloat("brfreq", 0, t);
   }
 
   fpreal get_radexp(fpreal t) {
-      return evalFloat("radexp", 0, t);
+    return evalFloat("radexp", 0, t);
   }
 
-  fpreal get_radstddev(fpreal t) {
-      return evalFloat("radstddev", 0, t);
+  fpreal get_radsdv(fpreal t) {
+    return evalFloat("radsdv", 0, t);
   }
 
   // Member variables are stored in the actual SOP, not with the geometry
