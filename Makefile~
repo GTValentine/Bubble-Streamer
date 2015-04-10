@@ -12,7 +12,7 @@ preview: | build-preview
 	build-preview/preview/preview
 
 doc: 
-	doxygen Doxyfile
+	doxygen Doxyfiles
 
 clean:
 	rm -rf build-preview build-hplugin
