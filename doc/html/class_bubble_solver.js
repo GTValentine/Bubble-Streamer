@@ -1,0 +1,28 @@
+var class_bubble_solver =
+[
+    [ "BubbleSolver", "class_bubble_solver.html#a93896970c81c721ee6fbd6989e0090c9", null ],
+    [ "BubbleSolver", "class_bubble_solver.html#af0afe26428963124334929d5eadaab37", null ],
+    [ "~BubbleSolver", "class_bubble_solver.html#aa3fb1d392204e6c109c1c68a10b3a9ed", null ],
+    [ "add_bubble", "class_bubble_solver.html#a0864ddad3a6c432e37197bbfe94f03c0", null ],
+    [ "add_bubble", "class_bubble_solver.html#a741e41585765e5924e26e3262edd9b44", null ],
+    [ "advance", "class_bubble_solver.html#a158c006a1fc29d0332bf50a9a0c6325f", null ],
+    [ "advance_cfl", "class_bubble_solver.html#a02793043b921099423f18ec306f4f8f0", null ],
+    [ "breakup_freq", "class_bubble_solver.html#a5d9e60bd12885caa659336dc9e53a826", null ],
+    [ "breakup_freq", "class_bubble_solver.html#a0c58fb3970d8863a8aea590ce0318933", null ],
+    [ "expected_radius", "class_bubble_solver.html#a011287f768c31ed1ced8651e55c65c40", null ],
+    [ "expected_radius", "class_bubble_solver.html#ab8b0bb387045922636b27f52d009fa6c", null ],
+    [ "generate_n_bubbles", "class_bubble_solver.html#ad1d5b21ac34864e2056250790d597b72", null ],
+    [ "get_bubbles", "class_bubble_solver.html#a2f9ca745f73271b0de59936a26450107", null ],
+    [ "get_dx", "class_bubble_solver.html#a62b6dd926f9000bbe6bfa3cb2f54dd8e", null ],
+    [ "get_ni", "class_bubble_solver.html#ae90d580fed7b466e288bcdd5af8a195c", null ],
+    [ "get_nj", "class_bubble_solver.html#aa7e0a2f25e0df0809d89249b90d1041f", null ],
+    [ "get_nk", "class_bubble_solver.html#abda69fd7367d30f2947fa2741abd81f8", null ],
+    [ "scattering_coef", "class_bubble_solver.html#ad06bde5694e0c58ee5d76de66d84cb6e", null ],
+    [ "scattering_coef", "class_bubble_solver.html#ab8f5d3c4c4bc997a45ae7e5d19995c71", null ],
+    [ "scattering_freq", "class_bubble_solver.html#a1b93d8002f9bda12103fb64b96d66021", null ],
+    [ "scattering_freq", "class_bubble_solver.html#a82758ac995f948691a04bfc8e1049dde", null ],
+    [ "scattering_impact", "class_bubble_solver.html#a6b9bb477ef08fd3c9913acb5e5de23e9", null ],
+    [ "scattering_impact", "class_bubble_solver.html#a771994cbd671af14bb95feb9cfeede52", null ],
+    [ "stddev_radius", "class_bubble_solver.html#a1e00fce9ffd0c16555f51fcf96b34b1b", null ],
+    [ "stddev_radius", "class_bubble_solver.html#ae381b289f8f5823ff6286c704fe2cbae", null ]
+];

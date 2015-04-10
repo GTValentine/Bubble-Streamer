@@ -1,0 +1,122 @@
+\hypertarget{class_fluid_sim}{}\section{Fluid\+Sim Class Reference}
+\label{class_fluid_sim}\index{Fluid\+Sim@{Fluid\+Sim}}
+
+
+Grid-\/based fluid solver.  
+
+
+
+
+{\ttfamily \#include $<$fluid\+\_\+sim.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_fluid_sim_a2a1b68493a7ad7652c5786dd56400ceb}{Fluid\+Sim} (int n)
+\item 
+\hyperlink{class_fluid_sim_a77a150bb73bcd7712d99e6f51d6c3f0c}{Fluid\+Sim} (int ni, int nj, int nk, double width\+\_\+x)
+\item 
+\hypertarget{class_fluid_sim_a571bf8b1dd6172731718e85a39ca1fba}{}double \hyperlink{class_fluid_sim_a571bf8b1dd6172731718e85a39ca1fba}{get\+\_\+u} (int i, int j, int k) const \label{class_fluid_sim_a571bf8b1dd6172731718e85a39ca1fba}
+
+\begin{DoxyCompactList}\small\item\em get u-\/compunent of the fluid velocity at a point (i -\/ 0.\+5, j, k) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a91ff8cfe3d198bc103564003dc15a862}{}double \hyperlink{class_fluid_sim_a91ff8cfe3d198bc103564003dc15a862}{get\+\_\+v} (int i, int j, int k) const \label{class_fluid_sim_a91ff8cfe3d198bc103564003dc15a862}
+
+\begin{DoxyCompactList}\small\item\em get v-\/compunent of the fluid velocity at a point (i, j -\/ 0.\+5, k) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a25a82545b4526320c4cd9bb2e8f809e0}{}double \hyperlink{class_fluid_sim_a25a82545b4526320c4cd9bb2e8f809e0}{get\+\_\+w} (int i, int j, int k) const \label{class_fluid_sim_a25a82545b4526320c4cd9bb2e8f809e0}
+
+\begin{DoxyCompactList}\small\item\em get w-\/compunent of the fluid velocity at a point (i, j, k -\/ 0.\+5) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_aca3aeb48eb4c34142c6547fa41525e0f}{}double \hyperlink{class_fluid_sim_aca3aeb48eb4c34142c6547fa41525e0f}{get\+\_\+dx} () const \label{class_fluid_sim_aca3aeb48eb4c34142c6547fa41525e0f}
+
+\begin{DoxyCompactList}\small\item\em get edge length of a grid cell \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_ad63a262977c6643ae729cc86ef81bf24}{}int \hyperlink{class_fluid_sim_ad63a262977c6643ae729cc86ef81bf24}{get\+\_\+ni} () const \label{class_fluid_sim_ad63a262977c6643ae729cc86ef81bf24}
+
+\begin{DoxyCompactList}\small\item\em get number of cells in X direction \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a13903a3e84a4efce36157e01ac690a66}{}int \hyperlink{class_fluid_sim_a13903a3e84a4efce36157e01ac690a66}{get\+\_\+nj} () const \label{class_fluid_sim_a13903a3e84a4efce36157e01ac690a66}
+
+\begin{DoxyCompactList}\small\item\em get number of cells in Y direction \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a8135ee3151952a36a0cb3f5b20fcbd50}{}int \hyperlink{class_fluid_sim_a8135ee3151952a36a0cb3f5b20fcbd50}{get\+\_\+nk} () const \label{class_fluid_sim_a8135ee3151952a36a0cb3f5b20fcbd50}
+
+\begin{DoxyCompactList}\small\item\em get number of cells in Z direction \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a7571c38797991175094ada47913917ef}{}void \hyperlink{class_fluid_sim_a7571c38797991175094ada47913917ef}{print} () const \label{class_fluid_sim_a7571c38797991175094ada47913917ef}
+
+\begin{DoxyCompactList}\small\item\em print the state of the tank (i.\+e. velocities, pressure, etc.) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a08a21095b6ed12a8c610af3b9896781c}{}Array3d \& \hyperlink{class_fluid_sim_a08a21095b6ed12a8c610af3b9896781c}{density} ()\label{class_fluid_sim_a08a21095b6ed12a8c610af3b9896781c}
+
+\begin{DoxyCompactList}\small\item\em grid of density \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a3c657d4e3317ca842c2d9681c85fe365}{}double \& \hyperlink{class_fluid_sim_a3c657d4e3317ca842c2d9681c85fe365}{density} (int i, int j, int k)\label{class_fluid_sim_a3c657d4e3317ca842c2d9681c85fe365}
+
+\begin{DoxyCompactList}\small\item\em density at the center of a cell (i, j, k) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a62ea50c5c421145e46209b5e7fa8c66e}{}double \hyperlink{class_fluid_sim_a62ea50c5c421145e46209b5e7fa8c66e}{get\+\_\+density} (int i, int j, int k) const \label{class_fluid_sim_a62ea50c5c421145e46209b5e7fa8c66e}
+
+\begin{DoxyCompactList}\small\item\em get density at the center of a cell (i, j, k) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a034a2c6014c46db41339b8e8d6832958}{}double \hyperlink{class_fluid_sim_a034a2c6014c46db41339b8e8d6832958}{cfl} () const \label{class_fluid_sim_a034a2c6014c46db41339b8e8d6832958}
+
+\begin{DoxyCompactList}\small\item\em maximum allowed time step according to C\+F\+L condition. If it\textquotesingle{}s effectively infinite, 0.\+1 is returned \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a61c83bb89132b4748e353bf90604bafc}{}void \hyperlink{class_fluid_sim_a61c83bb89132b4748e353bf90604bafc}{advance} (double dt)\label{class_fluid_sim_a61c83bb89132b4748e353bf90604bafc}
+
+\begin{DoxyCompactList}\small\item\em advance the fluid by the time step dt. If dt $>$ C\+F\+L(), it will be broken into several smaller steps, each satisfying C\+F\+L \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_ad157d29609e7046abfb015f4a69fc207}{}void \hyperlink{class_fluid_sim_ad157d29609e7046abfb015f4a69fc207}{set\+\_\+zero\+\_\+force} ()\label{class_fluid_sim_ad157d29609e7046abfb015f4a69fc207}
+
+\begin{DoxyCompactList}\small\item\em set all external forces to zero \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_afd62236b91e338a881475b29de0434de}{}void \hyperlink{class_fluid_sim_afd62236b91e338a881475b29de0434de}{set\+\_\+zero\+\_\+velocity} ()\label{class_fluid_sim_afd62236b91e338a881475b29de0434de}
+
+\begin{DoxyCompactList}\small\item\em set all velocities to zero \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a1f7b3c74cecf8ac32d93f468b6eaef12}{}double \& \hyperlink{class_fluid_sim_a1f7b3c74cecf8ac32d93f468b6eaef12}{force\+\_\+x} (int i, int j, int k)\label{class_fluid_sim_a1f7b3c74cecf8ac32d93f468b6eaef12}
+
+\begin{DoxyCompactList}\small\item\em get X-\/component of an external force, acting at a center of a cell (i, j, k) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a782b8e8e41e4d5a785188ebb7e2e548c}{}double \& \hyperlink{class_fluid_sim_a782b8e8e41e4d5a785188ebb7e2e548c}{force\+\_\+y} (int i, int j, int k)\label{class_fluid_sim_a782b8e8e41e4d5a785188ebb7e2e548c}
+
+\begin{DoxyCompactList}\small\item\em get Y-\/component of an external force, acting at a center of a cell (i, j, k) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_ad07b83c5ec3f1667091d038dfc1a28a5}{}double \& \hyperlink{class_fluid_sim_ad07b83c5ec3f1667091d038dfc1a28a5}{force\+\_\+z} (int i, int j, int k)\label{class_fluid_sim_ad07b83c5ec3f1667091d038dfc1a28a5}
+
+\begin{DoxyCompactList}\small\item\em get Z-\/component of an external force, acting at a center of a cell (i, j, k) \end{DoxyCompactList}\item 
+\hypertarget{class_fluid_sim_a84311b3d42a051b865cf3a0f658275de}{}Vec3d \hyperlink{class_fluid_sim_a84311b3d42a051b865cf3a0f658275de}{get\+\_\+velocity} (const Vec3d \&position) const \label{class_fluid_sim_a84311b3d42a051b865cf3a0f658275de}
+
+\begin{DoxyCompactList}\small\item\em get velocity of a fluid at a given position by interpolating it from grid points \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Grid-\/based fluid solver. 
+
+Grid-\/based fluid solver based on Fluid3\+D library by Christopher Batty and a book \char`\"{}\+Fluid Simulation for Computer Graphics\char`\"{} by Robert Bridson. It solves a rectangular tank, full of fluid (no free surface) of varying density. It\textquotesingle{}s assumed that left bottom near corner of the tank is located at (0, 0, 0) 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_fluid_sim_a2a1b68493a7ad7652c5786dd56400ceb}{}\index{Fluid\+Sim@{Fluid\+Sim}!Fluid\+Sim@{Fluid\+Sim}}
+\index{Fluid\+Sim@{Fluid\+Sim}!Fluid\+Sim@{Fluid\+Sim}}
+\subsubsection[{Fluid\+Sim}]{\setlength{\rightskip}{0pt plus 5cm}Fluid\+Sim\+::\+Fluid\+Sim (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\label{class_fluid_sim_a2a1b68493a7ad7652c5786dd56400ceb}
+
+\begin{DoxyParams}{Parameters}
+{\em n} & number of cells along each edge of a unit box container \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_fluid_sim_a77a150bb73bcd7712d99e6f51d6c3f0c}{}\index{Fluid\+Sim@{Fluid\+Sim}!Fluid\+Sim@{Fluid\+Sim}}
+\index{Fluid\+Sim@{Fluid\+Sim}!Fluid\+Sim@{Fluid\+Sim}}
+\subsubsection[{Fluid\+Sim}]{\setlength{\rightskip}{0pt plus 5cm}Fluid\+Sim\+::\+Fluid\+Sim (
+\begin{DoxyParamCaption}
+\item[{int}]{ni, }
+\item[{int}]{nj, }
+\item[{int}]{nk, }
+\item[{double}]{width\+\_\+x}
+\end{DoxyParamCaption}
+)}\label{class_fluid_sim_a77a150bb73bcd7712d99e6f51d6c3f0c}
+
+\begin{DoxyParams}{Parameters}
+{\em ni} & number of cells in X direction \\
+\hline
+{\em nj} & number of cells in Y direction \\
+\hline
+{\em nk} & number of cells in Z direction \\
+\hline
+{\em width\+\_\+x} & edge length of a grid cell \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+bubblib/src/fluid\+\_\+sim.\+h\item 
+bubblib/src/fluid\+\_\+sim.\+cpp\end{DoxyCompactItemize}

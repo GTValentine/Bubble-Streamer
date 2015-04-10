@@ -10,65 +10,92 @@
 
 #include "bubble.h"
 
+//! Grid-based fluid solver
 
+//! Grid-based fluid solver based on Fluid3D library by Christopher Batty and
+//! a book "Fluid Simulation for Computer Graphics" by Robert Bridson. It solves
+//! a rectangular tank, full of fluid (no free surface) of varying density.
+//! It's assumed that left bottom near corner of the tank is located at (0, 0, 0)
 class FluidSim {
  public:
-  FluidSim(int n);
-  FluidSim(int ni, int nj, int nk, double width_x);
+  FluidSim(int n /*! number of cells along each edge of a unit box container */);
+  FluidSim(int ni /*! number of cells in X direction */,
+           int nj /*! number of cells in Y direction */,
+           int nk /*! number of cells in Z direction */,
+           double width_x /*! edge length of a grid cell */);
   ~FluidSim();
 
+  //! get u-compunent of the fluid velocity at a point (i - 0.5, j, k)
   double get_u(int i, int j, int k) const {
     return velocity_u_(i, j, k); //u(i - 0.5, j,       k)
   }
+  //! get v-compunent of the fluid velocity at a point (i, j - 0.5, k)
   double get_v(int i, int j, int k) const {
     return velocity_v_(i, j, k); //v(i,       j - 0.5, k)
   }
+  //! get w-compunent of the fluid velocity at a point (i, j, k - 0.5)
   double get_w(int i, int j, int k) const {
     return velocity_w_(i, j, k); //w(i,       j,       k - 0.5)
   }
 
+  //! get edge length of a grid cell
   double get_dx() const {
     return dx_;
   }
 
+  //! get number of cells in X direction
   int get_ni() const {
     return ni_;
   }
+  //! get number of cells in Y direction
   int get_nj() const {
     return nj_;
   }
+  //! get number of cells in Z direction
   int get_nk() const {
     return nk_;
   }
 
+  //! print the state of the tank (i.e. velocities, pressure, etc.)
   void print() const;
 
+  //! grid of density
   Array3d& density() {
     return density_;
   }
+  //! density at the center of a cell (i, j, k)
   double& density(int i, int j, int k) {
     return density_(i, j, k);
   }
+  //! get density at the center of a cell (i, j, k)
   double get_density(int i, int j, int k) const {
     return density_(i, j, k);
   }
 
+  //! maximum allowed time step according to CFL condition. If it's effectively infinite, 0.1 is returned
   double cfl() const;
+  //! advance the fluid by the time step dt. If dt > CFL(), it will be broken into several smaller steps, each satisfying CFL
   void advance(double dt);
 
+  //! set all external forces to zero
   void set_zero_force();
+  //! set all velocities to zero
   void set_zero_velocity();
 
+  //! get X-component of an external force, acting at a center of a cell (i, j, k)
   double& force_x(int i, int j, int k) {
     return extern_force_x_(i, j, k);
   }
+  //! get Y-component of an external force, acting at a center of a cell (i, j, k)
   double& force_y(int i, int j, int k) {
     return extern_force_y_(i, j, k);
   }
+  //! get Z-component of an external force, acting at a center of a cell (i, j, k)
   double& force_z(int i, int j, int k) {
     return extern_force_z_(i, j, k);
   }
 
+  //! get velocity of a fluid at a given position by interpolating it from grid points
   Vec3d get_velocity(const Vec3d& position) const;
 
  private:

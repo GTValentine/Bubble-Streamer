@@ -1,0 +1,127 @@
+\hypertarget{class_s_o_p___bubble_streamer}{}\section{S\+O\+P\+\_\+\+Bubble\+Streamer Class Reference}
+\label{class_s_o_p___bubble_streamer}\index{S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}}
+
+
+Houdini node Bubble\+Streamer.  
+
+
+
+
+{\ttfamily \#include $<$S\+O\+P\+\_\+\+Bubble\+Streamer.\+h$>$}
+
+Inheritance diagram for S\+O\+P\+\_\+\+Bubble\+Streamer\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_s_o_p___bubble_streamer}
+\end{center}
+\end{figure}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_s_o_p___bubble_streamer_a6b0e475f3066f02279547ab0984107c8}{}static O\+P\+\_\+\+Node $\ast$ {\bfseries my\+Constructor} (O\+P\+\_\+\+Network $\ast$, const char $\ast$, O\+P\+\_\+\+Operator $\ast$)\label{class_s_o_p___bubble_streamer_a6b0e475f3066f02279547ab0984107c8}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static P\+R\+M\+\_\+\+Template \hyperlink{class_s_o_p___bubble_streamer_a449d06bab1f64b11f0cfea2565a7ed2a}{my\+Template\+List} \mbox{[}$\,$\mbox{]}
+\item 
+static C\+H\+\_\+\+Local\+Variable \hyperlink{class_s_o_p___bubble_streamer_a0e2f6d167c4c5622b57ac21ba617fce4}{my\+Variables} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em This optional data stores the list of local variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_s_o_p___bubble_streamer_a81f0643870d928546e0e4cfb76dd27c0}{}{\bfseries S\+O\+P\+\_\+\+Bubble\+Streamer} (O\+P\+\_\+\+Network $\ast$net, const char $\ast$name, O\+P\+\_\+\+Operator $\ast$op)\label{class_s_o_p___bubble_streamer_a81f0643870d928546e0e4cfb76dd27c0}
+
+\item 
+\hypertarget{class_s_o_p___bubble_streamer_ab065481deb959e52f6ff28ce479447dc}{}O\+P\+\_\+\+E\+R\+R\+O\+R {\bfseries cook\+Input\+Groups} (O\+P\+\_\+\+Context \&context, int alone)\label{class_s_o_p___bubble_streamer_ab065481deb959e52f6ff28ce479447dc}
+
+\item 
+virtual O\+P\+\_\+\+E\+R\+R\+O\+R \hyperlink{class_s_o_p___bubble_streamer_a54fc2a42a26f9fc8ff3ad176a489557a}{cook\+My\+Sop} (O\+P\+\_\+\+Context \&context)
+\begin{DoxyCompactList}\small\item\em Disable parameters according to other parameters. \end{DoxyCompactList}\item 
+\hypertarget{class_s_o_p___bubble_streamer_a6d8ea032973b1077e81334e193181f13}{}virtual O\+P\+\_\+\+E\+R\+R\+O\+R {\bfseries cook\+My\+Guide1} (O\+P\+\_\+\+Context \&context)\label{class_s_o_p___bubble_streamer_a6d8ea032973b1077e81334e193181f13}
+
+\item 
+virtual bool \hyperlink{class_s_o_p___bubble_streamer_a1f67f88545d751c50a581b06cc66605e}{eval\+Variable\+Value} (fpreal \&val, int index, int thread)
+\item 
+virtual bool \hyperlink{class_s_o_p___bubble_streamer_ab252535c93fb0e1db4cdc2a08dc16228}{eval\+Variable\+Value} (U\+T\+\_\+\+String \&v, int i, int thread)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Houdini node Bubble\+Streamer. 
+
+This class generates a dispersed bubble flow and imports bubbles to Houdini as particles, allowing user to specify the parameters of the flow 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_s_o_p___bubble_streamer_a54fc2a42a26f9fc8ff3ad176a489557a}{}\index{S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}!cook\+My\+Sop@{cook\+My\+Sop}}
+\index{cook\+My\+Sop@{cook\+My\+Sop}!S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}}
+\subsubsection[{cook\+My\+Sop}]{\setlength{\rightskip}{0pt plus 5cm}O\+P\+\_\+\+E\+R\+R\+O\+R S\+O\+P\+\_\+\+Bubble\+Streamer\+::cook\+My\+Sop (
+\begin{DoxyParamCaption}
+\item[{O\+P\+\_\+\+Context \&}]{context}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_s_o_p___bubble_streamer_a54fc2a42a26f9fc8ff3ad176a489557a}
+
+
+Disable parameters according to other parameters. 
+
+cook\+My\+Sop does the actual work of the S\+O\+P computing, in this case, a L\+S\+Y\+S\+T\+E\+M \hypertarget{class_s_o_p___bubble_streamer_a1f67f88545d751c50a581b06cc66605e}{}\index{S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}!eval\+Variable\+Value@{eval\+Variable\+Value}}
+\index{eval\+Variable\+Value@{eval\+Variable\+Value}!S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}}
+\subsubsection[{eval\+Variable\+Value}]{\setlength{\rightskip}{0pt plus 5cm}bool S\+O\+P\+\_\+\+Bubble\+Streamer\+::eval\+Variable\+Value (
+\begin{DoxyParamCaption}
+\item[{fpreal \&}]{val, }
+\item[{int}]{index, }
+\item[{int}]{thread}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_s_o_p___bubble_streamer_a1f67f88545d751c50a581b06cc66605e}
+This function is used to lookup local variables that you have defined specific to your S\+O\+P. \hypertarget{class_s_o_p___bubble_streamer_ab252535c93fb0e1db4cdc2a08dc16228}{}\index{S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}!eval\+Variable\+Value@{eval\+Variable\+Value}}
+\index{eval\+Variable\+Value@{eval\+Variable\+Value}!S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}}
+\subsubsection[{eval\+Variable\+Value}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool S\+O\+P\+\_\+\+Bubble\+Streamer\+::eval\+Variable\+Value (
+\begin{DoxyParamCaption}
+\item[{U\+T\+\_\+\+String \&}]{v, }
+\item[{int}]{i, }
+\item[{int}]{thread}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_s_o_p___bubble_streamer_ab252535c93fb0e1db4cdc2a08dc16228}
+Add virtual overload that delegates to the super class to avoid shadow warnings. 
+
+\subsection{Member Data Documentation}
+\hypertarget{class_s_o_p___bubble_streamer_a449d06bab1f64b11f0cfea2565a7ed2a}{}\index{S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}!my\+Template\+List@{my\+Template\+List}}
+\index{my\+Template\+List@{my\+Template\+List}!S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}}
+\subsubsection[{my\+Template\+List}]{\setlength{\rightskip}{0pt plus 5cm}P\+R\+M\+\_\+\+Template S\+O\+P\+\_\+\+Bubble\+Streamer\+::my\+Template\+List\hspace{0.3cm}{\ttfamily [static]}}\label{class_s_o_p___bubble_streamer_a449d06bab1f64b11f0cfea2565a7ed2a}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+  PRM\_Template(PRM\_STRING, 1, &PRMgroupName, 0, &SOP\_Node::pointGroupMenu,
+    0, 0, SOP\_Node::getGroupSelectButton(
+    GA\_GROUP\_POINT)),
+  PRM\_Template(PRM\_FLT, PRM\_Template::PRM\_EXPORT\_MIN, 1, &nm\_cellsize, &df\_cellsize, 0),
+  PRM\_Template(PRM\_FLT, PRM\_Template::PRM\_EXPORT\_MIN, 1, &nm\_simstep, &df\_simstep, 0),
+  PRM\_Template(PRM\_FLT, PRM\_Template::PRM\_EXPORT\_MIN, 1, &nm\_scfreq, &df\_scfreq, 0),
+  PRM\_Template(PRM\_FLT, PRM\_Template::PRM\_EXPORT\_MIN, 1, &nm\_sccoef, &df\_sccoef, 0),
+  PRM\_Template(PRM\_FLT, PRM\_Template::PRM\_EXPORT\_MIN, 1, &nm\_scimpc, &df\_scimpc, 0),
+  PRM\_Template(PRM\_FLT, PRM\_Template::PRM\_EXPORT\_MIN, 1, &nm\_brfreq, &df\_brfreq, 0),
+  PRM\_Template()
+\}
+\end{DoxyCode}
+Stores the description of the interface of the S\+O\+P in Houdini. Each parm template refers to a parameter. \hypertarget{class_s_o_p___bubble_streamer_a0e2f6d167c4c5622b57ac21ba617fce4}{}\index{S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}!my\+Variables@{my\+Variables}}
+\index{my\+Variables@{my\+Variables}!S\+O\+P\+\_\+\+Bubble\+Streamer@{S\+O\+P\+\_\+\+Bubble\+Streamer}}
+\subsubsection[{my\+Variables}]{\setlength{\rightskip}{0pt plus 5cm}C\+H\+\_\+\+Local\+Variable S\+O\+P\+\_\+\+Bubble\+Streamer\+::my\+Variables\hspace{0.3cm}{\ttfamily [static]}}\label{class_s_o_p___bubble_streamer_a0e2f6d167c4c5622b57ac21ba617fce4}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+  
+  
+  \{ 0, 0, 0 \},
+\}
+\end{DoxyCode}
+
+
+This optional data stores the list of local variables. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+hplugin/src/S\+O\+P\+\_\+\+Bubble\+Streamer.\+h\item 
+hplugin/src/S\+O\+P\+\_\+\+Bubble\+Streamer.\+cpp\end{DoxyCompactItemize}

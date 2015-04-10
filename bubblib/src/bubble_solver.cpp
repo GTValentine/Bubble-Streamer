@@ -175,7 +175,7 @@ void BubbleSolver::add_bubble(const glm::vec3& pos, double radius)
 
 void BubbleSolver::add_bubble(const Vec3d& pos, double radius)
 {
-  if (radius < 0) {
+  if (radius <= 0) {
     radius = std::max(0.0001, radius_distribution(random_generator));
   }
 

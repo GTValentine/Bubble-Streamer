@@ -9,7 +9,11 @@
 #include <la.h>
 #include <bubble_solver.h>
 
+//! Houdini node BubbleStreamer
 
+//! This class generates a dispersed bubble flow and
+//! imports bubbles to Houdini as particles,
+//! allowing user to specify the parameters of the flow
 class SOP_BubbleStreamer : public SOP_Node {
  public:
   static OP_Node *myConstructor(OP_Network*, const char *, OP_Operator *);
