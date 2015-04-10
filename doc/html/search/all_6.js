@@ -11,6 +11,5 @@ var searchData=
   ['get_5fu',['get_u',['../class_fluid_sim.html#a571bf8b1dd6172731718e85a39ca1fba',1,'FluidSim']]],
   ['get_5fv',['get_v',['../class_fluid_sim.html#a91ff8cfe3d198bc103564003dc15a862',1,'FluidSim']]],
   ['get_5fvelocity',['get_velocity',['../class_fluid_sim.html#a84311b3d42a051b865cf3a0f658275de',1,'FluidSim']]],
-  ['get_5fw',['get_w',['../class_fluid_sim.html#a25a82545b4526320c4cd9bb2e8f809e0',1,'FluidSim']]],
-  ['glwidget277',['GLWidget277',['../class_g_l_widget277.html',1,'']]]
+  ['get_5fw',['get_w',['../class_fluid_sim.html#a25a82545b4526320c4cd9bb2e8f809e0',1,'FluidSim']]]
 ];

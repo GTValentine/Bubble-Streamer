@@ -1,6 +1,10 @@
 build
 image.png
 
+# doc
+
+doc
+
 # C++ objects and libs
 
 *.slo

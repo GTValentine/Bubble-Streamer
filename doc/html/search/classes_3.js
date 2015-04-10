@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['glwidget277',['GLWidget277',['../class_g_l_widget277.html',1,'']]]
+  ['sop_5fbubblestreamer',['SOP_BubbleStreamer',['../class_s_o_p___bubble_streamer.html',1,'']]]
 ];
