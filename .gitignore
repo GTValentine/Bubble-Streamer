@@ -2,6 +2,9 @@ build
 image.png
 *~
 
+# ignore openvdb except for the things that are already committed
+openvdb
+
 # doc
 
 doc*
