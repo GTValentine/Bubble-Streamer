@@ -47,12 +47,6 @@ PRM_Template SOP_BubbleStreamer::myTemplateList[] = {
   PRM_Template()
 };
 
-// Here's how we define local variables for the SOP.
-//enum {
-//    VAR_PT, // Point number of the star
-//    VAR_NPT // Number of points in the star
-//};
-
 CH_LocalVariable SOP_BubbleStreamer::myVariables[] = {
   //{ "PT", VAR_PT, 0 }, // The table provides a mapping
   //{ "NPT", VAR_NPT, 0 }, // from text string to integer token
@@ -98,8 +92,7 @@ SOP_BubbleStreamer::SOP_BubbleStreamer(OP_Network *net, const char *name, OP_Ope
 SOP_BubbleStreamer::~SOP_BubbleStreamer() {
 }
 
-OP_ERROR
-SOP_BubbleStreamer::cookInputGroups(OP_Context &context, int alone)
+OP_ERROR SOP_BubbleStreamer::cookInputGroups(OP_Context &context, int alone)
 {
   // The SOP_Node::cookInputPointGroups() provides a good default
   // implementation for just handling a point selection.
@@ -119,10 +112,6 @@ SOP_BubbleStreamer::cookInputGroups(OP_Context &context, int alone)
         0        // (default) Index of the input whose geometry the group will be made for if alone.
         );
 }
-
-//unsigned SOP_BubbleStreamer::disableParms() {
-//  return 0;
-//}
 
 OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
   flags().timeDep = 1;
