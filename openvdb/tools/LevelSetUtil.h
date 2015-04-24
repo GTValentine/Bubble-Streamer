@@ -311,7 +311,7 @@ sdfToFogVolume(GridType& grid, typename GridType::ValueType cutoffDistance)
             cutoffDistance = minmax.minVoxel();
         }
 
-        leafs.foreach(internal::FogVolumeOp<ValueType>(cutoffDistance));
+        leafs.Vforeach(internal::FogVolumeOp<ValueType>(cutoffDistance));
     }
 
     // Transform all tile values (serial, but the iteration
@@ -370,7 +370,7 @@ sdfInteriorMask(const GridType& grid, typename GridType::ValueType iso)
 
         tree::LeafManager<BoolTreeType> leafs(maskTree);
 
-        leafs.foreach(internal::InteriorMaskOp<typename GridType::TreeType>(grid.tree(), iso));
+        leafs.Vforeach(internal::InteriorMaskOp<typename GridType::TreeType>(grid.tree(), iso));
     }
 
     // Evaluate tile values (serial, but the iteration

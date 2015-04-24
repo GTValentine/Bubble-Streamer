@@ -892,7 +892,7 @@ ClosestSurfacePoint<GridT>::initialize(
         Int16LeafManagerT signLeafs(*mSignTreePt);
 
         std::vector<size_t> regions(signLeafs.leafCount(), 0);
-        signLeafs.foreach(internal::CountPoints(regions));
+        signLeafs.Vforeach(internal::CountPoints(regions));
 
         mPointListSize = 0;
         for (size_t tmp = 0, n = 0, N = regions.size(); n < N; ++n) {

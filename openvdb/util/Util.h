@@ -66,7 +66,7 @@ nearestCoord(const Vec3d& voxelCoord)
 ////////////////////////////////////////
 
 
-/// @brief Functor for use with tools::foreach() to compute the boolean intersection
+/// @brief Functor for use with tools::Vforeach() to compute the boolean intersection
 /// between the value masks of corresponding leaf nodes in two trees
 template<class TreeType1, class TreeType2>
 class LeafTopologyIntOp
@@ -90,7 +90,7 @@ private:
 };
 
 
-/// @brief Functor for use with tools::foreach() to compute the boolean difference
+/// @brief Functor for use with tools::Vforeach() to compute the boolean difference
 /// between the value masks of corresponding leaf nodes in two trees
 template<class TreeType1, class TreeType2>
 class LeafTopologyDiffOp
@@ -128,7 +128,7 @@ leafTopologyIntersection(const TreeType1& lhs, const TreeType2& rhs, bool thread
     typename BoolTreeType::Ptr topologyTree(new BoolTreeType(
         lhs, /*inactiveValue=*/false, /*activeValue=*/true, TopologyCopy()));
 
-    tools::foreach(topologyTree->beginLeaf(),
+    tools::Vforeach(topologyTree->beginLeaf(),
         LeafTopologyIntOp<BoolTreeType, TreeType2>(rhs), threaded);
 
     tools::pruneInactive(*topologyTree, threaded);
@@ -148,7 +148,7 @@ leafTopologyDifference(const TreeType1& lhs, const TreeType2& rhs, bool threaded
     typename BoolTreeType::Ptr topologyTree(new BoolTreeType(
         lhs, /*inactiveValue=*/false, /*activeValue=*/true, TopologyCopy()));
 
-    tools::foreach(topologyTree->beginLeaf(),
+    tools::Vforeach(topologyTree->beginLeaf(),
         LeafTopologyDiffOp<BoolTreeType, TreeType2>(rhs), threaded);
 
     tools::pruneInactive(*topologyTree, threaded);

@@ -36,7 +36,7 @@
 #include <openvdb/Types.h>
 #include <openvdb/math/Mat4.h>
 #include <openvdb/math/Vec3.h>
-#include "ValueTransformer.h" // for tools::foreach()
+#include "ValueTransformer.h" // for tools::Vforeach()
 #include <boost/utility/enable_if.hpp>
 
 namespace openvdb {
@@ -55,7 +55,7 @@ transformVectors(GridType&, const Mat4d&);
 ////////////////////////////////////////
 
 
-// Functors for use with tools::foreach() to transform vector voxel values
+// Functors for use with tools::Vforeach() to transform vector voxel values
 
 struct HomogeneousMatMul
 {
@@ -119,19 +119,19 @@ doTransformVectors(GridType& grid, const Mat4d& mat)
             invmat = invmat.transpose();
 
             if (vecType == VEC_COVARIANT_NORMALIZE) {
-                foreach(grid.beginValueAll(), MatMulNormalize(invmat));
+                Vforeach(grid.beginValueAll(), MatMulNormalize(invmat));
             } else {
-                foreach(grid.beginValueAll(), MatMul(invmat));
+                Vforeach(grid.beginValueAll(), MatMul(invmat));
             }
             break;
         }
 
         case VEC_CONTRAVARIANT_RELATIVE:
-            foreach(grid.beginValueAll(), MatMul(mat));
+            Vforeach(grid.beginValueAll(), MatMul(mat));
             break;
 
         case VEC_CONTRAVARIANT_ABSOLUTE:
-            foreach(grid.beginValueAll(), HomogeneousMatMul(mat));
+            Vforeach(grid.beginValueAll(), HomogeneousMatMul(mat));
             break;
 
         case VEC_INVARIANT:

@@ -840,7 +840,7 @@ public:
         // Parallelize over bool-leafs
 
         openvdb::tree::LeafManager<const BoolTreeT> boolLeafs(boolTree);
-        boolLeafs.foreach(*this, threaded);
+        boolLeafs.Vforeach(*this, threaded);
 
         // Composite tregions that are represnted by tiles
         // Parallelize within each tile.

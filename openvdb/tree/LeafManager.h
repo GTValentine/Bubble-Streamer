@@ -450,7 +450,7 @@ public:
     ///
     /// // usage:
     /// tree::LeafManager<FloatTree> leafNodes(lhsTree);
-    /// leafNodes.foreach(OffsetOp<FloatTree>(rhsTree));
+    /// leafNodes.Vforeach(OffsetOp<FloatTree>(rhsTree));
     ///
     /// // A functor that performs a min operation between different auxiliary buffers.
     /// template<typename LeafManagerType>
@@ -473,7 +473,7 @@ public:
     /// };
     /// @endcode
     template<typename LeafOp>
-    void foreach(const LeafOp& op, bool threaded = true, size_t grainSize=1)
+    void Vforeach(const LeafOp& op, bool threaded = true, size_t grainSize=1)
     {
         LeafTransformer<LeafOp> transform(op);
         transform.run(this->leafRange(grainSize), threaded);

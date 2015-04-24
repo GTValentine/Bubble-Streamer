@@ -1311,7 +1311,7 @@ isValidPartition(const PointArrayT& points, const GridT& grid)
     point_index_grid_internal::ValidPartitioningOp<PointArrayT>
         op(changed, points, grid.transform());
 
-    leafs.foreach(op);
+    leafs.Vforeach(op);
 
     return !bool(changed);
 }

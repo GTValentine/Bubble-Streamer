@@ -32,9 +32,9 @@
 ///
 /// @author Peter Cucka
 ///
-/// tools::foreach() and tools::transformValues() transform the values in a grid
+/// tools::Vforeach() and tools::transformValues() transform the values in a grid
 /// by iterating over the grid with a user-supplied iterator and applying a
-/// user-supplied functor at each step of the iteration.  With tools::foreach(),
+/// user-supplied functor at each step of the iteration.  With tools::Vforeach(),
 /// the transformation is done in-place on the input grid, whereas with
 /// tools::transformValues(), transformed values are written to an output grid
 /// (which can, for example, have a different value type than the input grid).
@@ -43,7 +43,7 @@
 /// tools::accumulate() can be used to accumulate the results of applying a functor
 /// at each step of a grid iteration.  (The functor is responsible for storing and
 /// updating intermediate results.)  When the iteration is done serially the behavior is
-/// the same as with tools::foreach(), but when multiple values are processed in parallel,
+/// the same as with tools::Vforeach(), but when multiple values are processed in parallel,
 /// an additional step is performed: when any two threads finish processing,
 /// @c op.join(otherOp) is called on one thread's functor to allow it to coalesce
 /// its intermediate result with the other thread's.
@@ -86,7 +86,7 @@ namespace tools {
 ///     }
 /// };
 /// FloatGrid grid = ...;
-/// tools::foreach(grid.beginValueAll(), Local::op);
+/// tools::Vforeach(grid.beginValueAll(), Local::op);
 /// @endcode
 ///
 /// @par Example:
@@ -103,7 +103,7 @@ namespace tools {
 /// }
 /// {
 ///     VectorGrid grid = ...;
-///     tools::foreach(grid.beginValueOn(),
+///     tools::Vforeach(grid.beginValueOn(),
 ///         MatMul(math::rotation<math::Mat3s>(math::Y, M_PI_4)));
 /// }
 /// @endcode
@@ -112,11 +112,11 @@ namespace tools {
 /// consider using @c tbb::parallel_for() or @c tbb::parallel_reduce() in conjunction
 /// with a tree::IteratorRange that wraps a grid or tree iterator.
 template<typename IterT, typename XformOp>
-inline void foreach(const IterT& iter, XformOp& op,
+inline void Vforeach(const IterT& iter, XformOp& op,
     bool threaded = true, bool shareOp = true);
 
 template<typename IterT, typename XformOp>
-inline void foreach(const IterT& iter, const XformOp& op,
+inline void Vforeach(const IterT& iter, const XformOp& op,
     bool threaded = true, bool shareOp = true);
 
 
@@ -389,7 +389,7 @@ private:
 
 template<typename IterT, typename XformOp>
 inline void
-foreach(const IterT& iter, XformOp& op, bool threaded, bool shared)
+Vforeach(const IterT& iter, XformOp& op, bool threaded, bool shared)
 {
     if (shared) {
         typename valxform::SharedOpApplier<IterT, XformOp> proc(iter, op);
@@ -403,7 +403,7 @@ foreach(const IterT& iter, XformOp& op, bool threaded, bool shared)
 
 template<typename IterT, typename XformOp>
 inline void
-foreach(const IterT& iter, const XformOp& op, bool threaded, bool /*shared*/)
+Vforeach(const IterT& iter, const XformOp& op, bool threaded, bool /*shared*/)
 {
     // Const ops are shared across threads, not copied.
     typename valxform::SharedOpApplier<IterT, const XformOp> proc(iter, op);
@@ -433,7 +433,7 @@ public:
         mMergePolicy(merge)
     {
         if (static_cast<const void*>(mInputTree) == static_cast<void*>(mOutputTree)) {
-            OPENVDB_LOG_INFO("use tools::foreach(), not transformValues(),"
+            OPENVDB_LOG_INFO("use tools::Vforeach(), not transformValues(),"
                 " to transform a grid in place");
         }
     }
@@ -519,7 +519,7 @@ public:
         mMergePolicy(merge)
     {
         if (static_cast<const void*>(mInputTree) == static_cast<void*>(mOutputTree)) {
-            OPENVDB_LOG_INFO("use tools::foreach(), not transformValues(),"
+            OPENVDB_LOG_INFO("use tools::Vforeach(), not transformValues(),"
                 " to transform a grid in place");
         }
     }

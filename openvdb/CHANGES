@@ -498,8 +498,8 @@ Version 1.2.0 - June 28, 2013
     - The mesh to volume attribute transfer scheme now takes surface
       orientation into account, which improves accuracy in proximity to
       edges and corners.
-    - Added a foreach() method to tools::LeafManager that, like
-      tools::foreach(), applies a user-supplied functor to each leaf node
+    - Added a Vforeach() method to tools::LeafManager that, like
+      tools::Vforeach(), applies a user-supplied functor to each leaf node
       in parallel.
     - Rewrote the particle to level set converter, simplifying the API,
       improving performance (especially when particles have a fixed radius),
@@ -538,7 +538,7 @@ Version 1.1.1 - May 10 2013
       utilities and added a LeafNode::topologyDifference() method.
     - Added convenience functions that provide simplified interfaces
       to the mesh to volume and volume to mesh converters.
-    - Added a tools::accumulate() function that is similar to tools::foreach()
+    - Added a tools::accumulate() function that is similar to tools::Vforeach()
       but can be used to accumulate the results of computations over
       the values of a grid.
     - Added tools::statistics(), tools::opStatistics() and tools::histogram(),
@@ -590,7 +590,7 @@ Version 1.1.0 - April 4 2013
       the grid's background value is now also quantized to 16 bits.
       (Not quantizing the background value caused a mismatch with the values
       of background tiles.)
-    - As with tools::foreach(), it is now possible to specify whether functors
+    - As with tools::Vforeach(), it is now possible to specify whether functors
       passed to tools::transformValues() should be shared across threads.
     - tree::LeafManager can now be instantiated with a const tree,
       although buffer swapping with const trees is disabled.
@@ -667,7 +667,7 @@ Version 0.104.0 - February 15 2013
       (the latter is the default), and it now allows one to specify,
       via a template argument, the number of node levels to be cached,
       which can also improve performance in special cases.
-    - Added a toggle to tools::foreach() to specify whether or not
+    - Added a toggle to tools::Vforeach() to specify whether or not
       the functor should be shared across threads.
     - Added Mat4s and Mat4d metadata types.
     - Added explicit pre- and postmultiplication methods to the Transform,
