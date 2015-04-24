@@ -1320,7 +1320,7 @@ TestTools::testNormalize()
         static inline void visit(const ValueIter& it) { it.setValue(op(*it)); }
     };
 
-    openvdb::tools::foreach(grad->beginValueOn(), Local::visit, true);
+    openvdb::tools::Vforeach(grad->beginValueOn(), Local::visit, true);
 
     openvdb::VectorGrid::ConstAccessor accessor = grad->getConstAccessor();
 
@@ -1363,7 +1363,7 @@ TestTools::testMaskedNormalize()
         static inline void visit(const ValueIter& it) { it.setValue(op(*it)); }
     };
 
-    openvdb::tools::foreach(grad->beginValueOn(), Local::visit, true);
+    openvdb::tools::Vforeach(grad->beginValueOn(), Local::visit, true);
 
     openvdb::VectorGrid::ConstAccessor accessor = grad->getConstAccessor();
 
@@ -1632,7 +1632,7 @@ TestTools::testFloatApply()
     }
     /// @todo set some tile values
 
-    openvdb::tools::foreach(tree.begin<ValueIter>(), Local::visit, /*threaded=*/true);
+    openvdb::tools::Vforeach(tree.begin<ValueIter>(), Local::visit, /*threaded=*/true);
 
     float expected = Local::op(background);
     //CPPUNIT_ASSERT_DOUBLES_EQUAL(expected, tree.background(), /*tolerance=*/0.0);
@@ -1686,7 +1686,7 @@ TestTools::testVectorApply()
     /// @todo set some tile values
 
     MatMul<ValueIter> op(openvdb::math::Mat3s(1, 2, 3, -1, -2, -3, 3, 2, 1));
-    openvdb::tools::foreach(tree.beginValueOn(), op, /*threaded=*/true);
+    openvdb::tools::Vforeach(tree.beginValueOn(), op, /*threaded=*/true);
 
     openvdb::Vec3s expected;
     for (openvdb::VectorTree::ValueOnCIter it = tree.cbeginValueOn(); it; ++it) {

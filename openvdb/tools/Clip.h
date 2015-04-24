@@ -304,7 +304,7 @@ doClip(const GridType& grid, const typename GridType::template ValueConverter<bo
 
     if (gridClass == GRID_LEVEL_SET) {
         tree::LeafManager<BoolTreeT> leafNodes(mask);
-        leafNodes.foreach(MaskInteriorVoxels<TreeT>(tree));
+        leafNodes.Vforeach(MaskInteriorVoxels<TreeT>(tree));
 
         tree::ValueAccessor<const TreeT> acc(tree);
 

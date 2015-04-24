@@ -55,7 +55,7 @@
 #include <boost/scoped_array.hpp>
 #include <boost/bind.hpp>
 #include "Prune.h"// for pruneLevelSet
-#include "ValueTransformer.h" // for foreach()
+#include "ValueTransformer.h" // for Vforeach()
 
 namespace openvdb {
 OPENVDB_USE_VERSION_NAMESPACE
@@ -871,13 +871,13 @@ activate(GridOrTree& gridOrTree, const typename GridOrTree::ValueType& value,
     activation::ActivationOp<TreeType> op(/*activate=*/true, value, tolerance);
 
     // Process all leaf nodes in parallel.
-    foreach(tree.beginLeaf(), op);
+    Vforeach(tree.beginLeaf(), op);
 
     // Process all other inactive values serially (because changing active states
     // is not thread-safe unless no two threads modify the same node).
     typename TreeType::ValueOffIter it = tree.beginValueOff();
     it.setMaxDepth(tree.treeDepth() - 2);
-    foreach(it, op, /*threaded=*/false);
+    Vforeach(it, op, /*threaded=*/false);
 }
 
 
@@ -894,13 +894,13 @@ deactivate(GridOrTree& gridOrTree, const typename GridOrTree::ValueType& value,
     activation::ActivationOp<TreeType> op(/*activate=*/false, value, tolerance);
 
     // Process all leaf nodes in parallel.
-    foreach(tree.beginLeaf(), op);
+    Vforeach(tree.beginLeaf(), op);
 
     // Process all other active values serially (because changing active states
     // is not thread-safe unless no two threads modify the same node).
     typename TreeType::ValueOnIter it = tree.beginValueOn();
     it.setMaxDepth(tree.treeDepth() - 2);
-    foreach(it, op, /*threaded=*/false);
+    Vforeach(it, op, /*threaded=*/false);
 }
 
 } // namespace tools

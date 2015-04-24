@@ -181,7 +181,7 @@ public:
     };// NodeRange
 
     template<typename NodeOp>
-    void foreach(const NodeOp& op, bool threaded = true, size_t grainSize=1)
+    void Vforeach(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
         NodeTransformer<NodeOp> transform(op);
         transform.run(this->nodeRange(grainSize), threaded);
@@ -235,13 +235,13 @@ public:
     void processBottomUp(const NodeOp& op, bool threaded, size_t grainSize)
     {
         mNext.processBottomUp(op, threaded, grainSize);
-        mList.foreach(op, threaded, grainSize);
+        mList.Vforeach(op, threaded, grainSize);
     }
 
     template<typename NodeOp>
     void processTopDown(const NodeOp& op, bool threaded, size_t grainSize)
     {
-        mList.foreach(op, threaded, grainSize);
+        mList.Vforeach(op, threaded, grainSize);
         mNext.processTopDown(op, threaded, grainSize);
     }
 
@@ -278,13 +278,13 @@ public:
     template<typename NodeOp>
     void processBottomUp(const NodeOp& op, bool threaded, size_t grainSize)
     {
-        mList.foreach(op, threaded, grainSize);
+        mList.Vforeach(op, threaded, grainSize);
     }
 
     template<typename NodeOp>
     void processTopDown(const NodeOp& op, bool threaded, size_t grainSize)
     {
-        mList.foreach(op, threaded, grainSize);
+        mList.Vforeach(op, threaded, grainSize);
     }
 
     template<typename ParentT, typename TreeOrLeafManagerT>
@@ -510,7 +510,7 @@ public:
     template<typename NodeOp>
     void processBottomUp(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
-        mList0.foreach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
         op(mRoot);
     }
 
@@ -518,7 +518,7 @@ public:
     void processTopDown(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
         op(mRoot);
-        mList0.foreach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
     }
 
 protected:
@@ -589,8 +589,8 @@ public:
     template<typename NodeOp>
     void processBottomUp(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
-        mList0.foreach(op, threaded, grainSize);
-        mList1.foreach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
+        mList1.Vforeach(op, threaded, grainSize);
         op(mRoot);
     }
 
@@ -598,8 +598,8 @@ public:
     void processTopDown(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
         op(mRoot);
-        mList1.foreach(op, threaded, grainSize);
-        mList0.foreach(op, threaded, grainSize);
+        mList1.Vforeach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
     }
 
 protected:
@@ -677,9 +677,9 @@ public:
     template<typename NodeOp>
     void processBottomUp(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
-        mList0.foreach(op, threaded, grainSize);
-        mList1.foreach(op, threaded, grainSize);
-        mList2.foreach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
+        mList1.Vforeach(op, threaded, grainSize);
+        mList2.Vforeach(op, threaded, grainSize);
         op(mRoot);
     }
 
@@ -687,9 +687,9 @@ public:
     void processTopDown(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
         op(mRoot);
-        mList2.foreach(op, threaded, grainSize);
-        mList1.foreach(op, threaded, grainSize);
-        mList0.foreach(op, threaded, grainSize);
+        mList2.Vforeach(op, threaded, grainSize);
+        mList1.Vforeach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
     }
 
 protected:
@@ -776,10 +776,10 @@ public:
     template<typename NodeOp>
     void processBottomUp(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
-        mList0.foreach(op, threaded, grainSize);
-        mList1.foreach(op, threaded, grainSize);
-        mList2.foreach(op, threaded, grainSize);
-        mList3.foreach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
+        mList1.Vforeach(op, threaded, grainSize);
+        mList2.Vforeach(op, threaded, grainSize);
+        mList3.Vforeach(op, threaded, grainSize);
         op(mRoot);
     }
 
@@ -787,10 +787,10 @@ public:
     void processTopDown(const NodeOp& op, bool threaded = true, size_t grainSize=1)
     {
         op(mRoot);
-        mList3.foreach(op, threaded, grainSize);
-        mList2.foreach(op, threaded, grainSize);
-        mList1.foreach(op, threaded, grainSize);
-        mList0.foreach(op, threaded, grainSize);
+        mList3.Vforeach(op, threaded, grainSize);
+        mList2.Vforeach(op, threaded, grainSize);
+        mList1.Vforeach(op, threaded, grainSize);
+        mList0.Vforeach(op, threaded, grainSize);
     }
 
 protected:

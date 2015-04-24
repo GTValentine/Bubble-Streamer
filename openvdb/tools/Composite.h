@@ -271,10 +271,10 @@ compReplace(GridOrTreeT& aTree, const GridOrTreeT& bTree)
     // Copy all active tile values from B to A.
     ValueOnCIterT iter = bTree.cbeginValueOn();
     iter.setMaxDepth(iter.getLeafDepth() - 1); // don't descend into leaf nodes
-    foreach(iter, op);
+    Vforeach(iter, op);
 
     // Copy all active voxel values from B to A.
-    foreach(Adapter::tree(bTree).cbeginLeaf(), op);
+    Vforeach(Adapter::tree(bTree).cbeginLeaf(), op);
 }
 
 

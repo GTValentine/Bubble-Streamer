@@ -4114,7 +4114,7 @@ VolumeToMesh::operator()(const GridT& distGrid)
 
                 if (mPartitions > 1) { // Partition
                     tree::LeafManager<BoolTreeT> leafs(valueMask);
-                    leafs.foreach(internal::PartOp(leafs.leafCount() , mPartitions, mActivePart));
+                    leafs.Vforeach(internal::PartOp(leafs.leafCount() , mPartitions, mActivePart));
                     tools::pruneInactive(valueMask);
                 }
 
@@ -4220,7 +4220,7 @@ VolumeToMesh::operator()(const GridT& distGrid)
     Int16LeafManagerT signLeafs(*signTreePt);
 
     if (maskEdges) {
-        signLeafs.foreach(internal::MaskEdges<BoolTreeT>(valueMask));
+        signLeafs.Vforeach(internal::MaskEdges<BoolTreeT>(valueMask));
         valueMask.clear();
     }
 
@@ -4231,7 +4231,7 @@ VolumeToMesh::operator()(const GridT& distGrid)
         seamOp.run();
 
         tools::dilateVoxels(seamOp.mask(), 3);
-        signLeafs.foreach(internal::TagSeamEdges<BoolTreeT>(seamOp.mask()));
+        signLeafs.Vforeach(internal::TagSeamEdges<BoolTreeT>(seamOp.mask()));
 
         seamMask.merge(seamOp.mask());
     }
@@ -4259,10 +4259,10 @@ VolumeToMesh::operator()(const GridT& distGrid)
 
         merge.run();
 
-        signLeafs.foreach(internal::CountRegions<IntTreeT>(*idxTreePt, regions));
+        signLeafs.Vforeach(internal::CountRegions<IntTreeT>(*idxTreePt, regions));
 
     } else {
-        signLeafs.foreach(internal::CountPoints(regions));
+        signLeafs.Vforeach(internal::CountPoints(regions));
     }
 
 
@@ -4292,7 +4292,7 @@ VolumeToMesh::operator()(const GridT& distGrid)
                 Int16LeafManagerT refSignLeafs(*refSignTreePt);
                 pointMap.resize(refSignLeafs.leafCount(), 0);
 
-                refSignLeafs.foreach(internal::CountPoints(pointMap));
+                refSignLeafs.Vforeach(internal::CountPoints(pointMap));
 
                 size_t tmp = 0;
                 for (size_t n = 0, N = pointMap.size(); n < N; ++n) {
@@ -4310,12 +4310,12 @@ VolumeToMesh::operator()(const GridT& distGrid)
                 typedef tree::LeafManager<IntTreeT> IntLeafManagerT;
 
                 IntLeafManagerT refIdxLeafs(*refIdxTreePt);
-                refIdxLeafs.foreach(internal::MapPoints<Int16TreeT>(pointMap, *refSignTreePt));
+                refIdxLeafs.Vforeach(internal::MapPoints<Int16TreeT>(pointMap, *refSignTreePt));
             }
         }
 
         if (mSeamPointListSize != 0) {
-            signLeafs.foreach(internal::SeamWeights<DistTreeT>(
+            signLeafs.Vforeach(internal::SeamWeights<DistTreeT>(
                 distTree, *refSignTreePt, *refIdxTreePt, mQuantizedSeamPoints, mIsovalue));
         }
     }

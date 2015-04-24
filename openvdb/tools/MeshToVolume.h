@@ -1819,7 +1819,7 @@ ExpandNB<FloatTreeT>::run(bool threaded)
     // which also moves indicative values).
     mDistTree.topologyUnion(mNewDistTree);
     tree::LeafManager<FloatTreeT> leafs(mNewDistTree);
-    leafs.foreach(CopyActiveVoxelsOp<FloatTreeT>(mDistTree));
+    leafs.Vforeach(CopyActiveVoxelsOp<FloatTreeT>(mDistTree));
 
     mIndexTree.merge(mNewIndexTree);
 
@@ -2458,7 +2458,7 @@ MeshToVolume<FloatGridT, InterruptT>::doConvert(
 
     { // Transform values (world space scaling etc.)
         tree::LeafManager<FloatTreeT> leafs(mDistGrid->tree());
-        leafs.foreach(internal::SqrtAndScaleOp<FloatValueT>(voxelSize, unsignedDistField));
+        leafs.Vforeach(internal::SqrtAndScaleOp<FloatValueT>(voxelSize, unsignedDistField));
     }
 
     if (wasInterrupted(40)) return;
@@ -2502,7 +2502,7 @@ MeshToVolume<FloatGridT, InterruptT>::doConvert(
 
             if (leafs.leafCount() == 0) break;
 
-            leafs.foreach(diffOp);
+            leafs.Vforeach(diffOp);
 
             internal::ExpandNB<FloatTreeT> expand(
                 leafs, mDistGrid->tree(), mIndexGrid->tree(), maskTree,
@@ -2532,18 +2532,18 @@ MeshToVolume<FloatGridT, InterruptT>::doConvert(
 
         internal::OffsetOp<FloatValueT> offsetOp(-offset);
 
-        leafs.foreach(offsetOp);
+        leafs.Vforeach(offsetOp);
 
         if (wasInterrupted(84)) return;
 
-        leafs.foreach(internal::RenormOp<FloatGridT, FloatValueT>(*mDistGrid, leafs, voxelSize));
+        leafs.Vforeach(internal::RenormOp<FloatGridT, FloatValueT>(*mDistGrid, leafs, voxelSize));
 
-        leafs.foreach(internal::MinOp<FloatTreeT, FloatValueT>(leafs));
+        leafs.Vforeach(internal::MinOp<FloatTreeT, FloatValueT>(leafs));
 
         if (wasInterrupted(95)) return;
 
         offsetOp.resetOffset(offset - internal::Tolerance<FloatValueT>::epsilon());
-        leafs.foreach(offsetOp);
+        leafs.Vforeach(offsetOp);
     }
 
     if (wasInterrupted(98)) return;
@@ -2556,7 +2556,7 @@ MeshToVolume<FloatGridT, InterruptT>::doConvert(
         // (The mesh voxelization step generates some extra 'shell' voxels)
 
         tree::LeafManager<FloatTreeT> leafs(mDistGrid->tree());
-        leafs.foreach(internal::TrimOp<FloatValueT>(
+        leafs.Vforeach(internal::TrimOp<FloatValueT>(
             exBandWidth, unsignedDistField ? exBandWidth : inBandWidth));
 
         tools::pruneLevelSet(mDistGrid->tree(), exBandWidth, unsignedDistField ? -exBandWidth : -inBandWidth);

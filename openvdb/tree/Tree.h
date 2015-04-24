@@ -431,7 +431,7 @@ public:
     /// floatTree.modifyValue(xyz, [](float& f) { f = std::max(f, 0.25f); }); // C++11
     /// @endcode
     /// @note The functor is not guaranteed to be called only once.
-    /// @see tools::foreach()
+    /// @see tools::Vforeach()
     template<typename ModifyOp>
     void modifyValue(const Coord& xyz, const ModifyOp& op);
 
@@ -453,7 +453,7 @@ public:
     ///     [](float& f, bool&) { f = std::max(f, 0.25f); }); // C++11
     /// @endcode
     /// @note The functor is not guaranteed to be called only once.
-    /// @see tools::foreach()
+    /// @see tools::Vforeach()
     template<typename ModifyOp>
     void modifyValueAndActiveState(const Coord& xyz, const ModifyOp& op);
 
