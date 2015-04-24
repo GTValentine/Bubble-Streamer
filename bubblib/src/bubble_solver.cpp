@@ -123,6 +123,8 @@ void BubbleSolver::advance_bubbles(double dt) {
 
   for (auto b = bubbles_.begin(); b != bubbles_.end(); ++b) {
     b->position += fluid_.get_velocity(b->position) * dt;
+    if (b->position[1] >= get_dx()*get_nj()*0.9) b = bubbles_.erase(b);
+
     /*
     if (b->position[0] < 0 ||
         b->position[1] < 0 ||
@@ -134,8 +136,6 @@ void BubbleSolver::advance_bubbles(double dt) {
     }
     */
   }
-
-
 }
 
 Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, double radius) { //TODO can you make it bettter?

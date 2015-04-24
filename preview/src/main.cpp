@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 #include <QDebug>
+#include <QMessageBox>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -11,6 +12,10 @@
 #include <bubble.h>
 #include <bubble_solver.h>
 
+#include <openvdb/openvdb.h>
+//#include <openvdb/tools/LevelSetSphere.h>
+//#include <openvdb/tools/ValueTransformer.h>
+//#include <openvdb/tools/Composite.h>
 
 void debugFormatVersion() {
   QSurfaceFormat form = QSurfaceFormat::defaultFormat();
@@ -26,8 +31,21 @@ void debugFormatVersion() {
   printf("  Profile: %s\n", profile);
 }
 
+void HelloOpenVDB()
+{
+  //VolumeToMesh ma(0, 0);
+
+  // Initialize the OpenVDB library.  Thi s must be called at least
+  // once per program and may safely be called multiple times.
+  openvdb::initialize();
+
+}
+
 int main(int argc, char *argv[]) {
+
   QApplication a(argc, argv);
+
+  HelloOpenVDB();
 
   // Set OpenGL 3.2 and, optionally, 4-sample multisampling
   QSurfaceFormat format;
