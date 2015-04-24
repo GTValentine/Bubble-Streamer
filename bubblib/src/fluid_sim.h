@@ -8,6 +8,9 @@
 #include <3dGrid/array3.h>
 #include <3dGrid/array3_utils.h>
 
+#include <openvdb/openvdb.h>
+#include <openvdb/tools/VolumeToMesh.h>
+
 #include "bubble.h"
 
 //! Grid-based fluid solver

@@ -13,9 +13,6 @@
 #include <bubble_solver.h>
 
 #include <openvdb/openvdb.h>
-//#include <openvdb/tools/LevelSetSphere.h>
-//#include <openvdb/tools/ValueTransformer.h>
-//#include <openvdb/tools/Composite.h>
 
 void debugFormatVersion() {
   QSurfaceFormat form = QSurfaceFormat::defaultFormat();
@@ -33,12 +30,12 @@ void debugFormatVersion() {
 
 void HelloOpenVDB()
 {
-  //VolumeToMesh ma(0, 0);
-
   // Initialize the OpenVDB library.  Thi s must be called at least
   // once per program and may safely be called multiple times.
   openvdb::initialize();
 
+  //openvdb::tools::VolumeToMesh ma(0, 0);
+  //cout << "Pool size: " << ma.polygonPoolListSize() << endl;
 }
 
 int main(int argc, char *argv[]) {

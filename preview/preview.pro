@@ -13,8 +13,11 @@ RESOURCES += glsl.qrc
 
 unix:!macx: LIBS += -L$$PWD/../../../../../tmp/OpenVDB/lib/ -lopenvdb
 
-INCLUDEPATH += $$PWD/../../../../../tmp/OpenVDB/include
-DEPENDPATH += $$PWD/../../../../../tmp/OpenVDB/include
+#INCLUDEPATH += $$PWD/../../../../../tmp/OpenVDB/include
+#DEPENDPATH += $$PWD/../../../../../tmp/OpenVDB/include
+
+INCLUDEPATH += $$PWD/../
+DEPENDPATH += $$PWD/../
 
 INCLUDEPATH += /usr/include/tbb
 LIBS += /usr/lib/libtbb*
