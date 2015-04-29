@@ -1,12 +1,22 @@
 build
 image.png
 *~
+*.swp
 
 # doc
 
 doc*
 doc
 *doc
+
+# Visual Studio
+*.suo
+*.sdf
+*.user
+x64
+Win32
+Debug
+Release
 
 # C++ objects and libs
 
