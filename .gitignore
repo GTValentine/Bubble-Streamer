@@ -15,6 +15,7 @@ doc
 # Visual Studio
 *.suo
 *.sdf
+*.opensdf
 *.user
 x64
 Win32
