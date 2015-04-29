@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FD463A4A-8EE5-4678-A35A-8FED8631555B}</ProjectGuid>
+    <RootNamespace>hplugin</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformToolset>v110</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformToolset>v110</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\include\;.\bubblib\src\;$(H14_PATH)\toolkit\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AMD64;BOOST_ALL_NO_LIB;FBX_ENABLED=1;HOUDINI_TEMPLATE_EXPORTS;I386;MAKING_DSO;NDEBUG;NEED_SPECIALIZATION_STORAGE;NOMINMAX;OPENCL_ENABLED=1;OPENVDB_ENABLED=1;SESI_LITTLE_ENDIAN;SIZEOF_VOID_P=8;STRICT;SWAP_BITFIELDS;WIN32;WIN32_LEAN_AND_MEAN;WINVER=0x0502;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_REENTRANT;_SCL_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;_USRDLL;_WIN32_WINNT=0x0502;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/w14996</AdditionalOptions>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DisableSpecificWarnings>4355</DisableSpecificWarnings>
+      <CallingConvention>Cdecl</CallingConvention>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(H14_PATH)\custom\houdini\dsolib\*.a;$(H14_PATH)\custom\houdini\dsolib\*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\include\;.\bubblib\src\;$(H14_PATH)\toolkit\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AMD64;BOOST_ALL_NO_LIB;FBX_ENABLED=1;HOUDINI_TEMPLATE_EXPORTS;I386;MAKING_DSO;NDEBUG;NEED_SPECIALIZATION_STORAGE;NOMINMAX;OPENCL_ENABLED=1;OPENVDB_ENABLED=1;SESI_LITTLE_ENDIAN;SIZEOF_VOID_P=8;STRICT;SWAP_BITFIELDS;WIN32;WIN32_LEAN_AND_MEAN;WINVER=0x0502;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_REENTRANT;_SCL_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;_USRDLL;_WIN32_WINNT=0x0502;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/w14996</AdditionalOptions>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DisableSpecificWarnings>4355</DisableSpecificWarnings>
+      <CallingConvention>Cdecl</CallingConvention>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="bubblib\src\bubble.cpp" />
+    <ClCompile Include="bubblib\src\bubble_agent.cpp" />
+    <ClCompile Include="bubblib\src\bubble_solver.cpp" />
+    <ClCompile Include="bubblib\src\fluid_sim.cpp" />
+    <ClCompile Include="hplugin\src\hooks.cpp" />
+    <ClCompile Include="hplugin\src\SOP_BubbleStreamer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bubblib\src\bubble.h" />
+    <ClInclude Include="bubblib\src\bubble_agent.h" />
+    <ClInclude Include="bubblib\src\bubble_solver.h" />
+    <ClInclude Include="bubblib\src\fluid_sim.h" />
+    <ClInclude Include="hplugin\src\SOP_BubbleStreamer.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

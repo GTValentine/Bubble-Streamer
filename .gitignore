@@ -1,6 +1,7 @@
 build
 image.png
 *~
+*.swp
 
 # ignore openvdb except for the things that are already committed
 openvdb
@@ -10,6 +11,15 @@ openvdb
 doc*
 doc
 *doc
+
+# Visual Studio
+*.suo
+*.sdf
+*.user
+x64
+Win32
+Debug
+Release
 
 # C++ objects and libs
 
