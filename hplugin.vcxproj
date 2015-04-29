@@ -54,12 +54,15 @@
       <AdditionalIncludeDirectories>.\include\;.\bubblib\src\;$(H14_PATH)\toolkit\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AMD64;BOOST_ALL_NO_LIB;FBX_ENABLED=1;HOUDINI_TEMPLATE_EXPORTS;I386;MAKING_DSO;NDEBUG;NEED_SPECIALIZATION_STORAGE;NOMINMAX;OPENCL_ENABLED=1;OPENVDB_ENABLED=1;SESI_LITTLE_ENDIAN;SIZEOF_VOID_P=8;STRICT;SWAP_BITFIELDS;WIN32;WIN32_LEAN_AND_MEAN;WINVER=0x0502;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_REENTRANT;_SCL_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;_USRDLL;_WIN32_WINNT=0x0502;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/w14996</AdditionalOptions>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>CompileAsCpp</CompileAs>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableSpecificWarnings>4355</DisableSpecificWarnings>
       <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(H14_PATH)\custom\houdini\dsolib\*.a;$(H14_PATH)\custom\houdini\dsolib\*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bubblib\src\bubble.cpp" />
