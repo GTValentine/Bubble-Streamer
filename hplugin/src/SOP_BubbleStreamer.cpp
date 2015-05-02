@@ -234,10 +234,9 @@ OP_ERROR SOP_BubbleStreamer::cookMyGuide1(OP_Context &context)
 
   if (error() >= UT_ERROR_ABORT) return error();
 
-  double dx = solver->get_dx();
-  myGuide1->cube(0, solver->get_ni() * dx,
-                 0, solver->get_nj() * dx,
-                 0, solver->get_nk() * dx);
+  myGuide1->cube(0, get_dimX(0),
+                 0, get_dimY(0),
+                 0, get_dimZ(0));
 
   return error();
 }
