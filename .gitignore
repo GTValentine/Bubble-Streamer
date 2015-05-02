@@ -6,6 +6,9 @@ image.png
 # ignore openvdb except for the things that are already committed
 openvdb
 
+# houdini backup
+backup
+
 # doc
 
 doc*
