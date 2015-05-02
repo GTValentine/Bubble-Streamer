@@ -6,11 +6,11 @@ using std::vector;
 
 const double SCALING_FACTOR = 1000.0;
 
-FluidSim::FluidSim(int ni, int nj, int nk, double width_x):
+FluidSim::FluidSim(int ni, int nj, int nk, double dx):
   ni_(ni),
   nj_(nj),
   nk_(nk),
-  dx_(width_x / ni),
+  dx_(dx),
   density_(ni, nj, nk),
   velocity_u_(ni + 1, nj, nk),
   velocity_v_(ni, nj + 1, nk),

@@ -1,10 +1,10 @@
 #include "bubble_solver.h"
 
-BubbleSolver::BubbleSolver(int ni, int nj, int nk, double width_x,
+BubbleSolver::BubbleSolver(int ni, int nj, int nk, double dx,
     double scattering_freq, double scattering_coef, double breakup_freq, double scattering_impact,
     double expected_radius, double stddev_radius,
     BubbleAgent* agent)
-  : fluid_(ni, nj, nk, width_x)
+  : fluid_(ni, nj, nk, dx)
   , bubbles_()
   , scattering_freq_(scattering_freq)
   , scattering_coef_(scattering_coef)
@@ -18,7 +18,7 @@ BubbleSolver::BubbleSolver(int ni, int nj, int nk, double width_x,
 }
 
 BubbleSolver::BubbleSolver(double wx, double wy, double wz, double dx, BubbleAgent *agent)
-  : fluid_((int) (wx / dx), (int) (wy / dx), (int) (wz / dx), wx)
+  : fluid_((int) (wx / dx), (int) (wy / dx), (int) (wz / dx), dx)
   , bubbles_()
   , scattering_freq_(10.0)
   , scattering_coef_(0.9)

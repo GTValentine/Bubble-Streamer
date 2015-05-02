@@ -25,7 +25,7 @@ class FluidSim {
   FluidSim(int ni /*! number of cells in X direction */,
            int nj /*! number of cells in Y direction */,
            int nk /*! number of cells in Z direction */,
-           double width_x /*! edge length of a grid cell */);
+           double dx /*! edge length of a grid cell */);
   ~FluidSim();
 
   //! get u-compunent of the fluid velocity at a point (i - 0.5, j, k)

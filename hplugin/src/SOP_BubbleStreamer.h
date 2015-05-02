@@ -78,6 +78,10 @@ protected:
   }
 
  private:
+  fpreal get_dimX(fpreal t) { return evalFloat("dims", 0, t); }
+  fpreal get_dimY(fpreal t) { return evalFloat("dims", 1, t); }
+  fpreal get_dimZ(fpreal t) { return evalFloat("dims", 2, t); }
+
   fpreal get_cellsize(fpreal t) {
     return evalFloat("cellsize", 0, t);
   }

@@ -20,6 +20,7 @@
 #include <GEO/GEO_AttributeHandle.h>
 #pragma warning(pop)
 
+static PRM_Name nm_dims("dims", "Grid Dimensions");
 static PRM_Name nm_cellsize("cellsize", "Grid Cell Size");
 static PRM_Name nm_simstep("simstep", "Simulation Step");
 static PRM_Name nm_scfreq("scfreq", "Scattering Frequency");
@@ -27,6 +28,9 @@ static PRM_Name nm_sccoef("sccoef", "Scattering Coefficient");
 static PRM_Name nm_scimpc("scimpc", "Scattering Impact");
 static PRM_Name nm_brfreq("brfreq", "Breakup Frequency");
 
+static PRM_Default df_dims[] = { PRM_Default(1.0)
+                               , PRM_Default(1.0)
+                               , PRM_Default(1.0) };
 static PRM_Default df_cellsize(0.1);
 static PRM_Default df_simstep(0.1);
 static PRM_Default df_scfreq(10.0);
@@ -38,6 +42,7 @@ PRM_Template SOP_BubbleStreamer::myTemplateList[] = {
   PRM_Template(PRM_STRING, 1, &PRMgroupName, 0, &SOP_Node::pointGroupMenu,
     0, 0, SOP_Node::getGroupSelectButton(
     GA_GROUP_POINT)),
+  PRM_Template(PRM_FLT, 3, &nm_dims, df_dims),
   PRM_Template(PRM_FLT, PRM_Template::PRM_EXPORT_MIN, 1, &nm_cellsize, &df_cellsize, 0),
   PRM_Template(PRM_FLT, PRM_Template::PRM_EXPORT_MIN, 1, &nm_simstep, &df_simstep, 0),
   PRM_Template(PRM_FLT, PRM_Template::PRM_EXPORT_MIN, 1, &nm_scfreq, &df_scfreq, 0),
@@ -135,8 +140,11 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
     if (solver) {
       delete solver;
     }
+    double dimX = get_dimX(0);
+    double dimY = get_dimY(0);
+    double dimZ = get_dimZ(0);
     double cellsize = get_cellsize(0);
-    solver = new BubbleSolver(1, 1, 1, cellsize);
+    solver = new BubbleSolver(dimX, dimY, dimZ, cellsize);
 
     laststep = -1;
   }

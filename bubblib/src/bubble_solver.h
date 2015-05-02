@@ -26,7 +26,7 @@ class BubbleSolver {
   BubbleSolver(int ni /*! number of cells in X direction */,
                int nj /*! number of cells in Y direction */,
                int nk /*! number of cells in Z direction */,
-               double width_x /*! length of a container in X direction */,
+               double dx /*! size of one grid cell */,
                double scattering_freq /*! scattering frequency. Characterizes the probabiliy of a given bubble to be scattered. Denoted as nu in the original paper. */,
                double scattering_coef /*! scattering coefficient. Characterizes the the direction of scattering. Denoted as k in the original paper. Should change from -1 to 1.*/,
                double breakup_freq /*! breakup frequency. Characterizes the expected fraction of bubble to break up at each frame. Denoted as gamma in the original paper. */,
