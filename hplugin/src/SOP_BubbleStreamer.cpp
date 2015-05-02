@@ -20,7 +20,7 @@
 #include <GEO/GEO_AttributeHandle.h>
 #pragma warning(pop)
 
-static PRM_Name nm_dims("dims", "Grid Dimensions");
+static PRM_Name nm_dims("dims", "Volume Dimensions");
 static PRM_Name nm_cellsize("cellsize", "Grid Cell Size");
 static PRM_Name nm_simstep("simstep", "Simulation Step");
 static PRM_Name nm_scfreq("scfreq", "Scattering Frequency");
