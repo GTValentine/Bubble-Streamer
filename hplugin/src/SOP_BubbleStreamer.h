@@ -114,6 +114,10 @@ protected:
     return evalFloat("radsdv", 0, t);
   }
 
+  fpreal get_bubscale(fpreal t) {
+    return evalFloat("bubscale", 0, t);
+  }
+
   //!
   //! Groups are stored here by ::cookInputGroups.
   const GA_PointGroup *myGroup;

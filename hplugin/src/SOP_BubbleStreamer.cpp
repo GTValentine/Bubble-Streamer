@@ -27,6 +27,7 @@ static PRM_Name nm_scfreq("scfreq", "Scattering Frequency");
 static PRM_Name nm_sccoef("sccoef", "Scattering Coefficient");
 static PRM_Name nm_scimpc("scimpc", "Scattering Impact");
 static PRM_Name nm_brfreq("brfreq", "Breakup Frequency");
+static PRM_Name nm_bubscale("bubscale", "Sim-View Bubble Scale Ratio");
 
 static PRM_Default df_dims[] = { PRM_Default(1.0)
                                , PRM_Default(1.0)
@@ -37,6 +38,7 @@ static PRM_Default df_scfreq(10.0);
 static PRM_Default df_sccoef(0.9);
 static PRM_Default df_brfreq(0.001);
 static PRM_Default df_scimpc(1.0);
+static PRM_Default df_bubscale(1.0);
 
 PRM_Template SOP_BubbleStreamer::myTemplateList[] = {
   PRM_Template(PRM_STRING, 1, &PRMgroupName, 0, &SOP_Node::pointGroupMenu,
@@ -49,6 +51,7 @@ PRM_Template SOP_BubbleStreamer::myTemplateList[] = {
   PRM_Template(PRM_FLT, PRM_Template::PRM_EXPORT_MIN, 1, &nm_sccoef, &df_sccoef, 0),
   PRM_Template(PRM_FLT, PRM_Template::PRM_EXPORT_MIN, 1, &nm_scimpc, &df_scimpc, 0),
   PRM_Template(PRM_FLT, PRM_Template::PRM_EXPORT_MIN, 1, &nm_brfreq, &df_brfreq, 0),
+  PRM_Template(PRM_FLT, PRM_Template::PRM_EXPORT_MIN, 1, &nm_bubscale, &df_bubscale, 0),
   PRM_Template()
 };
 
@@ -133,6 +136,7 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
   double sccoef = get_sccoef(now);
   double scimpc = get_scimpc(now);
   double brfreq = get_brfreq(now);
+  double bubscale = get_bubscale(now);
 
   if (error() >= UT_ERROR_ABORT) return error();
 
@@ -163,7 +167,7 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
   GA_FOR_ALL_GROUP_PTOFF(gdp, myGroup, ptoff) {
     UT_Vector3 p = gdp->getPos3(ptoff);
     float ps = pscalein.get(ptoff);
-    solver->add_bubble(glm::vec3(p[0], p[1], p[2]), ps);
+    solver->add_bubble(glm::vec3(p[0], p[1], p[2]), ps * bubscale);
   }
 
   for (; laststep < currstep; laststep++) {
@@ -195,7 +199,7 @@ OP_ERROR SOP_BubbleStreamer::cookMySop(OP_Context &context) {
       gdp->setPos3(offset, (fpreal32) b.position[0],
                            (fpreal32) b.position[1],
                            (fpreal32) b.position[2]);
-      pscaleout.set(offset, b.radius);
+      pscaleout.set(offset, b.radius / bubscale);
       p->appendParticle(offset);
       // TODO: add parameter for bubble size and output that
       // TODO: Also somehow instantiate spheres in Houdini using size parameter
