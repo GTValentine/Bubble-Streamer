@@ -78,7 +78,7 @@ class BubbleSolver {
 
   //! Advance the system by the time dt
   void advance(double dt);
-  //! Advance the system by the maximum timestep allowed by CFL
+  //! Advance the system by the maximum step allowed by CFL
   void advance_cfl();
 
   //! Generate n random bubbles on a surface of the agent
@@ -94,7 +94,7 @@ class BubbleSolver {
 
   FluidSim fluid_;
   std::list<Bubble> bubbles_;
-  std::default_random_engine random_generator;
+  std::default_random_engine random_generator_;
   std::normal_distribution<double> radius_distribution;
 
 
@@ -112,9 +112,9 @@ class BubbleSolver {
   void advance_bubbles(double dt);
   void compute_scattering_forces(double dt);
 
-  double get_cos_scattering_angle() const;
+  double get_cos_scattering_angle();
   double get_scattering_probability(const Bubble& bubble) const;
-  Vec3d get_scattering_force(const Bubble& bubble, double dt) const;
+  Vec3d get_scattering_force(const Bubble& bubble, double dt);
 
-  static Vec3d get_random_point_cone_rim(const Vec3d& axis, double height, double radius);
+  Vec3d get_random_point_cone_rim(const Vec3d& axis, double height, double radius);
 };

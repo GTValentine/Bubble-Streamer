@@ -3,6 +3,10 @@ image.png
 *~
 *.swp
 
+#rendering
+
+render
+
 # ignore openvdb except for the things that are already committed
 openvdb
 

@@ -88,7 +88,6 @@ void BubbleSolver::advance_cfl() {
 }
 
 void BubbleSolver::compute_scattering_forces(double dt) {
-  static std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution(0.0, 1.0);
 
   fluid_.set_zero_force();
@@ -96,7 +95,7 @@ void BubbleSolver::compute_scattering_forces(double dt) {
   Vec3d force;
 
   for (auto b = bubbles_.begin(); b != bubbles_.end(); ++b)
-    if (distribution(generator) < get_scattering_probability(*b)) {
+    if (distribution(random_generator_) < get_scattering_probability(*b)) {
       //printf("yep, i get scattered\n");
       i = static_cast<int>(b->position[0] / get_dx());
       j = static_cast<int>(b->position[1] / get_dx());
@@ -139,9 +138,8 @@ void BubbleSolver::advance_bubbles(double dt) {
 }
 
 Vec3d BubbleSolver::get_random_point_cone_rim(const Vec3d& axis, double height, double radius) { //TODO can you make it bettter?
-  static std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution(0, M_PI * 2);
-  double phi = distribution(generator);
+  double phi = distribution(random_generator_);
 
   glm::dvec3 res(radius * cos(phi), radius * sin(phi), height);
 
@@ -176,7 +174,7 @@ void BubbleSolver::add_bubble(const glm::vec3& pos, double radius)
 void BubbleSolver::add_bubble(const Vec3d& pos, double radius)
 {
   if (radius <= 0) {
-    radius = std::max(0.0001, radius_distribution(random_generator));
+    radius = std::max(0.0001, radius_distribution(random_generator_));
   }
 
   Bubble b;
@@ -185,7 +183,7 @@ void BubbleSolver::add_bubble(const Vec3d& pos, double radius)
   bubbles_.push_back(b);
 }
 
-Vec3d BubbleSolver::get_scattering_force(const Bubble& bubble, double dt) const {
+Vec3d BubbleSolver::get_scattering_force(const Bubble& bubble, double dt) {
   double cos_theta = get_cos_scattering_angle();
   Vec3d velocity = fluid_.get_velocity(bubble.position);
 
@@ -214,11 +212,10 @@ double BubbleSolver::get_scattering_probability(const Bubble& bubble) const {
   return 0.0;
 }
 
-double BubbleSolver::get_cos_scattering_angle() const {
-  static std::default_random_engine generator;
+double BubbleSolver::get_cos_scattering_angle() {
   std::uniform_real_distribution<double> distribution(0.0, 1.0);
 
-  double sigma = distribution(generator);
+  double sigma = distribution(random_generator_);
 
   return (2 * sigma + scattering_coef_ - 1.0) / (2 * scattering_coef_ * sigma - scattering_coef_ + 1);
 }
