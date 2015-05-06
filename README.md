@@ -28,3 +28,9 @@ Loading in Houdini
 ------------------
 
 Copy or symlink the resulting `.dll` file to your Houdini DSO directory.
+
+
+Demo Scene
+----------
+
+Open the `three-mesh.hipnc` Houdini scene file for a working demo.
